@@ -13,7 +13,7 @@ class Request{
 		return $_SERVER['REQUEST_METHOD'] == 'POST';
 	}
 	public function method(){
-		return strtolower($_SERVER['REQUEST_METHOD']);
+		return $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get';
 	}
 
 	public function get($key, $default = null){
@@ -23,10 +23,8 @@ class Request{
 		return isset($this->post[$key]) ? $this->post[$key] : $default;
 	}
 
-	public function getP($key, $default = null){
-		if($this->isPost()){
-			return isset($this->post[$key]) ? $this->post[$key] : $default;
-		}
-		return isset($this->get[$key]) ? $this->get[$key] : $default;
+	public function getP($key){
+		$method = $this->method();
+		return $this->$method($key) ;;
 	}
 }

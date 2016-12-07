@@ -3,7 +3,6 @@ namespace Library;
 class Controller{
 	protected function render($view, $args = array()){
 		extract($args);
-		// print_r($args); die;
 		$file = VIEW . str_replace(['Controller', '\\'], '', get_class($this)) . DS . $view;
 		if(!file_exists($file)){
 			throw new \Exception('Template doesn\'t exist');

@@ -9,8 +9,9 @@ use Library\Controller;
 
 //Autoload 
 spl_autoload_register(function($classname){
+	$path = ROOT . str_replace('\\', DS, $classname). '.php';
 	if(!file_exists(ROOT . str_replace('\\', DS, $classname). '.php')){
-		throw new \Exception("Class $classname doesn't exist");
+		throw new \Exception("Class $classname doesn't exist- {$path}");
 
 	}
 

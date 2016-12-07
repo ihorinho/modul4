@@ -1,3 +1,9 @@
-<h3>It's contacts page</h3>
-<p>Igor Pelekhatyy</p>
-<i>+380666321771</i>
+<form action="" method="post">
+	<label for="username">Login: </label>
+	<input type="text" name="username" id="username" value="<?=$form->getUserName()?>"><br><br>
+	<label for="password">Password: </label>
+	<input type="password" id="password" name="password"><br>
+	<label for="remember">Remember Me</label>
+	<input type="checkbox" id="remember" name="remember">
+	<button type="submit">Login</button>
+</form>
