@@ -3,7 +3,7 @@
 	<input type="text" name="username" id="username" value="<?=$form->getUserName()?>"><br><br>
 	<label for="password">Password: </label>
 	<input type="password" id="password" name="password"><br>
-	<label for="remember">Remember Me</label>
-	<input type="checkbox" id="remember" name="remember">
-	<button type="submit">Login</button>
+	<label for="message">Message:</label>
+	<textarea id="message" name="message" placeholder="Type your message here..."><?=$form->getMessage()?></textarea><br/>
+	<button type="submit">Send</button>
 </form>

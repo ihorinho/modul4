@@ -38,7 +38,3 @@ try{
 	$content = Controller::renderError($e->getMessage(), $e->getCode());
 }
 require(VIEW . 'layout.phtml');
-
-echo "<hr/>";
-var_dump($controller);
-echo "<pre>";
