@@ -1,0 +1,48 @@
+<?php
+
+namespace Library;
+
+abstract class Session{
+
+	const FLASH_KEY = 'flash_message';
+
+	public static function start(){
+		session_start();
+	}
+
+	public static function session_destroy(){
+		session_destroy();
+	}
+
+	public static function has($key){
+		return isset($_SESSION[$key]);
+	}
+
+	public static function get($key){
+		if(self::has($key)){
+			return $_SESSION[$key];
+		}
+	}
+
+	public static function set($key, $value){
+		$_SESSION[$key] = $value;
+	}
+
+	public static function remove($key){
+		if(self::has($key)){
+			unset($_SESSION[$key]);
+		}
+	}
+
+	public static function setFlash($message){
+		$_SESSION[FLASH_KEY] = $message;
+	}
+
+	public static function getFlash(){
+		$message = $_SESSION[FLASH_KEY];
+		unset($_SESSION[FLASH_KEY]);
+		return $message;
+
+	}
+
+}

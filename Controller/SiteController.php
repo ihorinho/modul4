@@ -3,6 +3,8 @@ namespace Controller;
 use Library\Controller;
 use Library\Request;
 use Model\ContactForm;
+use Model\Feedback;
+use Library\FeedbackMapper;
 
 class SiteController extends Controller{
 
@@ -11,12 +13,18 @@ class SiteController extends Controller{
 	}
 	public function contactsAction(Request $request){
 		$form = new ContactForm($request);
+		$mapper = new FeedbackMapper();
 		if($request->isPost()){
-			if(!$form->isValid()){
-				echo "Fill all fields!!!";
+			if($form->isValid()){
+				$feedback = (new Feedback())
+						->setUsername($form->getUsername())
+						->setEmail($form->getEmail())
+						->setMessage($form->getMessage())
+						->setIpAddress($request->getIpAddress());
+
+				$mapper->save($feedback);
 				return $this->render('contacts.phtml', ['form' => $form]); die;
 			}
-			echo "All Right!!";
 		}
 		return $this->render('contacts.phtml', ['form' => $form]);
 	}

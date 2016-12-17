@@ -6,13 +6,13 @@ define('LIB_PATH', ROOT . 'Library' . DS);
 
 use Library\Request;
 use Library\Controller;
+use Library\Config;
 
 //Autoload 
 spl_autoload_register(function($classname){
 	$path = ROOT . str_replace('\\', DS, $classname). '.php';
 	if(!file_exists(ROOT . str_replace('\\', DS, $classname). '.php')){
 		throw new \Exception("Class $classname doesn't exist- {$path}");
-
 	}
 
 	require(ROOT . str_replace('\\', DS, $classname . '.php'));
@@ -21,7 +21,14 @@ spl_autoload_register(function($classname){
 //Define Controller and Action
 
 try{
+
+	Config::set('db_user', 'root');
+	Config::set('db_password', '');
+	Config::set('db_name', 'mvc');
+	Config::set('db_host', 'localhost');
+
 	$request = new Request();
+
 	$route = explode('/', $request->get('route', 'site/index'));
 
 	$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';

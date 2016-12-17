@@ -11,7 +11,7 @@ class SecurityController extends Controller{
 			$loginForm = new LoginForm($request);
 			if($loginForm->isValid()){
 				if($loginForm->userExists()){
-					echo "All right!" . '<br>';
+					echo "Logged in!" . '<br>';
 					echo "Redirect to Home page";
 					die;
 				}

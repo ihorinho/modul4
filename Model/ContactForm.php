@@ -4,25 +4,25 @@ use Library\Request;
 
 class ContactForm{
 	private $username = '';
-	private $password = '';
+	private $email = '';
 	private $message = '';
 
 	public function __construct(Request $request){
 		$this->username = $request->getP('username');
-		$this->password = $request->getP('password');
+		$this->email = $request->getP('email');
 		$this->message = $request->getP('message');
 	}
 
 	public function isValid(){
 		return $this->username !== '' &&
-				$this->password !== ''&&
+				$this->email !== ''&&
 				$this->message !== '';
 	}
-	public function getUserName(){
+	public function getUsername(){
 		return $this->username;
 	}
-	public function getPassword(){
-		return $this->password;
+	public function getEmail(){
+		return $this->email;
 	}
 	public function getMessage(){
 		return $this->message;

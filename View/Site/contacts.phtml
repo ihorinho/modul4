@@ -1,8 +1,8 @@
 <form action="" method="post">
-	<label for="username">Login: </label>
+	<label for="username">Username: </label>
 	<input type="text" name="username" id="username" value="<?=$form->getUserName()?>"><br><br>
-	<label for="password">Password: </label>
-	<input type="password" id="password" name="password"><br>
+	<label for="email">E-mail: </label>
+	<input type="email" id="email" name="email" value="<?=$form->getEmail()?>"><br>
 	<label for="message">Message:</label>
 	<textarea id="message" name="message" placeholder="Type your message here..."><?=$form->getMessage()?></textarea><br/>
 	<button type="submit">Send</button>
