@@ -12,12 +12,20 @@ class Controller{
 		}
 		ob_start();
 		require $file;
+		$content = ob_get_clean();
+
+		ob_start();
+		require VIEW . DS . 'default_layout.phtml';
 		return ob_get_clean();
 	}
 
 	public static function renderError($message, $code = null){
 		ob_start();
 		require VIEW . 'error.phtml';
+		$content = ob_get_clean();
+
+		ob_start();
+		require VIEW . 'default_layout.phtml';
 		return ob_get_clean();
 	}
 

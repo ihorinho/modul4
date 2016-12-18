@@ -59,4 +59,5 @@ try{
 }catch(\Exception $e){
 	$content = Controller::renderError($e->getMessage(), $e->getFile());
 }
-require(VIEW . 'layout.phtml');
+
+echo $content;
