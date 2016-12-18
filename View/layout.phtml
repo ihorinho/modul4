@@ -11,7 +11,8 @@
 		<a href="/mymvc/index.php?route=site/contacts">Contacts</a>
 		<a href="/mymvc/index.php?route=security/login">Login</a>
 	</header>
-	<h1>Hello, MVC</h1>
+	
+	<b><?=\Library\Session::getFlash()?></b>
 	<hr/>
 	<?=$content?>
 </body>

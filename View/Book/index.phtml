@@ -1,5 +1,7 @@
 <h3>Books</h3>
-<b><?=$author?></b>
 <?php foreach($books as $book) :?>
-<i><?=$book?></i><br/>
+<hr>
+Id: <?=$book->getId()?><br/>
+Title: <b><?=$book->getTitle()?></b> <a href="/mymvc/index.php?route=book/show&id=<?=$book->getId()?>">Details</a><br/>
+<i>Style: <?=var_dump($book->getStyle())?></i><br/>
 <?php endforeach;?>

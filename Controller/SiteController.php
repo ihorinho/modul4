@@ -4,7 +4,9 @@ use Library\Controller;
 use Library\Request;
 use Model\ContactForm;
 use Model\Feedback;
-use Library\FeedbackMapper;
+use Model\FeedbackMapper;
+use Library\Session;
+use Library\Router;
 
 class SiteController extends Controller{
 
@@ -23,8 +25,10 @@ class SiteController extends Controller{
 						->setIpAddress($request->getIpAddress());
 
 				$mapper->save($feedback);
-				return $this->render('contacts.phtml', ['form' => $form]); die;
+				Session::setFlash('Feedback saved');
+				Router::redirect('/mymvc/index.php?route=site/contacts');
 			}
+			Session::setFlash('Fill the fields');
 		}
 		return $this->render('contacts.phtml', ['form' => $form]);
 	}

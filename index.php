@@ -7,6 +7,7 @@ define('LIB_PATH', ROOT . 'Library' . DS);
 use Library\Request;
 use Library\Controller;
 use Library\Config;
+use Library\Session;
 
 //Autoload 
 spl_autoload_register(function($classname){
@@ -21,6 +22,7 @@ spl_autoload_register(function($classname){
 //Define Controller and Action
 
 try{
+	Session::start();
 
 	Config::set('db_user', 'root');
 	Config::set('db_password', '');
