@@ -1,15 +1,15 @@
 <?php
 
-namespace Model;
-use Library\DbConnection;
+namespace Model\Repository;
 use Model\Style;
+use Library\EntityRepository;
 
-class StyleRepository{
+class StyleRepository extends EntityRepository{
 
 	public function getById($id){
-		$pdo = DbConnection::getInstance()->getPDO();
+
 		$sql = "SELECT * FROM style WHERE id = :id";
-		$sth = $pdo->prepare($sql);
+		$sth = $this->pdo->prepare($sql);
 		$sth->execute(array('id' => $id));
 		$row = $sth->fetch(\PDO::FETCH_ASSOC);
 

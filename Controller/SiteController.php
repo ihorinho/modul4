@@ -4,7 +4,6 @@ use Library\Controller;
 use Library\Request;
 use Model\ContactForm;
 use Model\Feedback;
-use Model\FeedbackMapper;
 use Library\Session;
 use Library\Router;
 
@@ -15,7 +14,7 @@ class SiteController extends Controller{
 	}
 	public function contactsAction(Request $request){
 		$form = new ContactForm($request);
-		$mapper = new FeedbackMapper();
+		$repo = $repo = $this->container->get('repository_manager')->getRepository('Feedback');
 		if($request->isPost()){
 			if($form->isValid()){
 				$feedback = (new Feedback())
@@ -24,7 +23,7 @@ class SiteController extends Controller{
 						->setMessage($form->getMessage())
 						->setIpAddress($request->getIpAddress());
 
-				$mapper->save($feedback);
+				$repo->save($feedback);
 				Session::setFlash('Feedback saved');
 				Router::redirect('/mymvc/index.php?route=site/contacts');
 			}

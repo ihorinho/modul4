@@ -1,14 +1,13 @@
 <?php
 namespace Controller;
 use Library\Controller;
-use Model\BookRepository;
 use Library\Request;
 
 class BookController extends Controller{
 
 	public function indexAction(){
 
-		$repo = new BookRepository();
+		$repo = $this->container->get('repository_manager')->getRepository('Book');
 		$books = $repo->getAllActive();
 
 		$args = ['books'=>$books];
@@ -20,7 +19,7 @@ class BookController extends Controller{
 			return 'Error! Book not found';
 		}
 
-		$repo = new BookRepository();
+		$repo = $this->container->get('repository_manager')->getRepository('Book');
 		$book = $repo->getById($id);
 
 		$args = ['book' => $book];

@@ -1,17 +1,11 @@
 <?php
 
-namespace Model;
+namespace Model\Repository;
 
-use Library\DbConnection;
 use Model\Book;
-use Library\Request;
+use Library\EntityRepository;
 
-class BookRepository{
-	private $pdo;
-
-	public function __construct(){
-		$this->pdo = DbConnection::getInstance()->getPDO();
-	}
+class BookRepository extends EntityRepository{
 
 	private function getBooksArray($sth, $single = false){
 		$books = array();
@@ -23,7 +17,7 @@ class BookRepository{
 					->setDescription($row['description'])
 					->setIsActive($row['is_active'])
 					->setPrice($row['price'])
-					->setStyle($row['style_id']);
+					->setStyle($row['style_id'], $this->pdo);
 
 			$books[] = $book;
 		}
@@ -46,7 +40,7 @@ class BookRepository{
 	public function getAllActive(){
 
 		$sql = "SELECT * FROM book WHERE is_active = :num";
-		$sth = $this->pdo->prepare($sql);
+		$sth = $this->pdo->prepare($sql); 
 		$sth->execute(array('num' => 1));
 
 		return $this->getBooksArray($sth);

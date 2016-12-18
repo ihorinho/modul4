@@ -2,7 +2,8 @@
 
 namespace Model;
 
-use Model\StyleRepository;
+use Model\Repository\StyleRepository;
+
 
 class Book{
 	private $id;
@@ -83,10 +84,12 @@ class Book{
     /**
      * @param mixed $style
      */
-    public function setStyle($style_id)
+    public function setStyle($style_id, $pdo)
     {
         $repo = new StyleRepository();
+        $repo->setPDO($pdo);
         $this->style = $repo->getByID($style_id);
+
 
         return $this;
     }

@@ -8,6 +8,8 @@ use Library\Request;
 use Library\Controller;
 use Library\Config;
 use Library\Session;
+use Library\Container;
+use Library\RepositoryManager;
 
 //Autoload 
 spl_autoload_register(function($classname){
@@ -31,6 +33,16 @@ try{
 
 	$request = new Request();
 
+	$dsn = 'mysql: host=' . Config::get('db_host') . '; dbname=' . Config::get('db_name');
+	$pdo = new \PDO($dsn, Config::get('db_user'), Config::get('db_password'));
+
+	$repository = (new RepositoryManager())->setPDO($pdo);
+
+	$container = new Container();
+	$container->set('database_connection', $pdo);
+	$container->set('repository_manager', $repository);
+
+
 	$route = explode('/', $request->get('route', 'site/index'));
 
 	$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';
@@ -41,9 +53,10 @@ try{
 	}
 
 	$controller = new $controller;
+	$controller->setContainer($container);
 	$content = $controller->$action($request);
 
 }catch(\Exception $e){
-	$content = Controller::renderError($e->getMessage(), $e->getCode());
+	$content = Controller::renderError($e->getMessage(), $e->getFile());
 }
 require(VIEW . 'layout.phtml');
