@@ -18,10 +18,12 @@ abstract class Session{
 		return isset($_SESSION[$key]);
 	}
 
-	public static function get($key){
+	public static function get($key, $default = null){
 		if(self::has($key)){
 			return $_SESSION[$key];
 		}
+
+		return $default;
 	}
 
 	public static function set($key, $value){
@@ -35,14 +37,13 @@ abstract class Session{
 	}
 
 	public static function setFlash($message){
-		$_SESSION[FLASH_KEY] = $message;
+		self::set(self::FLASH_KEY, $message);
 	}
 
 	public static function getFlash(){
-		$message = $_SESSION[FLASH_KEY];
-		unset($_SESSION[FLASH_KEY]);
+		$message = self::get(self::FLASH_KEY);
+		self::remove(self::FLASH_KEY);
 		return $message;
-
 	}
 
 }
