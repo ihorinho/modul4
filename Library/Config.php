@@ -2,17 +2,22 @@
 
 namespace Library;
 
-abstract class Config{
-	private static $items = array();
+class Config{
 
-	public static function get($key){
-		if(isset(self::$items[$key])){
-			return self::$items[$key];
-		}
-		return null;
-	}
+    public function __construct($file){
+        if(!is_file($file)){
+            throw new \Exception('Congfig file doesn\'t exist');
+        }
 
-	public static function set($key, $value){
-		self::$items[$key] = $value;
-	}
+        $XMLObject = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_NOWARNING);
+
+        foreach ($XMLObject as $key => $value){
+            $this->$key = (string)$value;
+        }
+    }
+
+    public function __get($value){
+        throw new \Exception("{$value} doesn\'t set in config file");
+    }
+
 }

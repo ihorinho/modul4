@@ -1,10 +1,10 @@
 <?php
 namespace Controller;
+
 use Library\Controller;
 use Library\Request;
 use Model\ContactForm;
 use Model\Feedback;
-use Library\Session;
 use Library\Router;
 
 class SiteController extends Controller{
@@ -14,7 +14,9 @@ class SiteController extends Controller{
 	}
 	public function contactsAction(Request $request){
 		$form = new ContactForm($request);
-		$repo = $repo = $this->container->get('repository_manager')->getRepository('Feedback');
+        $session = $this->container->get('session');
+		$repo = $this->container->get('repository_manager')->getRepository('Feedback');
+        $session = $this->container->get('session');
 		if($request->isPost()){
 			if($form->isValid()){
 				$feedback = (new Feedback())
@@ -24,10 +26,10 @@ class SiteController extends Controller{
 						->setIpAddress($request->getIpAddress());
 
 				$repo->save($feedback);
-				Session::setFlash('Feedback saved');
+				$session->setFlash('Feedback saved');
 				Router::redirect('/mymvc/index.php?route=site/contacts');
 			}
-			Session::setFlash('Fill the fields');
+			$session->setFlash('Fill the fields');
 		}
 		return $this->render('contacts.phtml', ['form' => $form]);
 	}

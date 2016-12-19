@@ -3,6 +3,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__ . DS . '..' . DS);
 define('VIEW', ROOT . 'View' . DS);
 define('LIB_PATH', ROOT . 'Library' . DS);
+define('CONFIG_PATH', ROOT . 'config' . DS);
 
 use Library\Request;
 use Library\Controller;
@@ -10,6 +11,7 @@ use Library\Config;
 use Library\Session;
 use Library\Container;
 use Library\RepositoryManager;
+use Library\DbConnection;
 
 //Autoload 
 spl_autoload_register(function($classname){
@@ -24,24 +26,18 @@ spl_autoload_register(function($classname){
 //Define Controller and Action
 
 try{
-	Session::start();
-
-	Config::set('db_user', 'root');
-	Config::set('db_password', '');
-	Config::set('db_name', 'mvc');
-	Config::set('db_host', 'localhost');
-
+    $session = new Session();
+    $session->start();
+    $config = new Config(CONFIG_PATH . 'db.xml');
 	$request = new Request();
-
-	$dsn = 'mysql: host=' . Config::get('db_host') . '; dbname=' . Config::get('db_name');
-	$pdo = new \PDO($dsn, Config::get('db_user'), Config::get('db_password'));
-
+	$pdo = (new DbConnection($config))->getPDO();
 	$repository = (new RepositoryManager())->setPDO($pdo);
 
 	$container = new Container();
-	$container->set('database_connection', $pdo);
-	$container->set('repository_manager', $repository);
-
+	$container->set('database_connection', $pdo)
+	          ->set('repository_manager', $repository)
+              ->set('config', $config)
+              ->set('session', $session);
 
 	$route = explode('/', $request->get('route', 'site/index'));
 
