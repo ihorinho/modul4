@@ -2,18 +2,16 @@
 
 namespace Library;
 
-use Library\Config;
-
 class DbConnection{
 
 	private static $instance = null;
 
 	private $pdo;
 
-	public function __construct(){
+	public function __construct($config){
 
-		$dsn = 'mysql: host=' . Config::get('db_host') . '; dbname=' . Config::get('db_name');
-		$this->pdo = new \PDO($dsn, Config::get('db_user'), Config::get('db_password'));
+        $dsn = 'mysql: host=' .$config->db_host . '; dbname=' . $config->db_name;
+		$this->pdo = new \PDO($dsn, $config->db_user, $config->db_password);
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 

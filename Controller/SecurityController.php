@@ -3,33 +3,34 @@ namespace Controller;
 use Library\Controller;
 use Library\Request;
 use Model\LoginForm;
-use Library\Session;
 use Library\Router;
-use Model\User;
 use Library\Password;
 
 class SecurityController extends Controller{
 	
 	public function loginAction(Request $request){
 		$loginForm = new LoginForm($request);
+        $session = $this->container->get('session');
+        echo "<pre>";var_dump($this->container); die;
 		if($request->isPost()){
 			if($loginForm->isValid()){
 				$password = new Password($loginForm->getPassword());
 				$repo = $this->container->get('repository_manager')->getRepository('User');
 				if($user = $repo->find($loginForm->getEmail(), $password)){
-					Session::setFlash('Success. You logged in');
+                    $session->setFlash('Success. You logged in');
 					Router::redirect('/mymvc');
 				}
-				Session::setFlash('User not found!');
+                $session->setFlash('User not found!');
 				Router::redirect('index.php?route=security/login');
 			}
-			Session::setFlash('Fill the fileds!');
+            $session->setFlash('Fill the fileds!');
 		}
 	return $this->render('login.phtml', $args=['loginForm' => $loginForm]);
 	}
 
 	public function logoutAction(Request $request){
-		Session::remove('user');
+        $session = $this->container->get('session');
+        $session->remove('user');
 		Router::redirect('/mymvc');
 	}
 

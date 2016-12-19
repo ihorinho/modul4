@@ -2,23 +2,23 @@
 
 namespace Library;
 
-abstract class Session{
+class Session{
 
 	const FLASH_KEY = 'flash_message';
 
-	public static function start(){
+	public function start(){
 		session_start();
 	}
 
-	public static function session_destroy(){
+	public function session_destroy(){
 		session_destroy();
 	}
 
-	public static function has($key){
+	public function has($key){
 		return isset($_SESSION[$key]);
 	}
 
-	public static function get($key, $default = null){
+	public function get($key, $default = null){
 		if(self::has($key)){
 			return $_SESSION[$key];
 		}
@@ -26,21 +26,21 @@ abstract class Session{
 		return $default;
 	}
 
-	public static function set($key, $value){
+	public function set($key, $value){
 		$_SESSION[$key] = $value;
 	}
 
-	public static function remove($key){
+	public function remove($key){
 		if(self::has($key)){
 			unset($_SESSION[$key]);
 		}
 	}
 
-	public static function setFlash($message){
+	public function setFlash($message){
 		self::set(self::FLASH_KEY, $message);
 	}
 
-	public static function getFlash(){
+	public function getFlash(){
 		$message = self::get(self::FLASH_KEY);
 		self::remove(self::FLASH_KEY);
 		return $message;

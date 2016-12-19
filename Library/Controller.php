@@ -4,6 +4,7 @@ namespace Library;
 class Controller{
 	protected $container;
 
+
 	protected function render($view, $args = array()){
 		extract($args);
 		$file = VIEW . str_replace(['Controller', '\\'], '', get_class($this)) . DS . $view;
