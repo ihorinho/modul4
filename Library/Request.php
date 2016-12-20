@@ -34,4 +34,8 @@ class Request{
 		$method = $this->method();
 		return $this->$method($key) ;;
 	}
+
+	public function getUri(){
+	    return $this->server('REQUEST_URI');
+    }
 }
