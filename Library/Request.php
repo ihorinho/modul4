@@ -34,4 +34,12 @@ class Request{
 		$method = $this->method();
 		return $this->$method($key) ;;
 	}
+
+	public function getUri(){
+	    return $this->server('REQUEST_URI');
+    }
+
+    public function mergeGet($array){
+        $this->get += $array;
+    }
 }

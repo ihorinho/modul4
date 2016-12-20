@@ -12,7 +12,7 @@ class SiteController extends Controller{
 	public function indexAction(Request $request){
 		return $this->render('index.phtml');
 	}
-	public function contactsAction(Request $request){
+	public function contactAction(Request $request){
 		$form = new ContactForm($request);
         $session = $this->container->get('session');
 		$repo = $this->container->get('repository_manager')->getRepository('Feedback');
