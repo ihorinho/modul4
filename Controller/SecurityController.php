@@ -11,7 +11,6 @@ class SecurityController extends Controller{
 	public function loginAction(Request $request){
 		$loginForm = new LoginForm($request);
         $session = $this->container->get('session');
-        echo "<pre>";var_dump($this->container); die;
 		if($request->isPost()){
 			if($loginForm->isValid()){
 				$password = new Password($loginForm->getPassword());

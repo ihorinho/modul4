@@ -16,7 +16,6 @@ class SiteController extends Controller{
 		$form = new ContactForm($request);
         $session = $this->container->get('session');
 		$repo = $this->container->get('repository_manager')->getRepository('Feedback');
-        $session = $this->container->get('session');
 		if($request->isPost()){
 			if($form->isValid()){
 				$feedback = (new Feedback())
