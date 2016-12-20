@@ -38,4 +38,8 @@ class Request{
 	public function getUri(){
 	    return $this->server('REQUEST_URI');
     }
+
+    public function mergeGet($array){
+        $this->get += $array;
+    }
 }

@@ -24,14 +24,12 @@ spl_autoload_register(function($classname){
 	require(ROOT . str_replace('\\', DS, $classname . '.php'));
 });
 
-//Define Controller and Action
-
 try{
     $session = new Session();
     $session->start();
     $config = new Config(CONFIG_PATH . 'db.xml');
 	$request = new Request();
-    $router = new Router($request);
+    $router = new Router();
 	$pdo = (new DbConnection($config))->getPDO();
 	$repository = (new RepositoryManager())->setPDO($pdo);
 
@@ -41,12 +39,10 @@ try{
               ->set('config', $config)
               ->set('session', $session);
 
-//	$route = explode('/', $request->get('route', 'site/index'));
-//
-//	$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';
-//	$action = $route[1] . 'Action';
-    $controller = 'Controller\\' . $router->getController();
-    $action = $router->getAction();
+    //Define Controller and Action
+    $route = $router->match($request)->getCurrentRoute();
+    $controller = 'Controller\\' . $route->controller;
+    $action = $route->action;
 
 	if(!method_exists(new $controller, $action)){
 		throw new \Exception('404 Page Not Found');
