@@ -3,13 +3,13 @@ namespace Controller;
 use Library\Controller;
 use Library\Request;
 use Model\LoginForm;
-use Library\Router;
 use Library\Password;
 
 class SecurityController extends Controller{
 	
 	public function loginAction(Request $request){
 		$loginForm = new LoginForm($request);
+        $router = $this->container->get('router');
         $session = $this->container->get('session');
 		if($request->isPost()){
 			if($loginForm->isValid()){
@@ -17,10 +17,10 @@ class SecurityController extends Controller{
 				$repo = $this->container->get('repository_manager')->getRepository('User');
 				if($user = $repo->find($loginForm->getEmail(), $password)){
                     $session->setFlash('Success. You logged in');
-					Router::redirect('/mymvc');
+                    $router->redirect('/admin/index');
 				}
                 $session->setFlash('User not found!');
-				Router::redirect('index.php?route=security/login');
+                $router->redirect('/login');
 			}
             $session->setFlash('Fill the fileds!');
 		}
@@ -28,9 +28,10 @@ class SecurityController extends Controller{
 	}
 
 	public function logoutAction(Request $request){
+        $router = $this->container->get('router');
         $session = $this->container->get('session');
         $session->remove('user');
-		Router::redirect('/mymvc');
+        $router->redirect('/home');
 	}
 
 	public function registerAction(Request $request){

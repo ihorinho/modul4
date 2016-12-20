@@ -27,7 +27,7 @@ spl_autoload_register(function($classname){
 try{
     $session = new Session();
     $session->start();
-    $config = new Config(CONFIG_PATH . 'db.xml');
+    $config = new Config();
 	$request = new Request();
     $router = new Router();
 	$pdo = (new DbConnection($config))->getPDO();
@@ -37,6 +37,7 @@ try{
 	$container->set('database_connection', $pdo)
 	          ->set('repository_manager', $repository)
               ->set('config', $config)
+              ->set('router', $router)
               ->set('session', $session);
 
     //Define Controller and Action

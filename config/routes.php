@@ -10,5 +10,10 @@ return array(
                                                                                                 'id' => '([1-9]{1}[0-9]*)',
                                                                                                 'test' => '([a-zA-Z]+)',
                                                                                                 'pat' => '([\+\-\*\/]+)'
-                                                                                                ))
+                                                                                                )),
+    'logout' => new Route('/logout', 'SecurityController', 'logoutAction'),
+
+    //Admin routes
+    'login' => new Route('/admin/index', 'Admin\SecurityController', 'loginAction'),
+
 );

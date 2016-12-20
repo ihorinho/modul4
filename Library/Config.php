@@ -4,7 +4,8 @@ namespace Library;
 
 class Config{
 
-    public function __construct($file){
+    public function __construct(){
+        $file = CONFIG_PATH . 'db.xml';
         if(!is_file($file)){
             throw new \Exception('Congfig file doesn\'t exist');
         }
