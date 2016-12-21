@@ -11,7 +11,7 @@
 		<a href="/logout">Logout</a>
 	</header>
 	
-	<b><?=\Library\Session::getFlash()?></b>
+	<b><?=$session->getFlash()?></b>
 	<hr/>
 	<?=$content?>
 </body>

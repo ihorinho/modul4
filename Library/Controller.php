@@ -6,6 +6,7 @@ class Controller{
     protected static $layout = 'default_layout.phtml';
 
 	protected function render($view, $args = array()){
+        $session = $this->container->get('session');
 		extract($args);
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
 		$file = VIEW . $classname . DS . $view;

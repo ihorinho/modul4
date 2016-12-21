@@ -19,6 +19,7 @@ class SecurityController extends Controller{
                     $session->set('user', $user->getEmail())
                             ->setFlash('Success. You logged in');
                     $redirect = $session->has('uri') ? $session->get('uri') : '/admin/index';
+                    var_dump($redirect);
                     $router->redirect($redirect);
 				}
                 $session->setFlash('User not found!');
