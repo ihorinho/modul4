@@ -28,6 +28,8 @@ class Session{
 
 	public function set($key, $value){
 		$_SESSION[$key] = $value;
+
+        return $this;
 	}
 
 	public function remove($key){
@@ -37,7 +39,9 @@ class Session{
 	}
 
 	public function setFlash($message){
-		self::set(self::FLASH_KEY, $message);
+		$this->set(self::FLASH_KEY, $message);
+
+        return $this;
 	}
 
 	public function getFlash(){
@@ -45,5 +49,5 @@ class Session{
 		self::remove(self::FLASH_KEY);
 		return $message;
 	}
-
+//todo: SESSION NON STATIC!!!
 }

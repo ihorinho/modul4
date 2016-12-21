@@ -1,0 +1,9 @@
+<h3>Books</h3>
+<?php foreach($books as $book) :?>
+<hr>
+Id: <?=$book->getId()?><br/>
+Title: <b><?=$book->getTitle()?></b> <a href="/admin/show-book-<?=$book->getId()?>">Details</a>
+    <a href="/admin/edit-book-<?=$book->getId()?>">Edit</a>
+    <a href="/admin/delete-book-<?=$book->getId()?>">  Delete</a><br/>
+<i>Style: <?=var_dump($book->getStyle())?></i><br/>
+<?php endforeach;?>

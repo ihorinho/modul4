@@ -1,5 +1,5 @@
 <?php
-namespace Model;
+namespace Model\Forms;
 use Library\Request;
 
 class LoginForm{

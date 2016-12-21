@@ -2,7 +2,7 @@
 namespace Controller;
 use Library\Controller;
 use Library\Request;
-use Model\LoginForm;
+use Model\Forms\LoginForm;
 use Library\Password;
 
 class SecurityController extends Controller{
@@ -16,8 +16,10 @@ class SecurityController extends Controller{
 				$password = new Password($loginForm->getPassword());
 				$repo = $this->container->get('repository_manager')->getRepository('User');
 				if($user = $repo->find($loginForm->getEmail(), $password)){
-                    $session->setFlash('Success. You logged in');
-                    $router->redirect('/admin/index');
+                    $session->set('user', $user->getEmail())
+                            ->setFlash('Success. You logged in');
+                    $redirect = $session->has('uri') ? $session->get('uri') : '/admin/index';
+                    $router->redirect($redirect);
 				}
                 $session->setFlash('User not found!');
                 $router->redirect('/login');

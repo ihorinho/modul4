@@ -3,20 +3,21 @@ namespace Library;
 
 class Controller{
 	protected $container;
-
+    protected static $layout = 'default_layout.phtml';
 
 	protected function render($view, $args = array()){
 		extract($args);
-		$file = VIEW . str_replace(['Controller', '\\'], '', get_class($this)) . DS . $view;
+        $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
+		$file = VIEW . $classname . DS . $view;
 		if(!file_exists($file)){
-			throw new \Exception('Template doesn\'t exist');
+			throw new \Exception("Template {$file} doesn\'t exist");
 		}
 		ob_start();
 		require $file;
 		$content = ob_get_clean();
 
 		ob_start();
-		require VIEW . DS . 'default_layout.phtml';
+		require VIEW . DS .  self::$layout;
 		return ob_get_clean();
 	}
 
@@ -26,7 +27,7 @@ class Controller{
 		$content = ob_get_clean();
 
 		ob_start();
-		require VIEW . 'default_layout.phtml';
+		require VIEW . self::$layout;
 		return ob_get_clean();
 	}
 
@@ -36,4 +37,19 @@ class Controller{
 
 		return $this;
 	}
+
+    public static function setLayout($layout){
+        self::$layout = $layout;
+    }
+
+    protected function isAdmin(){
+        $session = $this->container->get('session');
+        if(!$session->has('user')){
+            $router = $this->container->get('router');
+            $session->setFlash('Restricted Area!!! Must login')->set('uri', $_SERVER['REQUEST_URI']);
+            $router->redirect('/login');
+        }
+
+        return true;
+    }
 }

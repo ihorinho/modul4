@@ -3,15 +3,14 @@ namespace Controller;
 
 use Library\Controller;
 use Library\Request;
-use Model\ContactForm;
+use Model\Forms\ContactForm;
 use Model\Feedback;
-use Library\Router;
 
 class SiteController extends Controller{
 
-	public function indexAction(Request $request){
-		return $this->render('index.phtml');
-	}
+    public function indexAction(Request $request){
+        return $this->render('index.phtml');
+    }
 	public function contactAction(Request $request){
 		$form = new ContactForm($request);
         $session = $this->container->get('session');

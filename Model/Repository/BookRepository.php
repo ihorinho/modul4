@@ -15,7 +15,7 @@ class BookRepository extends EntityRepository{
 					->setId($row['id'])
 					->setTitle($row['title'])
 					->setDescription($row['description'])
-					->setIsActive($row['is_active'])
+					->setIsActive((int)$row['is_active'])
 					->setPrice($row['price'])
 					->setStyle($row['style_id'], $this->pdo);
 
@@ -54,4 +54,20 @@ class BookRepository extends EntityRepository{
 
 		return $this->getBooksArray($sth, true);
 	}
+
+    public function deleteById($id){
+
+        $sql = "UPDATE book SET is_active = 0 WHERE id = :id";
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute(array('id' => $id));
+    }
+
+    public function save(Book $book){
+        $sql = "UPDATE book
+                SET title = :title, description = :description, price = :price, is_active = :is_active
+                WHERE id = :id";
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute(array('id' => $book->getId(), 'title' => $book->getTitle(), 'description' => $book->getDescription(),
+                            'price' => $book->getPrice(), 'is_active' => $book->IsActive()));
+    }
 }

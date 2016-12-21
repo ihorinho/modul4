@@ -20,11 +20,17 @@ class Router{
         $path_parts = explode('?', $request->getUri());
         $uri = $path_parts[0];
 
+        if(strpos($uri, '/admin') !== false){
+            Controller::setLayout('admin_layout.phtml');
+        }
+
         foreach($this->routes as $route){
             $pattern = '@^' . $route->pattern . '$@';
             foreach($route->params as $key => $value){
                 $pattern = str_replace('{' . $key . '}' , $value, $pattern);
             }
+
+
             if(preg_match($pattern, $uri, $match)){
                 $this->CurrentRoute = $route;
                 array_shift($match);
