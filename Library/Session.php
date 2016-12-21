@@ -19,7 +19,7 @@ class Session{
 	}
 
 	public function get($key, $default = null){
-		if(self::has($key)){
+		if($this->has($key)){
 			return $_SESSION[$key];
 		}
 
@@ -33,7 +33,7 @@ class Session{
 	}
 
 	public function remove($key){
-		if(self::has($key)){
+		if($this->has($key)){
 			unset($_SESSION[$key]);
 		}
 	}
@@ -45,9 +45,8 @@ class Session{
 	}
 
 	public function getFlash(){
-		$message = self::get(self::FLASH_KEY);
-		self::remove(self::FLASH_KEY);
+		$message = $this->get(self::FLASH_KEY);
+        $this->remove(self::FLASH_KEY);
 		return $message;
 	}
-//todo: SESSION NON STATIC!!!
 }

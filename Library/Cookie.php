@@ -2,23 +2,17 @@
 namespace Library;
 
 class Cookie{
-    private $cookie = [];
 
-
-    public function __construct(){
-        $this->cookie = $_COOKIE;
-    }
-
-    public function set($name, $value, $expire = ''){
+    public function set($name, $value, $expire = time()+3600){
         setcookie($name, $value, $expire);
     }
 
     public function delete($name){
         setcookie($name, '', time()-3600);
-        unset($this->cookie[$name]);
+        unset($_COOKIE[$name]);
     }
 
     public function has($name){
-        return isset($this->cookie[$name]);
+        return isset($_COOKIE[$name]);
     }
 }
