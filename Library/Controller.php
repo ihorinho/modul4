@@ -13,6 +13,7 @@ class Controller{
 		if(!file_exists($file)){
 			throw new \Exception("Template {$file} doesn\'t exist");
 		}
+
 		ob_start();
 		require $file;
 		$content = ob_get_clean();

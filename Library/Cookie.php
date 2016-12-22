@@ -3,8 +3,12 @@ namespace Library;
 
 class Cookie{
 
-    public function set($name, $value, $expire = time()+3600){
-        setcookie($name, $value, $expire);
+    public function set($name, $value, $expire = 3600){
+        setcookie($name, $value, time() + $expire);
+    }
+
+    public function get($name){
+        return $_COOKIE[$name];
     }
 
     public function delete($name){

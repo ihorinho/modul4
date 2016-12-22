@@ -13,6 +13,8 @@ use Library\Container;
 use Library\RepositoryManager;
 use Library\DbConnection;
 use Library\Router;
+use Library\Cookie;
+use Model\Cart;
 
 //Autoload 
 spl_autoload_register(function($classname){
@@ -29,8 +31,11 @@ try{
     $session->start();
     $config = new Config();
 	$request = new Request();
+    $cookie = new Cookie();
     $router = new Router();
-	$pdo = (new DbConnection($config))->getPDO();
+    $cart = new Cart($cookie);
+
+    $pdo = (new DbConnection($config))->getPDO();
 	$repository = (new RepositoryManager())->setPDO($pdo);
 
 	$container = new Container();
@@ -38,6 +43,8 @@ try{
 	          ->set('repository_manager', $repository)
               ->set('config', $config)
               ->set('router', $router)
+              ->set('cookie', $cookie)
+              ->set('cart', $cart)
               ->set('session', $session);
 
     //Define Controller and Action

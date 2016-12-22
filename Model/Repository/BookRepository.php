@@ -55,6 +55,17 @@ class BookRepository extends EntityRepository{
 		return $this->getBooksArray($sth, true);
 	}
 
+    public function getByIdArray(Array $ids){
+
+        $ids_string = str_replace($ids, '?', implode(',', $ids));
+
+        $sql = "SELECT * FROM book WHERE id IN($ids_string)";
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute(array_values($ids));
+
+        return $this->getBooksArray($sth);
+    }
+
     public function deleteById($id){
 
         $sql = "UPDATE book SET is_active = 0 WHERE id = :id";

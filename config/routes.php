@@ -12,6 +12,9 @@ return array(
                                                                                                 'pat' => '([\+\-\*\/]+)'
                                                                                                 )),
     'logout' => new Route('/logout', 'SecurityController', 'logoutAction'),
+    'add_to_cart' =>new Route('/cart-add-{id}', 'CartController', 'addAction', array('id' => '([1-9]{1}[0-9]*)')),
+    'show_cart' => new Route('/cart-list', 'CartController', 'showAction'),
+    'delete_from_cart' => new Route('/cart-delete-{id}', 'CartController', 'deleteAction', array('id' => '([1-9]{1}[0-9]*)')),
 
 //Admin routes
     'admin_index' => new Route('/admin/index', 'Admin\SiteController', 'indexAction'),
