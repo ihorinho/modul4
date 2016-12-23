@@ -14,7 +14,8 @@ class Cart{
     private $cart;
 
     public function __construct(Cookie $cookie){
-        $this->cart = $cookie->has('cart') ? unserialize($cookie->get('cart')) : array();
+        $this->cart = $cookie->get('cart') ? unserialize($cookie->get('cart')) : array();
+        $_SESSION['cart_size'] = count($this->cart);
     }
 
     public function save(){
@@ -36,5 +37,9 @@ class Cart{
 
     public function show(){
         return $this->cart;
+    }
+
+    public function isEmpty(){
+        return empty($this->cart);
     }
 }

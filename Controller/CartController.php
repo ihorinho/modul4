@@ -14,6 +14,10 @@ class CartController extends Controller{
 
     public function showAction(Request $request){
         $cart = $this->container->get('cart');
+        //todo: replace Exception
+        if($cart->isEmpty()){
+            throw new  \Exception('Cart is empty!');
+        }
         $repo = $this->container->get('repository_manager')->getRepository('Book');
 
         $books = $repo->getByIdArray($cart->show());

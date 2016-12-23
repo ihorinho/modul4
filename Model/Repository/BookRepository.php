@@ -81,4 +81,5 @@ class BookRepository extends EntityRepository{
         $sth->execute(array('id' => $book->getId(), 'title' => $book->getTitle(), 'description' => $book->getDescription(),
                             'price' => $book->getPrice(), 'is_active' => $book->IsActive()));
     }
+
 }

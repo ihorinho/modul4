@@ -10,10 +10,10 @@
 		<a href="/books-list">Books</a>
 		<a href="/contact-us">Contacts</a>
 		<a href="/login">Login</a>
-		<a href="/cart-list">Cart</a>
+		<a href="/cart-list">Cart(<?=$session->get('cart_size', 0)?>)</a>
 	</header>
 	
-<!--	<b>--><?//=$session->getFlash()?><!--</b>-->
+	<b><?=$session->getFlash()?></b>
 	<hr/>
 	<?=$content?>
 </body>
