@@ -22,7 +22,7 @@ class BookController extends Controller{
         if(null === ($id = $request->get('id'))){
             return 'Error! Book not found';
         }
-        $session = $this->container->get('session');
+        $session = $this->getSession();
         $router = $this->container->get('router');
         $repo = $this->container->get('repository_manager')->getRepository('Book');
         $book = $repo->getById($id);

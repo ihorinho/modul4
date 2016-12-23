@@ -6,6 +6,10 @@ class Session{
 
 	const FLASH_KEY = 'flash_message';
 
+    public function __construct(){
+        $this->start();
+    }
+
 	public function start(){
 		session_start();
 	}

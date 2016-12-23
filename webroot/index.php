@@ -27,8 +27,6 @@ spl_autoload_register(function($classname){
 });
 
 try{
-    $session = new Session();
-    $session->start();
     $config = new Config();
 	$request = new Request();
     $cookie = new Cookie();
@@ -41,11 +39,11 @@ try{
 	$container = new Container();
 	$container->set('database_connection', $pdo)
 	          ->set('repository_manager', $repository)
+              ->set('request', $request)
               ->set('config', $config)
               ->set('router', $router)
               ->set('cookie', $cookie)
-              ->set('cart', $cart)
-              ->set('session', $session);
+              ->set('cart', $cart);
 
     //Define Controller and Action
     $route = $router->match($request)->getCurrentRoute();

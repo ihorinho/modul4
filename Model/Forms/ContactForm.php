@@ -8,9 +8,9 @@ class ContactForm{
 	private $message = '';
 
 	public function __construct(Request $request){
-		$this->username = $request->getP('username');
-		$this->email = $request->getP('email');
-		$this->message = $request->getP('message');
+		$this->username = $request->post('username');
+		$this->email = $request->post('email');
+		$this->message = $request->post('message');
 	}
 
 	public function isValid(){

@@ -13,7 +13,7 @@ class SiteController extends Controller{
     }
 	public function contactAction(Request $request){
 		$form = new ContactForm($request);
-        $session = $this->container->get('session');
+        $session = $request->getSession();
         $router = $this->container->get('router');
 		$repo = $this->container->get('repository_manager')->getRepository('Feedback');
 		if($request->isPost()){

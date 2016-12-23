@@ -8,9 +8,9 @@ class LoginForm{
 	private $remember = '';
 
 	public function __construct(Request $request){
-		$this->email = $request->getP('email');
-		$this->password = $request->getP('password');
-		$this->remember = $request->getP('remember');
+		$this->email = $request->post('email');
+		$this->password = $request->post('password');
+		$this->remember = $request->post('remember');
 	}
 
 	public function isValid(){

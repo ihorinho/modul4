@@ -6,8 +6,8 @@ class Controller{
     protected static $layout = 'default_layout.phtml';
 
 	protected function render($view, $args = array()){
-        $session = $this->container->get('session');
-		extract($args);
+        extract($args);
+        $session = $this->getSession();
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
 		$file = VIEW . $classname . DS . $view;
 		if(!file_exists($file)){
@@ -45,7 +45,7 @@ class Controller{
     }
 
     protected function isAdmin(){
-        $session = $this->container->get('session');
+        $session = $this->getSession();
         if(!$session->has('user')){
             $router = $this->container->get('router');
             $session->setFlash('Restricted Area!!! Must login')->set('uri', $_SERVER['REQUEST_URI']);
@@ -53,5 +53,9 @@ class Controller{
         }
 
         return true;
+    }
+
+    public function getSession(){
+        return $this->container->get('request')->getSession();
     }
 }

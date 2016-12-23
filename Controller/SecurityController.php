@@ -10,7 +10,7 @@ class SecurityController extends Controller{
 	public function loginAction(Request $request){
 		$loginForm = new LoginForm($request);
         $router = $this->container->get('router');
-        $session = $this->container->get('session');
+        $session = $this->getSession();
 		if($request->isPost()){
 			if($loginForm->isValid()){
 				$password = new Password($loginForm->getPassword());
@@ -32,7 +32,7 @@ class SecurityController extends Controller{
 
 	public function logoutAction(Request $request){
         $router = $this->container->get('router');
-        $session = $this->container->get('session');
+        $session = $this->getSession();
         $session->remove('user');
         $router->redirect('/home');
 	}

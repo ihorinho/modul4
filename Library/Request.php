@@ -1,21 +1,25 @@
 <?php
 namespace Library;
+
+use Library\Session;
+
 class Request{
-	private $get = [];
-	private $post = [];
+	private $get;
+	private $post;
+    private $server;
+    private $session;
 
 	public function __construct(){
 		$this->get = $_GET;
 		$this->post = $_POST;
 		$this->server = $_SERVER;
-	}
+        $this->session = new Session();
+    }
 
 	public function isPost(){
 		return $_SERVER['REQUEST_METHOD'] == 'POST';
 	}
-	public function getIpAddress(){
-		return $this->server('REMOTE_ADDR');
-	}
+
 	public function method(){
 		return $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get';
 	}
@@ -30,13 +34,16 @@ class Request{
 		return isset($this->server[$key]) ? $this->server[$key] : $default;
 	}
 
-	public function getP($key){
-		$method = $this->method();
-		return $this->$method($key) ;;
-	}
+    public function getIpAddress(){
+        return $this->server('REMOTE_ADDR');
+    }
 
 	public function getUri(){
 	    return $this->server('REQUEST_URI');
+    }
+
+    public function getSession(){
+        return $this->session;
     }
 
     public function mergeGet($array){
