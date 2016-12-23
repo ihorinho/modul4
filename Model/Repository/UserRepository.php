@@ -13,8 +13,6 @@ class UserRepository extends EntityRepository{
 		$sth->execute(compact('email', 'password'));
 
 		$user = $sth->fetch(\PDO::FETCH_ASSOC);
-        dump($user); die;
-
 		if($user){
 			$user = (new User())
                 ->setId($user['id'])

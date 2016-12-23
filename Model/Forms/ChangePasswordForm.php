@@ -19,6 +19,22 @@ class ChangePasswordForm{
                 $this->repeated_new_passw !== '';
 	}
 
+    /**
+     * @return null|string
+     */
+    public function getOldPassw()
+    {
+        return $this->old_passw;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRepeatedNewPassw()
+    {
+        return $this->repeated_new_passw;
+    }
+
     public function matchPasswords(){
         return $this->new_passw === $this->repeated_new_passw;
     }

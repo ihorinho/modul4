@@ -31,7 +31,8 @@ class SecurityController extends Controller{
 
 	public function logoutAction(Request $request){
         $session = $this->getSession();
-        $session->remove('user');
+        $session->clear();
+        $session->destroy();
         $this->redirect('/home');
 	}
 

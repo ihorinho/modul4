@@ -27,7 +27,8 @@ class SecurityController extends Controller{
                 $repo = $this->container->get('repository_manager')->getRepository('User');
                 if($user = $repo->find($email, $password)){
                     if($form->matchPasswords()){
-                        if($repo->save($user->getId(), $form->getNewPassw())){
+                        $password = new Password($form->getNewPassw());
+                        if($repo->save($user->getId(), $password)){
                             $session->setFlash('Password changed!');
                             $this->redirect('/admin/index');
                         }
@@ -35,9 +36,10 @@ class SecurityController extends Controller{
                         $this->redirect('/admin/index');
                     }
                     $session->setFlash('Passwords don\'t match!');
+                    return $this->render('change_pw.phtml', ['form' => $form]);
                 }
                 $session->setFlash('Incorrect old password!');
-                $this->redirect('/admin/change-pw');
+                return $this->render('change_pw.phtml', ['form' => $form]);
             }
             $session->setFlash('Fill all fields!');
         }

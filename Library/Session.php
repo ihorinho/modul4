@@ -14,7 +14,7 @@ class Session{
 		session_start();
 	}
 
-	public function session_destroy(){
+	public function destroy(){
 		session_destroy();
 	}
 
@@ -41,6 +41,10 @@ class Session{
 			unset($_SESSION[$key]);
 		}
 	}
+
+	public function clear(){
+	    unset($_SESSION);
+    }
 
 	public function setFlash($message){
 		$this->set(self::FLASH_KEY, $message);
