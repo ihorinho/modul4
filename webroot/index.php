@@ -8,12 +8,10 @@ define('CONFIG_PATH', ROOT . 'config' . DS);
 use Library\Request;
 use Library\Controller;
 use Library\Config;
-use Library\Session;
 use Library\Container;
 use Library\RepositoryManager;
 use Library\DbConnection;
 use Library\Router;
-use Library\Cookie;
 use Model\Cart;
 
 function dump($data){
@@ -35,9 +33,8 @@ spl_autoload_register(function($classname){
 try{
     $config = new Config();
 	$request = new Request();
-    $cookie = new Cookie();
     $router = new Router();
-    $cart = new Cart($cookie);
+    $cart = new Cart($request);
 
     $pdo = (new DbConnection($config))->getPDO();
 	$repository = (new RepositoryManager())->setPDO($pdo);
@@ -48,7 +45,6 @@ try{
               ->set('request', $request)
               ->set('config', $config)
               ->set('router', $router)
-              ->set('cookie', $cookie)
               ->set('cart', $cart);
 
     //Define Controller and Action

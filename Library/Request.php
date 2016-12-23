@@ -49,4 +49,12 @@ class Request{
     public function mergeGet($array){
         $this->get += $array;
     }
+
+    public function getCookie($name){
+        return isset($_COOKIE[$name]) ? $_COOKIE[$name] : null;
+    }
+
+    public function setCookie($name, $value, $expire = 3600){
+        setcookie($name, $value, time() + $expire, '/');
+    }
 }

@@ -2,7 +2,6 @@
 namespace Controller;
 use Library\Controller;
 use Library\Request;
-use Model\Forms\ChangePasswordForm;
 use Model\Forms\LoginForm;
 use Library\Password;
 

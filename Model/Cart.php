@@ -7,20 +7,21 @@
  */
 namespace Model;
 
-use Library\Cookie;
+use Library\Request;
 
 class Cart{
 
     private $cart;
 
-    public function __construct(Cookie $cookie){
-        $this->cart = $cookie->get('cart') ? unserialize($cookie->get('cart')) : array();
-        $_SESSION['cart_size'] = count($this->cart);
+    public function __construct(Request $request){
+        $this->cart = $request->getCookie('cart') ? unserialize($request->getCookie('cart')) : array();
+        $session =  $request->getSession();
+        $session->set('cart_size', count($this->cart));
     }
 
-    public function save(){
+    public function save(Request $request){
         $cart = serialize($this->cart);
-        setcookie('cart', $cart, time()+ 3600*24*7, '/');
+        $request->setCookie('cart', $cart, time() + 3600*24*7, '/');
     }
 
     public function add($id){

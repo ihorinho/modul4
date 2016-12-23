@@ -16,7 +16,9 @@ class CartController extends Controller{
         $cart = $this->container->get('cart');
         //todo: replace Exception
         if($cart->isEmpty()){
-            throw new  \Exception('Cart is empty!');
+            $session = $this->getSession();
+            $session->setFlash('Your cart is empty!');
+            $this->redirect('/home');
         }
         $repo = $this->container->get('repository_manager')->getRepository('Book');
 
@@ -27,13 +29,13 @@ class CartController extends Controller{
 
     public function addAction(Request $request){
         $cart = $this->container->get('cart');
-        $cart->add($request->get('id'))->save();
+        $cart->add($request->get('id'))->save($request);
         $this->redirect('/books/list');
     }
 
     public function deleteAction(Request $request){
         $cart = $this->container->get('cart');
-        $cart->delete($request->get('id'))->save();
+        $cart->delete($request->get('id'))->save($request);
         $this->redirect('/cart/list');
     }
 }
