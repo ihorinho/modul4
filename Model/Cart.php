@@ -20,11 +20,11 @@ class Cart{
 
     public function save(){
         $cart = serialize($this->cart);
-        setcookie('cart', $cart, time()+ 3600*24*7);
+        setcookie('cart', $cart, time()+ 3600*24*7, '/');
     }
 
     public function add($id){
-        $this->cart[$id] = $id;
+        $this->cart[$id] = (int)$id;
 
         return $this;
     }

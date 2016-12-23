@@ -56,8 +56,11 @@ class BookRepository extends EntityRepository{
 	}
 
     public function getByIdArray(Array $ids){
-
-        $ids_string = str_replace($ids, '?', implode(',', $ids));
+        $prepare_ids = array();
+        foreach ($ids as $id) {
+            $prepare_ids[] = '?';
+        }
+        $ids_string = implode(',', $prepare_ids);
 
         $sql = "SELECT * FROM book WHERE id IN($ids_string)";
         $sth = $this->pdo->prepare($sql);

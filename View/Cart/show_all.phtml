@@ -3,6 +3,6 @@
 <hr>
 Id: <?=$book->getId()?><br/>
 Title: <b><?=$book->getTitle()?></b> <a href="/book-<?=$book->getId()?>">Details</a>
-    <a href="/cart-delete-<?=$book->getId()?>">Delete from cart</a><br/>
+    <a href="/cart/delete-<?=$book->getId()?>">Delete from cart</a><br/>
 <i>Style: <?=var_dump($book->getStyle())?></i><br/>
 <?php endforeach;?>

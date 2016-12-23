@@ -23,8 +23,8 @@ class Controller{
 		return ob_get_clean();
 	}
 
-	public static function renderError($message, $code = null){
-		ob_start();
+	public function renderError($message, $code = null, $session){
+        ob_start();
 		require VIEW . 'error.phtml';
 		$content = ob_get_clean();
 

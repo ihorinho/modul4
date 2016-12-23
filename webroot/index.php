@@ -59,7 +59,6 @@ try{
 	$content = $controller->$action($request);
 
 }catch(\Exception $e){
-	$content = Controller::renderError($e->getMessage(), $e->getFile());
+	$content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $request->getSession());
 }
-
 echo $content;
