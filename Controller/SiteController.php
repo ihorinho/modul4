@@ -14,7 +14,6 @@ class SiteController extends Controller{
 	public function contactAction(Request $request){
 		$form = new ContactForm($request);
         $session = $request->getSession();
-        $router = $this->container->get('router');
 		$repo = $this->container->get('repository_manager')->getRepository('Feedback');
 		if($request->isPost()){
 			if($form->isValid()){
@@ -26,7 +25,7 @@ class SiteController extends Controller{
 
 				$repo->save($feedback);
 				$session->setFlash('Feedback saved');
-				$router->redirect('contact-us');
+				$this->redirect('contact-us');
 			}
 			$session->setFlash('Fill the fields');
 		}

@@ -23,7 +23,6 @@ class BookController extends Controller{
             return 'Error! Book not found';
         }
         $session = $this->getSession();
-        $router = $this->container->get('router');
         $repo = $this->container->get('repository_manager')->getRepository('Book');
         $book = $repo->getById($id);
 
@@ -37,7 +36,7 @@ class BookController extends Controller{
                                           ->setIsActive($form->getIsActive());
                 $repo->save($editedBook);
                 $session->setFlash('Success');
-                $router->redirect('/admin/books/list');
+                $this->redirect('/admin/books/list');
 
             }
             $session->setFlash('Fill the important fields');
@@ -55,7 +54,7 @@ class BookController extends Controller{
 
         $repo = $this->container->get('repository_manager')->getRepository('Book');
         $repo->deleteById($id);
-        $router = $this->container->get('router')->redirect('/admin/books/list');
+        $this->redirect('/admin/books/list');
 
     }
 

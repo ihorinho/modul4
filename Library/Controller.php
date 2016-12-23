@@ -58,4 +58,9 @@ class Controller{
     public function getSession(){
         return $this->container->get('request')->getSession();
     }
+
+    public function redirect($to){
+        $router = $this->container->get('router');
+        $router->redirect($to);
+    }
 }

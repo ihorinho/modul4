@@ -13,11 +13,23 @@ class UserRepository extends EntityRepository{
 		$sth->execute(compact('email', 'password'));
 
 		$user = $sth->fetch(\PDO::FETCH_ASSOC);
+        dump($user); die;
 
 		if($user){
-			$user = (new User())->setEmail($user['email'])->setPassword($user['password']);
+			$user = (new User())
+                ->setId($user['id'])
+                ->setEmail($user['email'])
+                ->setPassword($user['password']);
 		}
 
 		return $user;
 	}
+
+    public function save($id, $password){
+        $sql = "UPDATE user
+                SET password = :password
+                WHERE id = $id";
+        $sth = $this->pdo->prepare($sql);
+        return $sth->execute(['password' => $password]);
+    }
 }

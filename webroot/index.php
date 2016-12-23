@@ -16,6 +16,12 @@ use Library\Router;
 use Library\Cookie;
 use Model\Cart;
 
+function dump($data){
+    echo "<pre>";
+    var_dump($data);
+    echo "</pre>";
+}
+
 //Autoload 
 spl_autoload_register(function($classname){
 	$path = ROOT . str_replace('\\', DS, $classname). '.php';

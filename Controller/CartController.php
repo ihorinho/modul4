@@ -28,18 +28,12 @@ class CartController extends Controller{
     public function addAction(Request $request){
         $cart = $this->container->get('cart');
         $cart->add($request->get('id'))->save();
-        $router = $this->container->get('router');
-        $router->redirect('/books/list');
+        $this->redirect('/books/list');
     }
 
     public function deleteAction(Request $request){
-
-
-//        echo "<pre>"; var_dump($request->get('id')); die;
-
         $cart = $this->container->get('cart');
         $cart->delete($request->get('id'))->save();
-        $router = $this->container->get('router');
-        $router->redirect('/cart/list');
+        $this->redirect('/cart/list');
     }
 }
