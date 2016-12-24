@@ -4,14 +4,17 @@
 	<meta charset="UTF-8">
 	<title>MVC</title>
 	<link rel="stylesheet" href="/webroot/style/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/webroot/style/css/style.css">
 	<script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
 <body>
 	<header>
-		<a href="/home">Home</a>
-		<a href="/books/list">Books</a>
-		<a href="/contact-us">Contacts</a>
-		<a href="/login">Login</a>
-		<a href="/cart/list">Cart(<?=$session->get('cart_size', 0)?>)</a>
+		<ul class="nav nav-pills">
+			<li role="presentation" class="active"><a href="/home">Home</a></li>
+			<li role="presentation"><a href="/books/list">Books</a></li>
+			<li role="presentation"><a href="/contact-us">Contacts</a></li>
+			<li role="presentation"><a href="/cart/list">Cart(<?=$session->get('cart_size', 0)?>)</a></li>
+			<li role="presentation"><a href="/login">Sign in</a></li>
+		</ul>
 	</header>
 	
 	<b><?=$session->getFlash()?></b>

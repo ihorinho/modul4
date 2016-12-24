@@ -1,9 +1,17 @@
 <form action="" method="post">
-	<label for="old_passw">Old password: </label>
-	<input type="password" name="old_passw" id="old_passw"><br><br>
-	<label for="new_passw">New password: </label>
-	<input type="password" id="new_passw" name="new_passw" value="<?=$form->getNewPassw()?>"><br>
-	<label for="repeated_new_passw">Repeat new password</label>
-	<input type="password" id="repeated_new_passw" name="repeated_new_passw" value="<?=$form->getRepeatedNewPassw()?>"><br/>
-	<button type="submit">Save</button>
+	<div class="form-group">
+		<label for="old_passw">Old password: </label>
+		<input type="password" id="old_passw" class="form-control" name="old_passw" placeholder="old password">
+	</div>
+	<div class="form-group">
+		<label for="new_passw">New password: </label>
+		<input type="password" class="form-control" name="new_passw" id="new_passw"
+			   placeholder="new password" value="<?=$form->getNewPassw()?>">
+	</div>
+	<div class="form-group">
+		<label for="repeated_new_passw">Repeat new password: </label>
+		<input type="repeated_new_passw" class="form-control" name="repeated_new_passw" id="repeated_new_passw"
+			   placeholder="repeated new password" value="<?=$form->getRepeatedNewPassw()?>">
+	</div>
+	<button type="submit" class="btn btn-default">Save</button>
 </form>
