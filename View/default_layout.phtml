@@ -5,11 +5,12 @@
 	<title>MVC</title>
 	<link rel="stylesheet" href="/webroot/style/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/webroot/style/css/style.css">
+	<script src="/webroot/style/js/jquery-3.1.1.min.js"></script>
 	<script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
 <body>
 	<header>
 		<ul class="nav nav-pills">
-			<li role="presentation" class="active"><a href="/home">Home</a></li>
+			<li role="presentation"><a href="/home">Home</a></li>
 			<li role="presentation"><a href="/books/list">Books</a></li>
 			<li role="presentation"><a href="/contact-us">Contacts</a></li>
 			<li role="presentation"><a href="/cart/list">Cart(<?=$session->get('cart_size', 0)?>)</a></li>
@@ -21,4 +22,5 @@
 	<hr/>
 	<?=$content?>
 </body>
+<script src="/webroot/style/js/navbar.js"></script>
 </html>
