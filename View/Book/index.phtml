@@ -23,13 +23,26 @@
 </nav>
 <!--END Pagination-->
 
-<?php foreach ($books as $book) : ?>
-    <hr>
-    Id: <?= $book->getId() ?><br/>
-    Title: <b><?= $book->getTitle() ?></b> <a href="/book-<?= $book->getId() ?>">Details</a>
-    <a href="/cart/add-<?= $book->getId() ?>">Add to cart</a><br/>
-    <i>Style: <?= var_dump($book->getStyle()) ?></i><br/>
-<?php endforeach; ?>
+<div class="row">
+    <?php foreach ($books as $book) : ?>
+        <div class="col-md-3">
+            <div class="thumbnail" style="height:420px;">
+                Id: <?= $book->getId() ?><br/>
+                <img class="img-responsive" src="http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg"></img>
+                <div class="caption">
+                    <h3><?=$book->getTitle()?></h3>
+                    <p>Price: <?=$book->getPrice()?> UAH</p>
+                    <p>TODO:...authors...</p>
+                    <p>
+                        <a href="/book-<?= $book->getId() ?>" class="btn btn-primary" role="button">Details</a>
+                        <a href="/cart/add-<?= $book->getId() ?>" class="btn btn-default" role="button">Add to cart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    <?php endforeach; ?>
+</div>
 
 <!--PAGINATION-->
 <nav aria-label="Page navigation">

@@ -23,14 +23,28 @@
 </nav>
 <!--END Pagination-->
 
-<?php foreach($books as $book) :?>
-<hr>
-Id: <?=$book->getId()?><br/>
-Title: <b><?=$book->getTitle()?></b> <a href="/admin/books/show-<?=$book->getId()?>">Details</a>
-    <a href="/admin/books/edit-<?=$book->getId()?>">Edit</a>
-    <a href="/admin/books/delete-<?=$book->getId()?>">  Delete</a><br/>
-<i>Style: <?=var_dump($book->getStyle())?></i><br/>
-<?php endforeach;?>
+<div class="row">
+    <?php foreach ($books as $book) : ?>
+        <div class="col-md-3">
+            <div class="thumbnail" style="height:420px;">
+                Id: <?= $book->getId() ?><br/>
+                <img class="img-responsive" src="http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg"></img>
+                <div class="caption">
+                    <h3><?=$book->getTitle()?></h3>
+                    <p>Price: <?=$book->getPrice()?> UAH</p>
+                    <p>TODO:...authors...</p>
+                    <p>
+                        <a href="/admin/books/show-<?= $book->getId() ?>" class="btn btn-primary" role="button">Details</a>
+                        <a href="/admin/books/edit-<?= $book->getId() ?>" class="btn btn-primary" role="button">Edit</a>
+                        <a href="/admin/books/delete-<?= $book->getId() ?>" class="btn btn-primary" role="button">Delete</a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    <?php endforeach; ?>
+</div>
 
 <!--PAGINATION-->
 <nav aria-label="Page navigation">
