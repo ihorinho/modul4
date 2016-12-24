@@ -4,16 +4,24 @@ use Library\Controller;
 use Library\Request;
 use Model\Book;
 use Model\Forms\BookEditForm;
+use Library\Pagination\Pagination;
 
 class BookController extends Controller{
 
-    public function indexAction(){
+    public function indexAction(Request $request){
 
         $this->isAdmin();
         $repo = $this->container->get('repository_manager')->getRepository('Book');
-        $books = $repo->getAllActive();
-
-        $args = ['books'=>$books];
+        $booksCount = $repo->getCount(true);
+        $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        $pagination = new Pagination($currentPage, $booksCount, self::PER_PAGE);
+        $buttons = $pagination->getButtons();
+        $offset = ($currentPage - 1) * self::PER_PAGE;
+        $books = $repo->getAllActive($offset, self::PER_PAGE);
+        if(!$books && $booksCount){
+            $this->redirect('/books/list/1');
+        }
+        $args = ['books'=>$books, 'buttons' => $buttons, 'page' => $currentPage];
         return $this->render('index.phtml',$args);
     }
 

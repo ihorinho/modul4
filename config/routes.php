@@ -3,7 +3,7 @@ use Library\Route;
 return array(
     'home' => new Route('/home/?', 'SiteController', 'indexAction'),
     'home_alt' => new Route('/?', 'SiteController', 'indexAction'),
-    'books-list' => new Route('/books/list/?', 'BookController', 'indexAction'),
+    'books-list' => new Route('/books/list/?{page}/?', 'BookController', 'indexAction', array('page' => '([0-9]*)')),
     'contact-us' => new Route('/contact-us/?', 'SiteController', 'contactAction'),
     'login' => new Route('/login/?', 'SecurityController', 'loginAction'),
     'book-show' => new Route('/book-{id}/?', 'BookController', 'showAction', array('id' => '([1-9]{1}[0-9]*)')),

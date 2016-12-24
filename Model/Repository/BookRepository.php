@@ -7,6 +7,16 @@ use Library\EntityRepository;
 
 class BookRepository extends EntityRepository{
 
+    public function getCount($is_active = false){
+        $sql = "SELECT COUNT(*) FROM book";
+        if($is_active){
+            $sql .= " WHERE is_active = 1";
+        }
+
+        $sth = $this->pdo->query($sql);
+        return (int)$sth->fetchColumn();
+    }
+
 	private function getBooksArray($sth, $single = false){
 		$books = array();
 
@@ -37,12 +47,10 @@ class BookRepository extends EntityRepository{
 		return $this->getBooksArray($sth);
 	}
 
-	public function getAllActive(){
+	public function getAllActive($offset, $count){
 
-		$sql = "SELECT * FROM book WHERE is_active = :num";
-		$sth = $this->pdo->prepare($sql); 
-		$sth->execute(array('num' => 1));
-
+		$sql = "SELECT * FROM book WHERE is_active = 1 ORDER BY id LIMIT $offset,$count";
+        $sth = $this->pdo->query($sql);
 		return $this->getBooksArray($sth);
 	}
 

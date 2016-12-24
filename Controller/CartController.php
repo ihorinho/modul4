@@ -30,7 +30,7 @@ class CartController extends Controller{
     public function addAction(Request $request){
         $cart = $this->container->get('cart');
         $cart->add($request->get('id'))->save($request);
-        $this->redirect('/books/list');
+        $this->redirect("/books/list/$page");
     }
 
     public function deleteAction(Request $request){

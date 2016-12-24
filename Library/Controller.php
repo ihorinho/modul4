@@ -2,6 +2,7 @@
 namespace Library;
 
 class Controller{
+    const PER_PAGE = 12;
 	protected $container;
     protected static $layout = 'default_layout.phtml';
 
