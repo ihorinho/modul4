@@ -1,7 +1,14 @@
-<h3><?=$book->getTitle()?></h3>
+<h1><?=$book->getTitle()?></h1>
 <hr>
-<i>Style: <?=$book->getStyle(true)?></i><br/>
-<p>Description:</p>
-<p><?=$book->getDescription()?></p>
-<i>Price: <?=$book->getPrice()?> UAH</i>
-<a href="/cart/add-<?=$book->getId()?>">To Cart</a>
+<div class="row">
+    <div class="col-md-3 col-sm-12 col-xs-12">
+        <img class="img-responsive" src="http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg"></img>
+    </div>
+    <div class="col-md-9 col-sm-12 col-sm-12">
+        <i>Id:<?=$book->getId()?> </i>
+        <h3><?=$book->getTitle()?></h3>
+        <p>Price: <?=$book->getPrice()?> UAH</p>
+        <p><?=$book->getDescription()?></p>
+        <a href="/cart/add-<?=$book->getId()?>" class="btn btn-primary" role="button">To cart</a>
+    </div>
+</div>
