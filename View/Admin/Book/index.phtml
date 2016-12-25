@@ -28,9 +28,9 @@
         <div class="col-md-3">
             <div class="thumbnail" style="height:420px;">
                 Id: <?= $book->getId() ?><br/>
-                <img class="img-responsive" src="http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg"></img>
+                <img class="img-responsive show-all" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
                 <div class="caption">
-                    <h3><?=$book->getTitle()?></h3>
+                    <h3 class="book-title"><?=$book->getTitle()?></h3>
                     <p>Price: <?=$book->getPrice()?> UAH</p>
                     <p>TODO:...authors...</p>
                     <p>
