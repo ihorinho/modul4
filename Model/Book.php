@@ -2,16 +2,19 @@
 
 namespace Model;
 
+use Model\Repository\AuthorRepository;
 use Model\Repository\StyleRepository;
 
 
 class Book{
 	private $id;
     private $title;
+    private $author;
     private $description;
     private $is_active;
     private $price;
     private $style;
+
 
     /**
      * @param mixed $description
@@ -88,8 +91,8 @@ class Book{
     {
         $repo = new StyleRepository();
         $repo->setPDO($pdo);
-        $this->style = $repo->getByID($style_id);
-
+        $styleObj = $repo->getByID($style_id);
+        $this->style = $styleObj->getName();
 
         return $this;
     }
@@ -97,12 +100,9 @@ class Book{
     /**
      * @return mixed
      */
-    public function getStyle($show_style = false)
+    public function getStyle()
     {
-        if($show_style){
-        	return $this->style->getName();
-        }
-        return $this->style;
+       return $this->style;
     }
 
     /**
@@ -121,4 +121,35 @@ class Book{
     {
         return $this->title;
     }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($book_id, $pdo)
+    {
+        $repo = new AuthorRepository();
+        $repo->setPDO($pdo);
+        $authors = $repo->getArrayByBookId($book_id);
+        if(!$authors){
+            $this->author = 'Unknown';
+            return $this;
+        }
+        $authorArray = array();
+        foreach($authors as $author){
+            $authorArray[] = $author->getFirstName() . " " .  $author->getLastName();
+        }
+
+        $this->author = implode(',', $authorArray);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
 }

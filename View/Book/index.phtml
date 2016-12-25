@@ -26,13 +26,13 @@
 <div class="row">
     <?php foreach ($books as $book) : ?>
         <div class="col-md-3">
-            <div class="thumbnail" style="height:420px;">
+            <div class="thumbnail" style="height:450px;">
                 Id: <?= $book->getId() ?><br/>
                 <img class="img-responsive show-all" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
                 <div class="caption">
                     <h3><?=$book->getTitle()?></h3>
+                    <p>Author: <?=$book->getAuthor()?></p>
                     <p>Price: <?=$book->getPrice()?> UAH</p>
-                    <p>TODO:...authors...</p>
                     <p>
                         <a href="/book-<?= $book->getId() ?>" class="btn btn-primary" role="button">Details</a>
                         <a href="/cart/add-<?= $book->getId() ?>" class="btn btn-default" role="button">Add to cart</a>

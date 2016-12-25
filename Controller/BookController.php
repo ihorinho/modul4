@@ -15,6 +15,7 @@ class BookController extends Controller{
         $buttons = $pagination->getButtons();
         $offset = ($currentPage - 1) * self::PER_PAGE;
         $books = $repo->getAllActive($offset, self::PER_PAGE);
+
         if(!$books && $booksCount){
             $this->redirect('/books/list/1');
         }

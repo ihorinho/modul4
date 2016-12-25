@@ -27,6 +27,7 @@ class BookRepository extends EntityRepository{
 					->setDescription($row['description'])
 					->setIsActive((int)$row['is_active'])
 					->setPrice($row['price'])
+                    ->setAuthor($row['id'], $this->pdo)
 					->setStyle($row['style_id'], $this->pdo);
 
 			$books[] = $book;
