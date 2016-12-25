@@ -23,6 +23,7 @@ return array(
     'admin/book-show' => new Route('/admin/books/show-{id}/?', 'Admin\BookController', 'showAction', array('id' => '([1-9]{1}[0-9]*)')),
     'admin_edit_book' => new Route('/admin/books/edit-{id}/?', 'Admin\BookController', 'editAction',
                                                                 array('id' => '([1-9]{1}[0-9]*)')),
+    'book_add' => new Route('/admin/books/add/?', 'Admin\BookController', 'addAction'),
     'admin_delete_book' => new Route('/admin/books/delete-{id}/?', 'Admin\BookController', 'deleteAction',
             array('id' => '([1-9]{1}[0-9]*)')),
     'change_password' => new Route('/admin/change-pw', 'Admin\SecurityController', 'changeAction')

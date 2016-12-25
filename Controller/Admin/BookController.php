@@ -83,4 +83,14 @@ class BookController extends Controller{
         $args = ['book' => $book];
         return $this->render('show.phtml', $args);
     }
+
+    public function addAction(Request $request){
+        $repoStyle = $this->container->get('repository_manager')->getRepository('Style');
+        $styles = $repoStyle->getAll();
+        $repoAuthor = $this->container->get('repository_manager')->getRepository('Author');
+        $authors = $repoAuthor->getAllFullNames();
+
+        $args = ['authors' => $authors, 'styles' => $styles];
+        return $this->render('add_new.phtml', $args);
+    }
 }

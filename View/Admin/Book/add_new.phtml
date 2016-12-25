@@ -1,0 +1,43 @@
+<form class="row action="" method="post">
+    <div class="col-md-6 edit-form">
+        <h3 class="book-title"></h3>
+
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" name="title" id="title" value=""/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" id="description" rows="7" cols="50"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" class="form-control" name="price" id="price" value=""/>
+        </div>
+        <div class="form-group">
+            <label for="is_active">Is active:</label>
+            <input type="text" class="form-control" name="is_active" id="is_active" value=""/>
+        </div>
+
+    </div>
+
+    <div class="col-md-6 edit-form">
+        <div class="form-group">
+            <label for="style">Change style:</label>
+            <select class="form-control" name="style" id="style">
+                <?php foreach($styles as $style):?>
+                    <option  value="<?=$style->getId()?>"><?=$style->getName()?></option>
+                <?php endforeach?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="authors">Change authors:</label>
+            <select multiple class="form-control author" name="authors[]" id="authors" rows="10">
+                <?php foreach($authors as $author_id => $author_name):?>
+                    <option value="<?=$author_id?>"><?=$author_name?></option>
+                <?php endforeach?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">Save</button>
+    </div>
+</form>
