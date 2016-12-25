@@ -86,12 +86,37 @@ class BookRepository extends EntityRepository{
     }
 
     public function save(Book $book){
+        $id = $book->getId();
         $sql = "UPDATE book
-                SET title = :title, description = :description, price = :price, is_active = :is_active
+                SET title = :title, description = :description, price = :price, is_active = :is_active,
+                  style_id = :style_id
                 WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
-        $sth->execute(array('id' => $book->getId(), 'title' => $book->getTitle(), 'description' => $book->getDescription(),
-                            'price' => $book->getPrice(), 'is_active' => $book->IsActive()));
+        $result = $sth->execute(array('id' => $id, 'title' => $book->getTitle(), 'description' => $book->getDescription(),
+                            'price' => $book->getPrice(), 'is_active' => $book->IsActive(), 'style_id' => $book->getStyleId()));
+        if($result === false){
+            throw new \Exception('Errors during saving book to DB');
+        }
+
+        $sql = "DELETE from book_author
+                WHERE book_id = :id";
+        $sth = $this->pdo->prepare($sql);
+        $result = $sth->execute(array('id' => $id));
+        if($result === false){
+            throw new \Exception('Errors during delete old rows in book_author');
+        }
+
+        $valuesArray = [];
+        foreach($book->getAuthorIds() as $authorId){
+            $valuesArray[] = "({$id},{$authorId})";
+        }
+        $valuesString = implode(',',$valuesArray);
+        $sql = "INSERT INTO book_author
+                VALUES $valuesString";
+        $sth = $this->pdo->query($sql);
+        if($sth === false){
+            throw new \Exception('Errors during adding new rows in book_author');
+        }
     }
 
 }

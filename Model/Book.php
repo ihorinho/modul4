@@ -10,11 +10,20 @@ class Book{
 	private $id;
     private $title;
     private $author;
+    private $author_ids = [];
     private $description;
     private $is_active;
     private $price;
+    private $style_id;
     private $style;
 
+    /**
+     * @return mixed
+     */
+    public function getStyleId()
+    {
+        return $this->style_id;
+    }
 
     /**
      * @param mixed $description
@@ -93,6 +102,7 @@ class Book{
         $repo->setPDO($pdo);
         $styleObj = $repo->getByID($style_id);
         $this->style = $styleObj->getName();
+        $this->style_id = $styleObj->getId();
 
         return $this;
     }
@@ -103,6 +113,26 @@ class Book{
     public function getStyle()
     {
        return $this->style;
+    }
+
+    /**
+     * @param array $author_ids
+     */
+    public function setAuthorIds($author_ids)
+    {
+        $this->author_ids = $author_ids;
+        return $this;
+
+    }
+
+    /**
+     * @param mixed $style_id
+     */
+    public function setStyleId($style_id)
+    {
+        $this->style_id = $style_id;
+        return $this;
+
     }
 
     /**
@@ -137,11 +167,20 @@ class Book{
         $authorArray = array();
         foreach($authors as $author){
             $authorArray[] = $author->getFirstName() . " " .  $author->getLastName();
+            $this->author_ids[] = $author->getId();
         }
 
-        $this->author = implode(',', $authorArray);
+        $this->author = implode(', ', $authorArray);
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAuthorIds()
+    {
+        return $this->author_ids;
     }
 
     /**

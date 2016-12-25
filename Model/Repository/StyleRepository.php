@@ -19,4 +19,18 @@ class StyleRepository extends EntityRepository{
 				
 		return $style;
 	}
+
+    public function getAll(){
+        $sql = "SELECT * FROM style";
+        $sth = $this->pdo->query($sql);
+        $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $styleArray = array();
+        foreach($result as $style){
+            $styleArray[] = (new Style())
+                ->setId($style['id'])
+                ->setName($style['name']);
+        }
+
+        return $styleArray;
+    }
 }

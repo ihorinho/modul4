@@ -31,8 +31,8 @@ class BookController extends Controller{
             return 'Error! Book not found';
         }
         $session = $this->getSession();
-        $repo = $this->container->get('repository_manager')->getRepository('Book');
-        $book = $repo->getById($id);
+        $repoBook = $this->container->get('repository_manager')->getRepository('Book');
+        $book = $repoBook->getById($id);
 
         if($request->isPost()){
             $form = new BookEditForm($request);
@@ -41,16 +41,22 @@ class BookController extends Controller{
                                           ->setDescription($form->getDescription())
                                           ->setId($form->getId())
                                           ->setPrice($form->getPrice())
+                                          ->setStyleId($form->getStyleId())
+                                          ->setAuthorIds($form->getAuthors())
                                           ->setIsActive($form->getIsActive());
-                $repo->save($editedBook);
+                $repoBook->save($editedBook);
                 $session->setFlash('Success');
                 $this->redirect('/admin/books/list');
-
             }
             $session->setFlash('Fill the important fields');
         }
 
-        $args = ['book' => $book];
+        $repoStyle = $this->container->get('repository_manager')->getRepository('Style');
+        $styles = $repoStyle->getAll();
+        $repoAuthor = $this->container->get('repository_manager')->getRepository('Author');
+        $authors = $repoAuthor->getAllFullNames();
+
+        $args = ['book' => $book, 'authors' => $authors, 'styles' => $styles];
         return $this->render('edit.phtml', $args);
     }
 

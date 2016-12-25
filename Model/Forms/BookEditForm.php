@@ -10,13 +10,17 @@ class BookEditForm{
     private $description;
     private $price;
     private $is_active;
+    private $styleId;
+    private $authors = [];
 
     public function __construct(Request $request){
         $this->id = $request->post('id');
         $this->title = $request->post('title');
         $this->description = $request->post('description');
         $this->price = $request->post('price');
-        $this->is_active = $request->post('is_active', 0);
+        $this->is_active = (int)$request->post('is_active', 0);
+        $this->styleId = (int)$request->post('style');
+        $this->authors = $request->post('authors');
     }
     /**
      * @return mixed
@@ -24,6 +28,22 @@ class BookEditForm{
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStyleId()
+    {
+        return $this->styleId;
     }
 
     /**
@@ -64,6 +84,8 @@ class BookEditForm{
     public function isValid(){
         return $this->title !== '' &&
                 $this->description !== '' &&
-                $this->price !== '';
+                $this->price !== '' &&
+                $this->styleId !== '' &&
+                !empty($this->authors);
     }
 }

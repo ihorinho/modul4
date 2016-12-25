@@ -12,6 +12,29 @@ use Model\Author;
 
 class AuthorRepository extends EntityRepository{
 
+    public function getAllFullNames(){
+        $sql = "SELECT id, first_name, last_name FROM author
+                ORDER BY first_name, last_name";
+        $sth = $this->pdo->query($sql);
+        $authorsArray  = $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $authorsFullNameArray = array();
+        foreach ($authorsArray as $author) {
+            $authorsFullNameArray[$author['id']] = $author['first_name'] . " " . $author['last_name'];
+        }
+        return $authorsFullNameArray;
+    }
+
+    public function getArray($queryResult){
+        foreach($queryResult as $author){
+            $authors[]  = (new Author())->setId($author['id'])
+                ->setFirstName($author['first_name'])
+                ->setLastName($author['last_name'])
+                ->setDateBirth($author['date_birth'])
+                ->setDateDeath($author['date_death']);
+        }
+        return $authors;
+    }
+
     public function getArrayByBookId($id){
         $authors = array();
 
@@ -25,14 +48,8 @@ class AuthorRepository extends EntityRepository{
         if(empty($authorsArray)){
             return array();
         }
-        foreach($authorsArray as $author){
-            $authors[]  = (new Author())->setId($author['id'])
-                                    ->setFirstName($author['first_name'])
-                                    ->setLastName($author['last_name'])
-                                     ->setDateBirth($author['date_birth'])
-                                     ->setDateDeath($author['date_death']);
-        }
-        return $authors;
+
+        return $this->getArray($authorsArray);
     }
 
 }
