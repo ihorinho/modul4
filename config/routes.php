@@ -19,7 +19,7 @@ return array(
 
 //Admin routes
     'admin_index' => new Route('/admin/index/?', 'Admin\SiteController', 'indexAction'),
-    'admin_all_books' => new Route('/admin/books/list/?', 'Admin\BookController', 'indexAction'),
+    'admin_all_books' => new Route('/admin/books/list/?{page}/?', 'Admin\BookController', 'indexAction', array('page' => '([0-9]*)')),
     'admin/book-show' => new Route('/admin/books/show-{id}/?', 'Admin\BookController', 'showAction', array('id' => '([1-9]{1}[0-9]*)')),
     'admin_edit_book' => new Route('/admin/books/edit-{id}/?', 'Admin\BookController', 'editAction',
                                                                 array('id' => '([1-9]{1}[0-9]*)')),

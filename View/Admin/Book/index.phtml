@@ -7,15 +7,15 @@
         $prev = array_shift($buttons);
         $next = array_pop($buttons);
         if($prev->isActive()):?>
-            <li><a href="/books/list/<?=$page-1?>"><span aria-hidden="true">&laquo;</span></a></li>
+            <li><a href="/admin/books/list/<?=$page-1?>"><span aria-hidden="true">&laquo;</span></a></li>
         <?php else:?>
             <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
         <?php endif;?>
         <?php foreach($buttons as $button):?>
-            <li <?=$page == $button->getPage() ? 'class="active"' : ''?>><a href="/books/list/<?=$button->getPage()?>"><?=$button->getText()?></a></li>
+            <li <?=$page == $button->getPage() ? 'class="active"' : ''?>><a href="/admin/books/list/<?=$button->getPage()?>"><?=$button->getText()?></a></li>
         <?php endforeach; ?>
         <?php if($next->isActive()):?>
-            <li><a href="/books/list/<?=$page+1?>"><span aria-hidden="true">&raquo;</span></a></li>
+            <li><a href="/admin/books/list/<?=$page+1?>"><span aria-hidden="true">&raquo;</span></a></li>
         <?php else:?>
             <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
         <?php endif;?>
@@ -51,15 +51,15 @@
     <ul class="pagination">
         <?php
         if($prev->isActive()):?>
-            <li><a href="/books/list/<?=$page-1?>"><span aria-hidden="true">&laquo;</span></a></li>
+            <li><a href="/admin/books/list/<?=$page-1?>"><span aria-hidden="true">&laquo;</span></a></li>
         <?php else:?>
             <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
         <?php endif;?>
         <?php foreach($buttons as $button):?>
-            <li <?=$page == $button->getPage() ? 'class="active"' : ''?>><a href="/books/list/<?=$button->getPage()?>"><?=$button->getText()?></a></li>
+            <li <?=$page == $button->getPage() ? 'class="active"' : ''?>><a href="/admin/books/list/<?=$button->getPage()?>"><?=$button->getText()?></a></li>
         <?php endforeach; ?>
         <?php if($next->isActive()):?>
-            <li><a href="/books/list/<?=$page+1?>"><span aria-hidden="true">&raquo;</span></a></li>
+            <li><a href="/admin/books/list/<?=$page+1?>"><span aria-hidden="true">&raquo;</span></a></li>
         <?php else:?>
             <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
         <?php endif;?>
