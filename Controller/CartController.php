@@ -46,9 +46,6 @@ class CartController extends Controller{
          * 1. Order table in DB  (id, user-data(?), email, order_item_id, created, status)
          * 2. OrderItem table (id, product_id, price)
          * 3. Form, Model
-         *
-         *
-         *
          **/
     }
 }

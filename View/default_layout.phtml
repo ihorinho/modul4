@@ -14,8 +14,14 @@
 			<li role="presentation"><a href="/books/list">Books</a></li>
 			<li role="presentation"><a href="/contact-us">Contacts</a></li>
 			<li role="presentation"><a href="/cart/list">Cart(<?=$session->get('cart_size', 0)?>)</a></li>
-			<li role="presentation"><a href="/login">Sign in</a></li>
+            <li role="presentation"><a href="/admin/index">Admin panel</a></li>
+            <?php if($session->get('user')):?>
+            <li role="presentation"><a href="/logout">Logout</a></li>
+            <?php else:?>
+            <li role="presentation"><a href="/login">Sign in</a></li>
+            <?php endif;?>
 		</ul>
+        <p style="float: right;"><i><?=$session->get('user');?></i></p>
 	</header>
 	
 	<b><?=$session->getFlash()?></b>

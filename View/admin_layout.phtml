@@ -16,6 +16,7 @@
 			<li role="presentation"><a href="/admin/books/add">Add Book</a></li>
 			<li role="presentation"><a href="/logout">Logout</a></li>
 		</ul>
+        <p style="float: right;"><i><?=$session->get('user');?></i></p>
 	</header>
 	
 	<b><?=$session->getFlash()?></b>

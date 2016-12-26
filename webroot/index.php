@@ -15,10 +15,15 @@ use Library\DbConnection;
 use Library\Router;
 use Model\Cart;
 
+//TODO: replace functions to saparate file
 function dump($data){
     echo "<pre>";
     var_dump($data);
     echo "</pre>";
+}
+
+function clearString($string){
+    return trim(strip_tags($string));
 }
 
 //Autoload 

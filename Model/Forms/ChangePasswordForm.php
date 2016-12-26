@@ -8,9 +8,9 @@ class ChangePasswordForm{
 	private $repeated_new_passw = '';
 
 	public function __construct(Request $request){
-		$this->old_passw = $request->post('old_passw');
-		$this->new_passw = $request->post('new_passw');
-		$this->repeated_new_passw = $request->post('repeated_new_passw');
+		$this->old_passw = clearString($request->post('old_passw'));
+		$this->new_passw = clearString($request->post('new_passw'));
+		$this->repeated_new_passw = clearString($request->post('repeated_new_passw'));
 	}
 
 	public function isValid(){
