@@ -4,6 +4,7 @@ define('ROOT', __DIR__ . DS . '..' . DS);
 define('VIEW', ROOT . 'View' . DS);
 define('LIB_PATH', ROOT . 'Library' . DS);
 define('CONFIG_PATH', ROOT . 'config' . DS);
+define('UPLOAD_PATH', ROOT . 'webroot' . DS . 'upload' . DS . 'avatars' . DS);
 
 use Library\Request;
 use Library\Controller;

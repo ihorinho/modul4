@@ -6,8 +6,10 @@ use Model\Book;
 use Model\Forms\BookAddForm;
 use Model\Forms\BookEditForm;
 use Library\Pagination\Pagination;
+use Model\UploadedFile;
 
 class BookController extends Controller{
+    const BOOK_COVER_FILE = 'book_cover';
 
     public function indexAction(Request $request){
 
@@ -93,7 +95,12 @@ class BookController extends Controller{
 
         if($request->isPost()){
             $form = new BookAddForm($request);
-            if($form->isValid()){
+            $bookCover = new UploadedFile(self::BOOK_COVER_FILE);
+            if($bookCover->getError()){
+                //todo: ...
+                throw new \Exception('Error during uploading picture');
+            }
+            if($form->isValid() && $bookCover->isJPG()){
                 $newBook = (new Book())->setTitle($form->getTitle())
                                        ->setDescription($form->getDescription())
                                        ->setPrice($form->getPrice())
@@ -104,6 +111,7 @@ class BookController extends Controller{
                 $repoBook->insertBook($newBook);
                 $newBookId = $repoBook->getLastInsertId();
                 $repoBook->insertBookAuthor($newBookId,$newBook->getAuthorIds());
+                $bookCover->moveToUploads($newBookId);
                 $session->setFlash('Success');
                 $this->redirect('/admin/books/list');
 

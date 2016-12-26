@@ -1,4 +1,4 @@
-<form class="row action="" method="post">
+<form class="row" action="" enctype="multipart/form-data" method="post">
     <div class="col-md-6 edit-form">
         <h3 class="book-title"></h3>
 
@@ -11,6 +11,10 @@
             <textarea class="form-control" name="description" id="description" rows="7" cols="50"></textarea>
         </div>
         <div class="form-group">
+            <label for="book_cover">Upload book cover (jpg only):</label>
+            <input type="file" class="form-control" name="book_cover" id="book_cover" value=""/>
+        </div>
+        <div class="form-group">
             <label for="price">Price:</label>
             <input type="text" class="form-control" name="price" id="price" value=""/>
         </div>
@@ -18,7 +22,6 @@
             <label for="is_active">Is active:</label>
             <input type="text" class="form-control" name="is_active" id="is_active" value=""/>
         </div>
-
     </div>
 
     <div class="col-md-6 edit-form">
