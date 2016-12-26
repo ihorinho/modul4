@@ -3,6 +3,7 @@ namespace Controller\Admin;
 use Library\Controller;
 use Library\Request;
 use Model\Book;
+use Model\Forms\BookAddForm;
 use Model\Forms\BookEditForm;
 use Library\Pagination\Pagination;
 
@@ -44,7 +45,9 @@ class BookController extends Controller{
                                           ->setStyleId($form->getStyleId())
                                           ->setAuthorIds($form->getAuthors())
                                           ->setIsActive($form->getIsActive());
-                $repoBook->save($editedBook);
+                $repoBook->updateBook($editedBook)
+                         ->deleteBookAuthor($editedBook->getId())
+                         ->insertBookAuthor($editedBook->getId(), $editedBook->getAuthorIds());
                 $session->setFlash('Success');
                 $this->redirect('/admin/books/list');
             }
@@ -85,6 +88,28 @@ class BookController extends Controller{
     }
 
     public function addAction(Request $request){
+        $this->isAdmin();
+        $session = $this->getSession();
+
+        if($request->isPost()){
+            $form = new BookAddForm($request);
+            if($form->isValid()){
+                $newBook = (new Book())->setTitle($form->getTitle())
+                                       ->setDescription($form->getDescription())
+                                       ->setPrice($form->getPrice())
+                                       ->setStyleId($form->getStyleId())
+                                       ->setAuthorIds($form->getAuthors())
+                                       ->setIsActive($form->getIsActive());
+                $repoBook = $this->container->get('repository_manager')->getRepository('Book');
+                $repoBook->insertBook($newBook);
+                $newBookId = $repoBook->getLastInsertId();
+                $repoBook->insertBookAuthor($newBookId,$newBook->getAuthorIds());
+                $session->setFlash('Success');
+                $this->redirect('/admin/books/list');
+
+            }
+            $session->setFlash('Fill the important fields');
+        }
         $repoStyle = $this->container->get('repository_manager')->getRepository('Style');
         $styles = $repoStyle->getAll();
         $repoAuthor = $this->container->get('repository_manager')->getRepository('Author');
