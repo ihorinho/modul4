@@ -36,6 +36,7 @@ class UploadedFile{
     public function moveToUploads($name){
         $destination = UPLOAD_PATH . $name . '.jpg';
         move_uploaded_file($this->getTmpName(), $destination);
+//        dump(move_uploaded_file($this->getTmpName(), $destination)); die;
     }
 
     /**

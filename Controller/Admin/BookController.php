@@ -50,6 +50,10 @@ class BookController extends Controller{
                 $repoBook->updateBook($editedBook)
                          ->deleteBookAuthor($editedBook->getId())
                          ->insertBookAuthor($editedBook->getId(), $editedBook->getAuthorIds());
+                $bookCover = new UploadedFile(self::BOOK_COVER_FILE);
+                if($bookCover->isJPG()){
+                    $bookCover->moveToUploads($form->getId());
+                }
                 $session->setFlash('Success');
                 $this->redirect('/admin/books/list');
             }

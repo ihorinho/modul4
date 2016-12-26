@@ -1,16 +1,15 @@
 
 <div class="row">
     <div class="col-md-4 edit-form">
-        <p>Id: <?=$book->getId()?></p>
+         <p>Id: <?=$book->getId()?></p>
+        <h3 class="book-title"><?=$book->getTitle()?></h3>
         <img class="img-responsive" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
         <p>Author: <?=$book->getAuthor()?></p>
         <p>Style: <?=$book->getStyle()?></p>
     </div>
     <div class="col-md-8">
-        <form class="row action="" method="post">
+        <form class="row" action="" method="post" enctype="multipart/form-data">
         <div class="col-md-6 edit-form">
-            <h3 class="book-title"><?=$book->getTitle()?></h3>
-
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" class="form-control" name="title" id="title" value="<?=$book->getTitle()?>"/>
@@ -24,12 +23,14 @@
                 <input type="text" class="form-control" name="price" id="price" value="<?=$book->getPrice()?> UAH"/>
             </div>
             <div class="form-group">
+                <label for="book_cover">Change book cover:</label>
+                <input type="file" class="form-control" name="book_cover" id="book_cover" value=""/>
+            </div>
+            <div class="form-group">
                 <label for="is_active">Is active:</label>
                 <input type="text" class="form-control" name="is_active" id="is_active" value="<?=$book->IsActive()?>"/>
             </div>
-
         </div>
-
         <div class="col-md-6 edit-form">
             <div class="form-group">
                 <label for="style">Change style:</label>
