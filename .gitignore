@@ -1,2 +1,4 @@
 webroot/upload/*
 .idea/*
+vendor/*
+log/*

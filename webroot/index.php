@@ -1,10 +1,15 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__ . DS . '..' . DS);
-define('VIEW', ROOT . 'View' . DS);
-define('LIB_PATH', ROOT . 'Library' . DS);
+define('SRC_PATH', ROOT . 'src' . DS);
+define('VIEW', SRC_PATH . 'View' . DS);
+define('LIB_PATH', SRC_PATH . 'Library' . DS);
 define('CONFIG_PATH', ROOT . 'config' . DS);
 define('UPLOAD_PATH', ROOT . 'webroot' . DS . 'upload' . DS . 'avatars' . DS);
+define('LOG_DIR', ROOT . 'log' . DS);
+define ('VENDOR_PATH', ROOT . 'vendor' . DS);
+
+require VENDOR_PATH . 'autoload.php';
 
 use Library\Request;
 use Library\Controller;
@@ -14,6 +19,8 @@ use Library\RepositoryManager;
 use Library\DbConnection;
 use Library\Router;
 use Model\Cart;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 //TODO: replace functions to saparate file
 function dump($data){
@@ -28,12 +35,12 @@ function clearString($string){
 
 //Autoload 
 spl_autoload_register(function($classname){
-	$path = ROOT . str_replace('\\', DS, $classname). '.php';
-	if(!file_exists(ROOT . str_replace('\\', DS, $classname). '.php')){
+	$path = SRC_PATH . str_replace('\\', DS, $classname). '.php';
+	if(!file_exists(SRC_PATH . str_replace('\\', DS, $classname). '.php')){
 		throw new \Exception("Class $classname doesn't exist- {$path}");
 	}
 
-	require(ROOT . str_replace('\\', DS, $classname . '.php'));
+	require(SRC_PATH . str_replace('\\', DS, $classname . '.php'));
 });
 
 try{
@@ -45,12 +52,16 @@ try{
     $pdo = (new DbConnection($config))->getPDO();
 	$repository = (new RepositoryManager())->setPDO($pdo);
 
+    $logger = new Logger('LOGGER');
+    $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
+
 	$container = new Container();
 	$container->set('database_connection', $pdo)
 	          ->set('repository_manager', $repository)
               ->set('request', $request)
               ->set('config', $config)
               ->set('router', $router)
+              ->set('logger', $logger)
               ->set('cart', $cart);
 
     //Define Controller and Action

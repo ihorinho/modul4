@@ -55,6 +55,7 @@ class BookController extends Controller{
                     $bookCover->moveToUploads($form->getId());
                 }
                 $session->setFlash('Success');
+                $logger = $this->container->get('logger')->addInfo('Book id: ' . $form->getId() .  ' changed', [$session->get('user')]);
                 $this->redirect('/admin/books/list');
             }
             $session->setFlash('Fill the important fields');
@@ -117,6 +118,7 @@ class BookController extends Controller{
                 $repoBook->insertBookAuthor($newBookId,$newBook->getAuthorIds());
                 $bookCover->moveToUploads($newBookId);
                 $session->setFlash('Success');
+                $logger = $this->container->get('logger')->addInfo('New book added', [$session->get('user')]);
                 $this->redirect('/admin/books/list');
 
             }

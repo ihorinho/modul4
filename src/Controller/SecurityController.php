@@ -11,12 +11,14 @@ class SecurityController extends Controller{
 		$loginForm = new LoginForm($request);
         $session = $this->getSession();
 		if($request->isPost()){
+            $logger = $this->container->get('logger');
 			if($loginForm->isValid()){
 				$password = new Password($loginForm->getPassword());
 				$repo = $this->container->get('repository_manager')->getRepository('User');
 				if($user = $repo->find($loginForm->getEmail(), $password)){
                     $session->set('user', $user->getEmail())
                             ->setFlash('Success. You logged in');
+                    $logger->addInfo('Success logging' , [$user->getEmail()]);
                     $redirect = $session->has('uri') ? $session->get('uri') : '/admin/index';
                     $this->redirect($redirect);
 				}
