@@ -2,10 +2,6 @@
 
 namespace Library;
 
-use Library\Container;
-
-
-
 abstract class EntityRepository{
 	protected $pdo;
 

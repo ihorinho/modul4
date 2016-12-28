@@ -50,6 +50,7 @@ class Controller{
         if(!$session->has('user')){
             $router = $this->container->get('router');
             $session->setFlash('Restricted Area!!! Must login')->set('uri', $_SERVER['REQUEST_URI']);
+            $this->saveLog('Unauthorized user try to enter admin panel');
             $router->redirect('/login');
         }
 
@@ -58,6 +59,10 @@ class Controller{
 
     public function getSession(){
         return $this->container->get('request')->getSession();
+    }
+
+    public function saveLog($message, $args1=array(0), $args2=array()){
+        $this->container->get('logger')->addInfo($message, $args1, $args2);
     }
 
     public function redirect($to){

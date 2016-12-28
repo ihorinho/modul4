@@ -30,8 +30,7 @@ class SecurityController extends Controller{
                         $password = new Password($form->getNewPassw());
                         if($repo->save($user->getId(), $password)){
                             $session->setFlash('Password changed!');
-                            $logger = $this->container->get('logger')
-                                                    ->addInfo('Password changed', [$session->get('user')]);
+                            $this->saveLog('Password changed', [$session->get('user')]);
                             $this->redirect('/admin/index');
                         }
                         $session->setFlash('Error! Password not changed!');

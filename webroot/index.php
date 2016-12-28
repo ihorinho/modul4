@@ -48,12 +48,10 @@ try{
 	$request = new Request();
     $router = new Router();
     $cart = new Cart($request);
-
-    $pdo = (new DbConnection($config))->getPDO();
-	$repository = (new RepositoryManager())->setPDO($pdo);
-
     $logger = new Logger('LOGGER');
     $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
+    $pdo = (new DbConnection($config))->getPDO();
+    $repository = (new RepositoryManager())->setPDO($pdo);
 
 	$container = new Container();
 	$container->set('database_connection', $pdo)
@@ -69,15 +67,16 @@ try{
     $controller = 'Controller\\' . $route->controller;
     $action = $route->action;
 
-	if(!method_exists(new $controller, $action)){
-		throw new \Exception('404 Page Not Found');
-	}
+//	if(!method_exists(new $controller, $action)){
+//		throw new \Exception('404 Page Not Found');
+//	}
 
 	$controller = new $controller;
 	$controller->setContainer($container);
 	$content = $controller->$action($request);
 
 }catch(\Exception $e){
-	$content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $request->getSession());
+    $logger->addWarning('Exception: ', [$e->getCode(), $e->getMessage()]);
+    $content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $request->getSession());
 }
 echo $content;

@@ -27,6 +27,7 @@ class SiteController extends Controller{
 
                 $repo->save($feedback);
                 $session->setFlash('Feedback saved');
+                $this->saveLog('Feedback saved', [$form->getEmail()]);
                 $this->redirect('contact-us');
             }
             $session->setFlash('Fill the fields');
