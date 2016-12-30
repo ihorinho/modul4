@@ -1,3 +1,9 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Show | {{ book.getTitle() }}{% endblock title %}
+
+{% block body %}
+
 <form action="" method="post">
 	<div class="form-group">
 		<label for="old_passw">Old password: </label>

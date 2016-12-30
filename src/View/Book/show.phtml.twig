@@ -1,4 +1,8 @@
-<h1><?=$book->getTitle()?></h1>
+{% extends 'default_layout.phtml.twig' %}
+
+{% block title %}Cart | {{ book.getTitle() }}{% endblock title %}
+
+<h1>{{ book.getTitle() }}</h1>
 <hr>
 <div class="row">
     <div class="col-md-3 col-sm-12 col-xs-12">
@@ -6,7 +10,7 @@
     </div>
     <div class="col-md-9 col-sm-12 col-sm-12">
         <i>Id:<?=$book->getId()?> </i>
-        <h3><?=$book->getTitle()?></h3>
+        <h3>{{ book.getTitle() }}</h3>
         <p>Author: <?=$book->getAuthor()?></p>
         <p>Style: <?=$book->getStyle()?></p>
         <p><?=$book->getDescription()?></p>

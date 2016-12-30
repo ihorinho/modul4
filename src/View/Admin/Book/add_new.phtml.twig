@@ -28,6 +28,7 @@
         <div class="form-group">
             <label for="style">Change style:</label>
             <select class="form-control" name="style" id="style">
+
                 <?php foreach($styles as $style):?>
                     <option  value="<?=$style->getId()?>"><?=$style->getName()?></option>
                 <?php endforeach?>
