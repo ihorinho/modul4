@@ -1,3 +1,8 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Admin | Books{% endblock title %}
+
+{% block body %}
 <h3>Books</h3>
 
 <!--PAGINATION-->
@@ -24,26 +29,26 @@
 <!--END Pagination-->
 
 <div class="row">
-    {%
+    {% for book in books %}
         <div class="col-md-3">
             <div class="thumbnail" style="height:450px;">
-                Id: <?= $book->getId() ?><br/>
-                <img class="img-responsive show-all" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
+                Id: {{ book.getId() }}<br/>
+                <img class="img-responsive show-all" src="/webroot/upload/avatars/{{ book.getId() }}.jpg"></img>
                 <div class="caption">
-                    <h3 class="book-title"><?=$book->getTitle()?></h3>
-                    <p>Author: <?=$book->getAuthor()?></p>
-                    <p>Price: <?=$book->getPrice()?> UAH</p>
+                    <h3 class="book-title">{{ book.getTitle() }}</h3>
+                    <p>Author: {{ book.getAuthor() }}</p>
+                    <p>Price: {{ book.getPrice() }} UAH</p>
                     <p>
-                        <a href="/admin/books/show-<?= $book->getId() ?>" class="btn btn-primary" role="button">Details</a>
-                        <a href="/admin/books/edit-<?= $book->getId() ?>" class="btn btn-primary" role="button">Edit</a>
-                        <a href="/admin/books/delete-<?= $book->getId() ?>" class="btn btn-primary" role="button">Delete</a>
+                        <a href="/admin/books/show-{{ book.getId() }}" class="btn btn-primary" role="button">Details</a>
+                        <a href="/admin/books/edit-{{ book.getId() }}" class="btn btn-primary" role="button">Edit</a>
+                        <a href="/admin/books/delete-{{ book.getId() }}" class="btn btn-primary" role="button">Delete</a>
 
                     </p>
                 </div>
             </div>
         </div>
 
-    <?php endforeach; ?>
+    {% endfor %}
 </div>
 
 <!--PAGINATION-->
@@ -68,3 +73,4 @@
     </ul>
 </nav>
 <!--END Pagination-->
+{% endblock body %}

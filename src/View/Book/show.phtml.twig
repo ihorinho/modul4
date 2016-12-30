@@ -2,19 +2,21 @@
 
 {% block title %}Cart | {{ book.getTitle() }}{% endblock title %}
 
-<h1>{{ book.getTitle() }}</h1>
-<hr>
-<div class="row">
-    <div class="col-md-3 col-sm-12 col-xs-12">
-        <img class="img-responsive" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
+{% block body %}
+    <h1>{{ book.getTitle() }}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <img class="img-responsive" src="/webroot/upload/avatars/{{ book.getId() }}.jpg"></img>
+        </div>
+        <div class="col-md-9 col-sm-12 col-sm-12">
+            <i>Id:{{ book.getId() }}</i>
+            <h3>{{ book.getTitle() }}</h3>
+            <p>Author: {{ book.getAuthor() }}</p>
+            <p>Style: {{ book.getStyle() }}</p>
+            <p>{{ book.getDescription() }}</p>
+            <p>Price: {{ book.getPrice() }} UAH</p>
+            <a href="/cart/add-{{ book.getId() }}" class="btn btn-primary" role="button">To cart</a>
+        </div>
     </div>
-    <div class="col-md-9 col-sm-12 col-sm-12">
-        <i>Id:<?=$book->getId()?> </i>
-        <h3>{{ book.getTitle() }}</h3>
-        <p>Author: <?=$book->getAuthor()?></p>
-        <p>Style: <?=$book->getStyle()?></p>
-        <p><?=$book->getDescription()?></p>
-        <p>Price: <?=$book->getPrice()?> UAH</p>
-        <a href="/cart/add-<?=$book->getId()?>" class="btn btn-primary" role="button">To cart</a>
-    </div>
-</div>
+{% endblock body %}

@@ -1,31 +1,31 @@
 {% extends 'admin_layout.phtml.twig' %}
 
-{% block title %}New Book{% endblock title %}
+{% block title %}Edit | {{ book.getTitle() }}{% endblock title %}
 
 {% block body %}
 
 <div class="row">
     <div class="col-md-4 edit-form">
-         <p>Id: <?=$book->getId()?></p>
-        <h3 class="book-title"><?=$book->getTitle()?></h3>
-        <img class="img-responsive" src="/webroot/upload/avatars/<?=$book->getId()?>.jpg"></img>
-        <p>Author: <?=$book->getAuthor()?></p>
-        <p>Style: <?=$book->getStyle()?></p>
+         <p>Id: {{ book.getId() }}</p>
+        <h3 class="book-title">{{ book.getTitle() }}</h3>
+        <img class="img-responsive" src="/webroot/upload/avatars/{{ book.getId() }}.jpg"></img>
+        <p>Author: {{ book.getAuthor() }}</p>
+        <p>Style: {{ book.getStyle() }}</p>
     </div>
     <div class="col-md-8">
         <form class="row" action="" method="post" enctype="multipart/form-data">
         <div class="col-md-6 edit-form">
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" class="form-control" name="title" id="title" value="<?=$book->getTitle()?>"/>
+                <input type="text" class="form-control" name="title" id="title" value="{{ book.getTitle() }}"/>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" name="description" id="description" rows="7" cols="50"><?=$book->getDescription()?></textarea>
+                <textarea class="form-control" name="description" id="description" rows="7" cols="50">{{ book.getDescription() }}</textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="text" class="form-control" name="price" id="price" value="<?=$book->getPrice()?> UAH"/>
+                <input type="text" class="form-control" name="price" id="price" value="{{ book.getPrice() }} UAH"/>
             </div>
             <div class="form-group">
                 <label for="book_cover">Change book cover:</label>
@@ -33,30 +33,28 @@
             </div>
             <div class="form-group">
                 <label for="is_active">Is active:</label>
-                <input type="text" class="form-control" name="is_active" id="is_active" value="<?=$book->IsActive()?>"/>
+                <input type="text" class="form-control" name="is_active" id="is_active" value="{{ book.isActive() }}"/>
             </div>
         </div>
         <div class="col-md-6 edit-form">
             <div class="form-group">
                 <label for="style">Change style:</label>
                 <select class="form-control" name="style" id="style">
-                    <?php foreach($styles as $style):
-                        $selected = $book->getStyleId() == $style->getId() ? 'selected' : '';
-                        ?>
-                        <option  <?=$selected?> value="<?=$style->getId()?>"><?=$style->getName()?></option>
-                    <?php endforeach?>
+                    {% for style in styles %}
+                        {% set selected = book.getStyleId() == style.getId() ? 'selected' %}
+                        <option  {{ selected }} value="{{ style.getId() }}">{{ style.getName() }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="authors">Change authors:</label>
                 <select multiple class="form-control author" name="authors[]" id="authors" rows="10">
-                    <?php foreach($authors as $author_id => $author_name):
-                        $selected = in_array($author_id, $book->getAuthorIds()) ? 'selected' : '';
-                        ?>
-                        <option  <?=$selected?> value="<?=$author_id?>"><?=$author_name?></option>
-                    <?php endforeach?>
+                    {% for author_id, author_name in authors %}
+                        {% set selected = in_array(author_id, book.getAuthorIds()) ? 'selected' %}
+                        <option {{ selected }} value="{{ author_id }}">{{ author_name }}</option>
+                    {% endfor %}
                 </select>
-                <input type="hidden" name="id" value="<?=$book->getId()?>"/>
+                <input type="hidden" name="id" value="{{ book.getId() }}"/>
 
             </div>
             <button type="submit" class="btn btn-default">Save</button>
@@ -64,11 +62,8 @@
         </form>
 
     </div>
-
-
-
 </div>
 
-
+{% endblock body %}
 
 

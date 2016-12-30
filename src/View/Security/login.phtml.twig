@@ -1,14 +1,16 @@
+{% extends 'default_layout.phtml.twig' %}
+
 {% block title %}Login{% endblock title %}
 
 {% block body %}
     <form action="" method="post">
         <div class="form-group">
             <label for="email">E-mail: </label>
-            <input type="email" id="email" class="form-control" name="email" placeholder="email@mail.com" value="<?=$loginForm->getEmail()?>">
+            <input type="email" id="email" class="form-control" name="email" placeholder="email@mail.com" value="{{ loginForm.getEmail() }}">
         </div>
         <div class="form-group">
             <label for="password">Password: </label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="password" value="<?=$loginForm->getpassword()?>">
+            <input type="password" class="form-control" name="password" id="password" placeholder="password" value="{{ loginForm.getpassword() }}">
         </div>
         <div class="checkbox">
             <label>
@@ -17,4 +19,4 @@
         </div>
         <button type="submit" class="btn btn-default">Login</button>
     </form>
-{% block body %}
+{% endblock body %}

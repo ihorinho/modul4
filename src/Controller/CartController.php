@@ -24,7 +24,7 @@ class CartController extends Controller{
 
         $books = $repo->getByIdArray($cart->show());
 
-        return $this->render('show_all.phtml', array('books' => $books));
+        return $this->render('show_all.phtml.twig', array('books' => $books));
     }
 
     public function addAction(Request $request){

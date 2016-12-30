@@ -45,6 +45,6 @@ class SecurityController extends Controller{
             $session->setFlash('Fill all fields!');
         }
 
-        return $this->render('change_pw.phtml', ['form' => $form]);
+        return $this->render('change_pw.phtml.twig', ['form' => $form]);
     }
 }

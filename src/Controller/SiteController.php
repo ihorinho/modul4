@@ -9,7 +9,7 @@ use Model\Feedback;
 class SiteController extends Controller{
 
     public function indexAction(Request $request){
-        return $this->render('index.phtml');
+        return $this->render('index.phtml.twig');
     }
 	public function contactAction(Request $request){
 		$form = new ContactForm($request);
@@ -29,6 +29,6 @@ class SiteController extends Controller{
 			}
 			$session->setFlash('Fill the fields');
 		}
-		return $this->render('contacts.phtml', ['form' => $form]);
+		return $this->render('contacts.phtml.twig', ['form' => $form]);
 	}
 }

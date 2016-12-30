@@ -27,7 +27,7 @@ class SecurityController extends Controller{
 			}
             $session->setFlash('Fill the fileds!');
 		}
-	return $this->render('login.phtml', $args=['loginForm' => $loginForm]);
+	return $this->render('login.phtml.twig', $args=['loginForm' => $loginForm]);
 	}
 
 	public function logoutAction(Request $request){

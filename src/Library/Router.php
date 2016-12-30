@@ -21,7 +21,7 @@ class Router{
         $uri = $path_parts[0];
 
         if(strpos($uri, '/admin') !== false){
-            Controller::setLayout('admin_layout.phtml');
+            Controller::setLayout('admin_layout.phtml.twig');
         }
 
         foreach($this->routes as $route){

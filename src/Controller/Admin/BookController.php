@@ -18,14 +18,13 @@ class BookController extends Controller{
         $booksCount = $repo->getCount(true);
         $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
         $pagination = new Pagination($currentPage, $booksCount, self::PER_PAGE);
-        $buttons = $pagination->getButtons();
         $offset = ($currentPage - 1) * self::PER_PAGE;
         $books = $repo->getAllActive($offset, self::PER_PAGE);
         if(!$books && $booksCount){
             $this->redirect('/books/list/1');
         }
-        $args = ['books'=>$books, 'buttons' => $buttons, 'page' => $currentPage];
-        return $this->render('index.phtml',$args);
+        $args = ['books'=>$books, 'pagination' => $pagination, 'page' => $currentPage];
+        return $this->render('index.phtml.twig',$args);
     }
 
     public function editAction(Request $request){
@@ -67,7 +66,7 @@ class BookController extends Controller{
         $authors = $repoAuthor->getAllFullNames();
 
         $args = ['book' => $book, 'authors' => $authors, 'styles' => $styles];
-        return $this->render('edit.phtml', $args);
+        return $this->render('edit.phtml.twig', $args);
     }
 
     public function deleteAction(Request $request){
@@ -92,7 +91,7 @@ class BookController extends Controller{
         $book = $repo->getById($id);
 
         $args = ['book' => $book];
-        return $this->render('show.phtml', $args);
+        return $this->render('show.phtml.twig', $args);
     }
 
     public function addAction(Request $request){
@@ -131,6 +130,6 @@ class BookController extends Controller{
         $authors = $repoAuthor->getAllFullNames();
 
         $args = ['authors' => $authors, 'styles' => $styles];
-        return $this->render('add_new.phtml', $args);
+        return $this->render('add_new.phtml.twig', $args);
     }
 }

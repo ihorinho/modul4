@@ -23,10 +23,13 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 //TODO: replace functions to saparate file
-function dump($data){
+function dump($data, $die = true){
     echo "<pre>";
     var_dump($data);
     echo "</pre>";
+  if($die){
+      die;
+  }
 }
 
 function clearString($string){
@@ -77,6 +80,6 @@ try{
 
 }catch(\Exception $e){
     $logger->addWarning('Exception: ', [$e->getCode(), $e->getMessage()]);
-    $content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $request->getSession());
+    $content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $e->getLine(), $request->getSession());
 }
 echo $content;

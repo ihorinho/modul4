@@ -8,30 +8,33 @@ class Controller{
 
 	protected function render($view, $args = array()){
         extract($args);
-        $session = $this->getSession();
+        $args['session'] = $this->getSession();
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
-		$file = VIEW . $classname . DS . $view;
-		if(!file_exists($file)){
-			throw new \Exception("Template {$file} doesn\'t exist");
-		}
+		$tpl_name = $classname . DS . $view;
+//		if(!file_exists($file)){
+//			throw new \Exception("Template {$file} doesn\'t exist");
+//		}
 
-		ob_start();
-		require $file;
-		$content = ob_get_clean();
+        $loader = new \Twig_Loader_Filesystem(VIEW);
+        $twig = new \Twig_Environment($loader, array(
+            'cache' => false
+        ));
+        $twigInArray = new \Twig_SimpleFunction('in_array', function ($needle, $haystack) {
+            return in_array($needle, $haystack);
+        });
+        $twig->addFunction($twigInArray);
 
-		ob_start();
-		require VIEW . DS .  self::$layout;
-		return ob_get_clean();
+        return $twig->render($tpl_name, $args);
 	}
 
-	public function renderError($message, $code = null, $session){
-        ob_start();
-		require VIEW . 'error.phtml';
-		$content = ob_get_clean();
+	public function renderError($message, $file, $line, $session){
+        $loader = new \Twig_Loader_Filesystem(VIEW);
+        $twig = new \Twig_Environment($loader, array(
+            'cache' => false
+        ));
 
-		ob_start();
-		require VIEW . self::$layout;
-		return ob_get_clean();
+        return $twig->render('error.phtml.twig', array('message' => $message, 'file' => $file,
+                                                        'line' => $line, 'session' => $session));
 	}
 
 
