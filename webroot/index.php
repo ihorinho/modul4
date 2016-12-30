@@ -21,6 +21,7 @@ use Library\Router;
 use Model\Cart;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Library\Registry;
 
 //TODO: replace functions to saparate file
 function dump($data, $die = true){
@@ -65,7 +66,18 @@ try{
               ->set('logger', $logger)
               ->set('cart', $cart);
 
-    //Define Controller and Action
+//Initialize twig
+    $loader = new \Twig_Loader_Filesystem(VIEW);
+    $twig = new \Twig_Environment($loader, array(
+        'cache' => false
+    ));
+    $twigInArray = new \Twig_SimpleFunction('in_array', function ($needle, $haystack) {
+        return in_array($needle, $haystack);
+    });
+    $twig->addFunction($twigInArray);
+    Registry::addToRegister('twig', $twig);
+
+//Define Controller and Action
     $route = $router->match($request)->getCurrentRoute();
     $controller = 'Controller\\' . $route->controller;
     $action = $route->action;

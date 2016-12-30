@@ -11,27 +11,17 @@ class Controller{
         $args['session'] = $this->getSession();
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
 		$tpl_name = $classname . DS . $view;
-//		if(!file_exists($file)){
-//			throw new \Exception("Template {$file} doesn\'t exist");
-//		}
+		if(!file_exists(VIEW . $tpl_name)){
+			throw new \Exception("Template " . VIEW . $tpl_name . " doesn\'t exist");
+		}
 
-        $loader = new \Twig_Loader_Filesystem(VIEW);
-        $twig = new \Twig_Environment($loader, array(
-            'cache' => false
-        ));
-        $twigInArray = new \Twig_SimpleFunction('in_array', function ($needle, $haystack) {
-            return in_array($needle, $haystack);
-        });
-        $twig->addFunction($twigInArray);
+        $twig = Registry::get('twig');
 
         return $twig->render($tpl_name, $args);
 	}
 
 	public function renderError($message, $file, $line, $session){
-        $loader = new \Twig_Loader_Filesystem(VIEW);
-        $twig = new \Twig_Environment($loader, array(
-            'cache' => false
-        ));
+        $twig = Registry::get('twig');
 
         return $twig->render('error.phtml.twig', array('message' => $message, 'file' => $file,
                                                         'line' => $line, 'session' => $session));
