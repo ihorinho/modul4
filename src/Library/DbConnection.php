@@ -10,8 +10,10 @@ class DbConnection{
 
 	public function __construct($config){
 
-        $dsn = 'mysql: host=' .$config->db_host . '; dbname=' . $config->db_name;
-		$this->pdo = new \PDO($dsn, $config->db_user, $config->db_password);
+        $db_config = $config->get('db');
+
+        $dsn = 'mysql: host=' .$db_config['db_host']. '; dbname=' . $db_config['db_name'];
+		$this->pdo = new \PDO($dsn, $db_config['db_user'], $db_config['db_password']);
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 

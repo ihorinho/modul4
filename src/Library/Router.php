@@ -7,8 +7,12 @@ class Router{
     private $routes;
     private $CurrentRoute;
 
-    public function __construct(){
-        $this->routes = require (CONFIG_PATH . 'routes.php');
+    public function __construct($config){
+        $routes_arr = $config->get('routes');
+        foreach($routes_arr as $route){
+            $route_params = isset($route['params']) ? $route['params'] : array();
+            $this->routes[] = new Route($route['pattern'], $route['controller'], $route['action'], $route_params);
+        }
     }
 
     public function getCurrentRoute()
@@ -29,7 +33,6 @@ class Router{
             foreach($route->params as $key => $value){
                 $pattern = str_replace('{' . $key . '}' , $value, $pattern);
             }
-
 
             if(preg_match($pattern, $uri, $match)){
                 $this->CurrentRoute = $route;

@@ -1,0 +1,96 @@
+routes:
+  home:
+    pattern: '/home/?'
+    controller: 'SiteController'
+    action: 'indexAction'
+  home_alt:
+    pattern: '/?'
+    controller: 'SiteController'
+    action: 'indexAction'
+  books-list:
+    pattern: /books/list/?{page}/?
+    controller: BookController
+    action: indexAction
+    params:
+      page: ([0-9]*)
+  contact-us:
+    pattern: /contact-us/?
+    controller: SiteController
+    action: contactAction
+  login:
+    pattern: /login/?
+    controller: SecurityController
+    action: loginAction
+  book-show:
+    pattern: book-{id}/?
+    controller: BookController
+    action: showAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  book-test-route:
+    pattern: /this-is-{test}-{id}-{pat}
+    controller: TestController
+    action: testAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+      test: ([a-zA-Z]+)
+      pat: ([\+\-\*\/]+)
+  logout:
+    pattern: /logout/?
+    controller: SecurityController
+    action: logoutAction
+  add_to_cart:
+    pattern: /cart/add-{id}/
+    controller: CartController
+    action: addAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  show_cart:
+    pattern: /cart/list/?
+    controller: CartController
+    action: showAction
+  delete_from_cart:
+    pattern: /cart/delete-{id}/?
+    controller: CartController
+    action: deleteAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+
+#  Admin routes
+
+  admin_index:
+    pattern: /admin/index/?
+    controller: Admin\SiteController
+    action: indexAction
+  admin_all_books:
+    pattern: /admin/books/list/?{page}/?
+    controller: Admin\BookController
+    action: indexAction
+    params:
+      page: ([0-9]*)
+  admin/book-show:
+    pattern: /admin/books/show-{id}/?
+    controller: Admin\BookController
+    action: showAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  admin_edit_book:
+    pattern: /admin/books/edit-{id}/?
+    controller: Admin\BookController
+    action: editAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  book_add:
+    pattern: /admin/books/add/?'
+    controller: Admin\BookController
+    action: addAction
+  admin_delete_book:
+    pattern: /admin/books/delete-{id}/?
+    controller: Admin\BookController
+    action: deleteAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  change_password:
+    pattern: /admin/change-pw
+    controller: Admin\SecurityController
+    action: changeAction

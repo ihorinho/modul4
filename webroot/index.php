@@ -50,7 +50,7 @@ spl_autoload_register(function($classname){
 try{
     $config = new Config();
 	$request = new Request();
-    $router = new Router();
+    $router = new Router($config);
     $cart = new Cart($request);
     $logger = new Logger('LOGGER');
     $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
