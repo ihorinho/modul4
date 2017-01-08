@@ -1,8 +1,6 @@
 <?php
 namespace Library;
 
-use Library\Session;
-
 class Request{
 	private $get;
 	private $post;
@@ -36,6 +34,10 @@ class Request{
 
     public function getIpAddress(){
         return $this->server('REMOTE_ADDR');
+    }
+
+    public function getMethod(){
+        return $this->server('REQUEST_METHOD');
     }
 
 	public function getUri(){

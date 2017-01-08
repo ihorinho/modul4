@@ -1,6 +1,8 @@
 <?php
 namespace Library;
 
+use Library\API\FormatterFactory;
+
 class Controller{
     const PER_PAGE = 12;
 	protected $container;
@@ -61,5 +63,12 @@ class Controller{
     public function redirect($to){
         $router = $this->container->get('router');
         $router->redirect($to);
+    }
+
+    public function getOutputFormatter(Request $request){
+        $default_format = $this->container->get('config')->get('default_api_format');
+        $format = $request->get('format', $default_format);
+
+        return FormatterFactory::create($format);
     }
 }

@@ -17,10 +17,14 @@ class BookRepository extends EntityRepository{
         return (int)$sth->fetchColumn();
     }
 
-    public function getAll(){
+    public function getAll($hydrateArray = false){
 
-        $sql = "SELECT * FROM book";
+        $sql = "SELECT * FROM book WHERE is_active = 1";
         $sth = $this->pdo->query($sql);
+
+        if($hydrateArray){
+            return $sth->fetchAll(\PDO::FETCH_ASSOC);
+        }
 
         return $this->getBooksArray($sth);
     }
@@ -32,13 +36,17 @@ class BookRepository extends EntityRepository{
         return $this->getBooksArray($sth);
     }
 
-    public function getById($id){
+    public function getById($id, $hydrateArray = false){
 
         $sql = "SELECT * FROM book WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
         $sth->execute(array('id' => $id));
 
-        return $this->getBooksArray($sth, true);
+        if($hydrateArray){
+            return $sth->fetch(\PDO::FETCH_ASSOC);
+        }
+
+        return $this->getBooksArray($sth, $single = true);
     }
 
     public function getByIdArray(Array $ids){
@@ -86,7 +94,8 @@ class BookRepository extends EntityRepository{
 
         $sql = "UPDATE book SET is_active = 0 WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
-        $sth->execute(array('id' => $id));
+
+        return $sth->execute(array('id' => $id));
     }
 
     public function insertBook(Book $book){
@@ -144,5 +153,16 @@ class BookRepository extends EntityRepository{
         }
 
         return $this;
+    }
+
+    public function getBooksIds(){
+        $query = "SELECT id FROM book ORDER BY id";
+        $sth = $this->pdo->query($query);
+        $fetchedArray = $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $result = array();
+        foreach($fetchedArray as $row){
+            $result[] = $row['id'];
+        }
+        return $result;
     }
 }

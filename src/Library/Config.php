@@ -21,7 +21,9 @@ class Config{
                         if(empty($data)){
                             throw new \Exception("{$file} is empty");
                         }
-                        $this->config[$config_key] = array_shift($data);
+                        foreach($data as $key => $value){
+                            $this->config[$key] = $value;
+                        }
                         break;
                     case 'xml':
                         $XMLObject = simplexml_load_file(CONFIG_PATH . $file, 'SimpleXMLElement', LIBXML_NOWARNING);

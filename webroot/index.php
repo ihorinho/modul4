@@ -48,12 +48,12 @@ spl_autoload_register(function($classname){
 });
 
 try{
+    $logger = new Logger('LOGGER');
+    $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
     $config = new Config();
 	$request = new Request();
     $router = new Router($config);
     $cart = new Cart($request);
-    $logger = new Logger('LOGGER');
-    $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
     $pdo = (new DbConnection($config))->getPDO();
     $repository = (new RepositoryManager())->setPDO($pdo);
 
@@ -81,7 +81,6 @@ try{
     $route = $router->match($request)->getCurrentRoute();
     $controller = 'Controller\\' . $route->controller;
     $action = $route->action;
-
 //	if(!method_exists(new $controller, $action)){
 //		throw new \Exception('404 Page Not Found');
 //	}
@@ -94,4 +93,4 @@ try{
     $logger->addWarning('Exception: ', [$e->getCode(), $e->getMessage()]);
     $content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $e->getLine(), $request->getSession());
 }
-echo $content;
+echo ($content) ;

@@ -94,3 +94,41 @@ routes:
     pattern: /admin/change-pw
     controller: Admin\SecurityController
     action: changeAction
+
+#    API routes
+  api_book_list:
+    pattern: /api/books/?
+    controller: API\BookController
+    action: indexAction
+    methods:
+            0: get
+  api_book_item:
+    pattern: /api/books/{id}/?
+    controller: API\BookController
+    action: showAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+    methods:
+            0: get
+  api_book_create:
+    pattern: /api/books/?
+    controller: API\BookController
+    action: addAction
+    methods:
+            0: post
+  api_book_delete:
+    pattern: /api/books/{id}/?
+    controller: API\BookController
+    action: deleteAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+    methods:
+            0: delete
+  api_book_update:
+      pattern: /api/books/{id}/?
+      controller: API\BookController
+      action: updateAction
+      params:
+        id: ([1-9]{1}[0-9]*)
+      methods:
+        0: put
