@@ -19,7 +19,7 @@ class BookRepository extends EntityRepository{
 
     public function getAll($hydrateArray = false){
 
-        $sql = "SELECT * FROM book WHERE is_active = 1";
+        $sql = "SELECT * FROM book";
         $sth = $this->pdo->query($sql);
 
         if($hydrateArray){
@@ -28,6 +28,32 @@ class BookRepository extends EntityRepository{
 
         return $this->getBooksArray($sth);
     }
+
+    public function getAllSorted($sortParam, $session){
+        $allowedParams = array('id', 'title', 'price', 'is_active');
+        $sortOrder = 'ASC';
+
+        $sql = "SELECT * FROM book";
+
+        if($sortParam && in_array($sortParam, $allowedParams)){
+            $sorted = $session->get('sort');
+            if($sortParam == $sorted){
+                $order = $session->get('order');
+                $sortOrder = $order == 'ASC' ? 'DESC' : 'ASC';
+            }
+
+            $session->set('sort', $sortParam);
+            $session->set('order', $sortOrder);
+
+            $sql .= " ORDER BY $sortParam $sortOrder";
+        }
+
+        $sth = $this->pdo->query($sql);
+
+        return $this->getBooksArray($sth);
+    }
+
+
 
     public function getAllActive($offset, $count){
 

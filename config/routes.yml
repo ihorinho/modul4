@@ -68,6 +68,10 @@ routes:
     action: indexAction
     params:
       page: ([0-9]*)
+  admin_table:
+    pattern: /admin/books/table/?
+    controller: Admin\BookController
+    action: tableAction
   admin/book-show:
     pattern: /admin/books/show-{id}/?
     controller: Admin\BookController

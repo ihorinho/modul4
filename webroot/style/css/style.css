@@ -33,7 +33,12 @@ form > div{
     height: 300px;
 }
 /*---------------------------------*/
-
+/* Admin books table*/
+.table-responsive .table{
+    max-width: 750px !important;
+    margin: auto;
+}
+/*---------------------------------*/
 div.caption h3{
     margin-top: 10px !important;
 }

@@ -12,8 +12,9 @@ class BookController extends Controller{
     const BOOK_COVER_FILE = 'book_cover';
 
     public function indexAction(Request $request){
-
         $this->isAdmin();
+        $session = $request->getSession();
+        $session->set('uri', $_SERVER['REQUEST_URI']);
         $repo = $this->container->get('repository_manager')->getRepository('Book');
         $booksCount = $repo->getCount(true);
         $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
@@ -74,11 +75,14 @@ class BookController extends Controller{
         if(null === ($id = $request->get('id'))){
             return 'Error! Book not found';
         }
-
+        $session = $request->getSession();
         $repo = $this->container->get('repository_manager')->getRepository('Book');
         $repo->deleteById($id);
         $this->saveLog('Book with id: ' . $id . ' deleted');
-        $this->redirect('/admin/books/list');
+
+        $redirect = $session->get('uri', '/admin/books/list');
+
+        $this->redirect($redirect);
 
     }
 
@@ -131,5 +135,17 @@ class BookController extends Controller{
 
         $args = ['authors' => $authors, 'styles' => $styles];
         return $this->render('add_new.phtml.twig', $args);
+    }
+
+    public function tableAction(Request $request){
+        $this->isAdmin();
+        $sortParam = $request->get('sort');
+        $session = $request->getSession();
+        $session->set('uri', $_SERVER['REQUEST_URI']);
+
+        $repo = $this->container->get('repository_manager')->getRepository('Book');
+        $books = $repo->getAllSorted($sortParam, $session);
+        $args = ['books'=>$books];
+        return $this->render('books_table.phtml.twig',$args);
     }
 }

@@ -12,15 +12,15 @@
         {% set next = pagination.getNext() %}
         {% set buttons = pagination.getButtons() %}
         {% if prev.isActive() %}
-        <li><a href="/books/list/{{ page - 1 }}"><span aria-hidden="true">&laquo;</span></a></li>
+        <li><a href="/admin/books/list/{{ page - 1 }}"><span aria-hidden="true">&laquo;</span></a></li>
         {% else %}
         <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
         {% endif %}
         {% for button in buttons %}
-        <li {{ page == button.getPage() ? 'class="active"' }}><a href="/books/list/{{ button.getPage() }}">{{ button.getText() }}</a></li>
+        <li {{ page == button.getPage() ? 'class="active"' }}><a href="/admin/books/list/{{ button.getPage() }}">{{ button.getText() }}</a></li>
         {% endfor %}
         {% if next.isActive() %}
-        <li><a href="/books/list/{{ page + 1 }}"><span aria-hidden="true">&raquo;</span></a></li>
+        <li><a href="/admin/books/list/{{ page + 1 }}"><span aria-hidden="true">&raquo;</span></a></li>
         {% else %}
         <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
         {% endif %}
@@ -58,15 +58,15 @@
         {% set next = pagination.getNext() %}
         {% set buttons = pagination.getButtons() %}
         {% if prev.isActive() %}
-        <li><a href="/books/list/{{ page - 1 }}"><span aria-hidden="true">&laquo;</span></a></li>
+        <li><a href="/admin/books/list/{{ page - 1 }}"><span aria-hidden="true">&laquo;</span></a></li>
         {% else %}
         <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
         {% endif %}
         {% for button in buttons %}
-        <li {{ page == button.getPage() ? 'class="active"' }}><a href="/books/list/{{ button.getPage() }}">{{ button.getText() }}</a></li>
+        <li {{ page == button.getPage() ? 'class="active"' }}><a href="/admin/books/list/{{ button.getPage() }}">{{ button.getText() }}</a></li>
         {% endfor %}
         {% if next.isActive() %}
-        <li><a href="/books/list/{{ page + 1 }}"><span aria-hidden="true">&raquo;</span></a></li>
+        <li><a href="/admin/books/list/{{ page + 1 }}"><span aria-hidden="true">&raquo;</span></a></li>
         {% else %}
         <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
         {% endif %}
