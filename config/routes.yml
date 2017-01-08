@@ -22,7 +22,7 @@ routes:
     controller: SecurityController
     action: loginAction
   book-show:
-    pattern: book-{id}/?
+    pattern: /book-{id}/?
     controller: BookController
     action: showAction
     params:
@@ -40,7 +40,7 @@ routes:
     controller: SecurityController
     action: logoutAction
   add_to_cart:
-    pattern: /cart/add-{id}/
+    pattern: /cart/add-{id}/?
     controller: CartController
     action: addAction
     params:

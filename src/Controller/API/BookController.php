@@ -8,7 +8,15 @@ use Model\Book;
 
 class BookController extends Controller{
 
-	public function indexAction(Request $request){
+    //GET books: curl http://host/api/books
+    //GET books: curl http://host/api/books?format=xml
+    //GET books: curl http://host/api/books?format=html
+    //GET book: curl http://host/api/books/15
+    //UPDATE book: curl -X PUT -d '{"title":"Edited book","price":500,"description":"edited with api","is_active":1,"authors":[1,2,3],"style_id":1}' http://host/api/books/6
+    //DELETE book: curl -X DELETE mymvc/api/books/5
+    //ADD new Book: curl -X POST -d json='{"title":"New book","price":555,"description":"This book was added with api","is_active":1,"authors":[5,7,9],"style_id":5}' http://host/api/books/
+
+    public function indexAction(Request $request){
         $outputFormatter = $this->getOutputFormatter($request);
 
         $repo = $this->container->get('repository_manager')->getRepository('Book');
@@ -33,11 +41,45 @@ class BookController extends Controller{
         if(!$book['is_active']){
             return new Response(403, 'Book is not active', $outputFormatter);
         }
+        $response = array('book' => $book);
 
-        return new Response(200, $book, $outputFormatter);
+        return new Response(200, $response, $outputFormatter);
 	}
 
     public function addAction(Request $request){
+        $outputFormatter = $this->getOutputFormatter($request);
+        $repo = $this->container->get('repository_manager')->getRepository('Book');
+
+        if(!$dataString = $request->post('json')){
+            return new Response(400, 'Bad request', $outputFormatter);
+        }
+
+        $postData = json_decode($dataString, $assoc = true);
+        if(empty($postData['title']) or
+            empty($postData['price']) or
+            empty($postData['authors']) or
+            empty($postData['style_id'])
+        ){
+            return new Response(400, 'Bad request, send title,price,style_id and authors[]', $outputFormatter);
+        }
+
+        $description = isset($postData['description']) ? $postData['description'] : '';
+        $is_active = isset($postData['is_active']) ? $postData['is_active'] : 0;
+
+        $book = (new Book())->setTitle( $postData['title'])
+            ->setDescription($description)
+            ->setPrice($postData['price'])
+            ->setStyleId($postData['style_id'])
+            ->setAuthorIds($postData['authors'])
+            ->setIsActive($is_active);
+
+        $repo->insertBook($book);
+        $newBookId = $repo->getLastInsertId();
+        $repo->insertBookAuthor($newBookId,$book->getAuthorIds());
+
+        $this->saveLog('New book added');
+
+        return new Response(200, 'New book added', $outputFormatter);
     }
 
     public function deleteAction(Request $request){
@@ -82,19 +124,15 @@ class BookController extends Controller{
             return new Response(400, 'Bad request', $outputFormatter);
         }
 
-        $title = $putData['title'];
-        $price = $putData['price'];
-        $authors = $putData['authors'];
         $description = isset($putData['description']) ? $putData['description'] : '';
-        $style_id = $putData['style_id'];
         $is_active = isset($putData['is_active']) ? $putData['is_active'] : 0;
 
-        $editedBook = (new Book())->setTitle($title)
+        $editedBook = (new Book())->setTitle( $putData['title'])
             ->setDescription($description)
             ->setId($bookId)
-            ->setPrice($price)
-            ->setStyleId($style_id)
-            ->setAuthorIds($authors)
+            ->setPrice($putData['price'])
+            ->setStyleId($putData['style_id'])
+            ->setAuthorIds($putData['authors'])
             ->setIsActive($is_active);
 
         $repo->updateBook($editedBook)

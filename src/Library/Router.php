@@ -2,6 +2,8 @@
 
 namespace Library;
 
+use Library\Exception\ApiException;
+
 class Router{
 
     private $routes;
@@ -60,6 +62,9 @@ class Router{
             }
         }
         if(empty($this->CurrentRoute)){
+            if($this->apiRequest){
+                throw new ApiException('Bad request');
+            }
             throw new \Exception('404 Page Not Found');
         }
         return $this;

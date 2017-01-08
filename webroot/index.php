@@ -22,6 +22,7 @@ use Model\Cart;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Library\Registry;
+use Library\Exception\ApiException;
 
 //TODO: replace functions to saparate file
 function dump($data, $die = true){
@@ -81,16 +82,16 @@ try{
     $route = $router->match($request)->getCurrentRoute();
     $controller = 'Controller\\' . $route->controller;
     $action = $route->action;
-//	if(!method_exists(new $controller, $action)){
-//		throw new \Exception('404 Page Not Found');
-//	}
 
 	$controller = new $controller;
 	$controller->setContainer($container);
 	$content = $controller->$action($request);
 
+}catch(ApiException $e){
+    $content = $e->getResponse();
 }catch(\Exception $e){
     $logger->addWarning('Exception: ', [$e->getCode(), $e->getMessage()]);
     $content = (new Controller())->renderError($e->getMessage(), $e->getFile(), $e->getLine(), $request->getSession());
 }
-echo ($content) ;
+echo $content;
+
