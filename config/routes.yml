@@ -21,6 +21,10 @@ routes:
     pattern: /login/?
     controller: SecurityController
     action: loginAction
+  register:
+      pattern: /register/?
+      controller: SecurityController
+      action: registerAction
   book-show:
     pattern: /book-{id}/?
     controller: BookController

@@ -30,4 +30,22 @@ class UserRepository extends EntityRepository{
         $sth = $this->pdo->prepare($sql);
         return $sth->execute(['password' => $password]);
     }
+
+    public function addNew($email, $password){
+        $sql = "INSERT INTO user
+                SET email = :email, password = :password";
+        $sth = $this->pdo->prepare($sql);
+        return $sth->execute(['email' => $email, 'password' => $password]);
+    }
+
+    public function userExists($email){
+        $sql = "SELECT count(*)
+                FROM user
+                WHERE email = :email";
+
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute(['email' => $email]);
+        $result = $sth->fetchColumn();
+       return (int)$result;
+    }
 }

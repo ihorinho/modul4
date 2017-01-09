@@ -1,7 +1,7 @@
 html{
-    margin: 10px 25px 0;
+    margin: 10px 50px 0;
 }
-ul li:last-child{
+ul li.float-right{
     float: right;
 }
 
@@ -39,6 +39,22 @@ form > div{
     margin: auto;
 }
 /*---------------------------------*/
+/* Captcha field styles*/
+.captcha-group::after{
+    display: block;
+    content: '';
+    clear: both;
+}
+.captcha-input{
+    float: left;
+    width: 50%;
+}
+.captcha-img{
+    float: right;
+    margin: 10px 10px 0;
+}
+/*--------------------------------*/
+
 div.caption h3{
     margin-top: 10px !important;
 }

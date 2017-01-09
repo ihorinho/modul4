@@ -3,7 +3,9 @@ namespace Controller;
 use Library\Controller;
 use Library\Request;
 use Model\Forms\LoginForm;
+use Model\Forms\RegisterForm;
 use Library\Password;
+use Gregwar\Captcha\CaptchaBuilder;
 
 class SecurityController extends Controller{
 	
@@ -27,7 +29,7 @@ class SecurityController extends Controller{
 			}
             $session->setFlash('Fill the fileds!');
 		}
-	return $this->render('login.phtml.twig', $args=['loginForm' => $loginForm]);
+	    return $this->render('login.phtml.twig', $args=['loginForm' => $loginForm]);
 	}
 
 	public function logoutAction(Request $request){
@@ -38,6 +40,38 @@ class SecurityController extends Controller{
 	}
 
 	public function registerAction(Request $request){
-		//to do
+        $builder = new CaptchaBuilder;
+        $builder->build();
+        $session = $this->getSession();
+        $phrase = $session->get('captcha');
+        $session->set('captcha', $builder->getPhrase());
+        $registerForm = new RegisterForm($request);
+        $args = array('registerForm' => $registerForm, 'builder' => $builder);
+        if($request->isPost()){
+            if($registerForm->isValid()){
+               if($registerForm->passwordsMatch()){
+                   if($phrase == $registerForm->getPhrase()){
+                       $password = new Password($registerForm->getPassword());
+                       $repo = $this->container->get('repository_manager')->getRepository('User');
+                       if($repo->userExists($registerForm->getEmail())){
+                           $session->setFlash('User ' . $registerForm->getEmail() . ' already exists!');
+                           return $this->render('register.phtml.twig', $args);
+                       }
+                       if(!$repo->addNew($registerForm->getEmail(), $password)){
+                           throw new \Exception('Error, new user not created');
+                       }
+                       $this->saveLog('Success, user created!' ,[$registerForm->getEmail()]);
+                       $session->setFlash('Success, user created!');
+                       $this->redirect('/home');
+                   }
+                   $session->setFlash('Not correct phrase from picture');
+                   return $this->render('register.phtml.twig', $args);
+               }
+                $session->setFlash('Passwords not match');
+                return $this->render('register.phtml.twig', $args);
+            }
+            $session->setFlash('Fill the fileds!');
+        }
+        return $this->render('register.phtml.twig', $args);
 	}
 }
