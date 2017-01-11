@@ -22,9 +22,13 @@ routes:
     controller: SecurityController
     action: loginAction
   register:
-      pattern: /register/?
-      controller: SecurityController
-      action: registerAction
+    pattern: /register/?
+    controller: SecurityController
+    action: registerAction
+  register_confirmation:
+    pattern: /confirm/?
+    controller: SecurityController
+    action: confirmAction
   book-show:
     pattern: /book-{id}/?
     controller: BookController

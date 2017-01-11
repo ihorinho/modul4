@@ -16,7 +16,7 @@ class SecurityController extends Controller{
 			if($loginForm->isValid()){
 				$password = new Password($loginForm->getPassword());
 				$repo = $this->container->get('repository_manager')->getRepository('User');
-				if($user = $repo->find($loginForm->getEmail(), $password)){
+				if($user = $repo->find($loginForm->getEmail(), $password, $is_active = 1)){
                     $session->set('user', $user->getEmail())
                             ->setFlash('Success. You logged in');
                     $this->saveLog('Success logging' , [$user->getEmail()]);
@@ -57,11 +57,29 @@ class SecurityController extends Controller{
                            $session->setFlash('User ' . $registerForm->getEmail() . ' already exists!');
                            return $this->render('register.phtml.twig', $args);
                        }
-                       if(!$repo->addNew($registerForm->getEmail(), $password)){
+                       $confirmationCode = md5(md5(uniqid()));
+                       if(!$repo->addNew($registerForm->getEmail(), $password, $confirmationCode)){
                            throw new \Exception('Error, new user not created');
                        }
+                       $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
+                           ->setUsername('ihorinho')
+                           ->setPassword('igor1990')
+                       ;
+                       // Create the Mailer using your created Transport
+                       $mailer = \Swift_Mailer::newInstance($transport);
+
+                        // Create a message
+                       $message = \Swift_Message::newInstance('ihorinho.ho.ua registration confirmation')
+                           ->setFrom(array('ihorinho@gmail.com' => 'Igor Pelekhatyy'))
+                           ->setTo(array($registerForm->getEmail()))
+                           ->addPart('<p>Hello!</p><p>To confirm your registration on ihorinho.ho.ua, please click this link:</p>
+                               <p>http://mymvc/confirm?user=' . $registerForm->getEmail() . '&code=' .$confirmationCode . '</p>', 'text/html')
+                       ;
+
+                        // Send the message
+                       $result = $mailer->send($message);
                        $this->saveLog('Success, user created!' ,[$registerForm->getEmail()]);
-                       $session->setFlash('Success, user created!');
+                       $session->setFlash('Success, user ' . $registerForm->getEmail() . ' added! To active user, confirm your email');
                        $this->redirect('/home');
                    }
                    $session->setFlash('Not correct phrase from picture');
@@ -74,4 +92,27 @@ class SecurityController extends Controller{
         }
         return $this->render('register.phtml.twig', $args);
 	}
+
+    public function confirmAction(Request $request){
+        $session = $this->getSession();
+        $user = $request->get('user', null);
+        $code = $request->get('code', null);
+        if($user === null or
+            $code === null){
+            $session->setFlash('Bad request for registration confirmation');
+            $this->redirect('/');
+        }
+        $repo = $this->container->get('repository_manager')->getRepository('User');
+
+        if($repo->userExists($user)){
+            if($repo->activate($user,$code)){
+                $session->setFlash('Success, user ' . $user . ' activated!');
+                $this->redirect('/');
+            }
+            $session->setFlash('Bad request for registration confirmation of' . $user);
+            $this->redirect('/');
+        }
+        $session->setFlash($user . ' not exists!');
+        $this->redirect('/');
+    }
 }

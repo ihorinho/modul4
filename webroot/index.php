@@ -49,6 +49,8 @@ spl_autoload_register(function($classname){
 });
 
 try{
+
+
     $logger = new Logger('LOGGER');
     $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
     $config = new Config();

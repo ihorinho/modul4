@@ -3,6 +3,7 @@
         "monolog/monolog": "^1.22",
         "symfony/yaml": "^3.2",
         "gregwar/captcha": "^1.1",
-        "twig/twig": "^1.30"
+        "twig/twig": "^1.30",
+        "swiftmailer/swiftmailer": "^5.4"
     }
 }
