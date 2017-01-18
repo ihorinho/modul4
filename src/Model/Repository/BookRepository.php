@@ -118,7 +118,8 @@ class BookRepository extends EntityRepository{
 
     public function deleteById($id){
 
-        $sql = "UPDATE book SET is_active = 0 WHERE id = :id";
+        // $sql = "UPDATE book SET is_active = 0 WHERE id = :id";
+        $sql = "DELETE FROM book WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
 
         return $sth->execute(array('id' => $id));

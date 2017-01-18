@@ -38,6 +38,13 @@ form > div{
     max-width: 750px !important;
     margin: auto;
 }
+
+.book-description{
+    display: none;
+    position: absolute;
+    width: 350px;
+
+}
 /*---------------------------------*/
 /* Captcha field styles*/
 .captcha-group::after{

@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>{% block title %}Admin panel{% endblock title %}</title>
-	<link rel="stylesheet" href="/webroot/style/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/webroot/style/css/style.css">
-	<script src="/webroot/style/js/jquery-3.1.1.min.js"></script>
-	<script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
-	<header>
-		<ul class="nav nav-pills">
-			<li role="presentation"><a href="/admin/index">Home</a></li>
-			<li role="presentation"><a href="/admin/books/list">Books</a></li>
-			<li role="presentation"><a href="/admin/books/table">Summary</a></li>
-			<li role="presentation"><a href="/admin/books/add">Add Book</a></li>
-			<li class="float-right" role="presentation"><a href="/logout">Logout</a></li>
-		</ul>
-        <p style="float: right;"><i>{{ session.get('user') }}</i></p>
-	</header>
-	
-	<b>{{ session.getFlash() }}</b>
-	<hr/>
-	{% block body %}Body{% endblock body %}
-</body>
-<script src="/webroot/style/js/navbar.js"></script>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}Admin panel{% endblock title %}</title>
+		<link rel="stylesheet" href="/webroot/style/bootstrap/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="/webroot/style/css/style.css">
+		<script src="/webroot/js/jquery-3.1.1.min.js"></script>
+		<script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/webroot/js/scripts.js"></script>
+	</head>
+	<body>
+		<header>
+			<ul class="nav nav-pills">
+				<li role="presentation"><a href="/admin/index">Home</a></li>
+				<li role="presentation"><a href="/admin/books/list">Books</a></li>
+				<li role="presentation"><a href="/admin/books/table">Summary</a></li>
+				<li role="presentation"><a href="/admin/books/add">Add Book</a></li>
+				<li class="float-right" role="presentation"><a href="/logout">Logout</a></li>
+			</ul>
+	        <p style="float: right;"><i>{{ session.get('user') }}</i></p>
+		</header>
+		
+		<b>{{ session.getFlash() }}</b>
+		<hr/>
+		{% block body %}Body{% endblock body %}
+	</body>
 </html>

@@ -93,7 +93,7 @@ routes:
     params:
       id: ([1-9]{1}[0-9]*)
   book_add:
-    pattern: /admin/books/add/?'
+    pattern: /admin/books/add/?
     controller: Admin\BookController
     action: addAction
   admin_delete_book:
