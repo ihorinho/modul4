@@ -40,36 +40,20 @@ function clearString($string){
 
 //Autoload 
 spl_autoload_register(function($classname){
-	$path = SRC_PATH . str_replace('\\', DS, $classname). '.php';
-	if(!file_exists(SRC_PATH . str_replace('\\', DS, $classname). '.php')){
-		throw new \Exception("Class $classname doesn't exist- {$path}");
-	}
+    $path = SRC_PATH . str_replace('\\', DS, $classname). '.php';
+    if(!file_exists(SRC_PATH . str_replace('\\', DS, $classname). '.php')){
+        throw new \Exception("Class $classname doesn't exist- {$path}");
+    }
 
-	require(SRC_PATH . str_replace('\\', DS, $classname . '.php'));
+    require(SRC_PATH . str_replace('\\', DS, $classname . '.php'));
 });
 
 try{
-
-
+    //Initialize logger
     $logger = new Logger('LOGGER');
     $logger->pushHandler(new StreamHandler(LOG_DIR . 'log.txt', Logger::DEBUG));
-    $config = new Config();
-	$request = new Request();
-    $router = new Router($config);
-    $cart = new Cart($request);
-    $pdo = (new DbConnection($config))->getPDO();
-    $repository = (new RepositoryManager())->setPDO($pdo);
 
-	$container = new Container();
-	$container->set('database_connection', $pdo)
-	          ->set('repository_manager', $repository)
-              ->set('request', $request)
-              ->set('config', $config)
-              ->set('router', $router)
-              ->set('logger', $logger)
-              ->set('cart', $cart);
-
-//Initialize twig
+    //Initialize twig
     $loader = new \Twig_Loader_Filesystem(VIEW);
     $twig = new \Twig_Environment($loader, array(
         'cache' => false
@@ -80,14 +64,30 @@ try{
     $twig->addFunction($twigInArray);
     Registry::addToRegister('twig', $twig);
 
-//Define Controller and Action
+    $config = new Config();
+    $request = new Request();
+    $router = new Router($config);
+    $cart = new Cart($request);
+    $pdo = (new DbConnection($config))->getPDO();
+    $repository = (new RepositoryManager())->setPDO($pdo);
+
+    $container = new Container();
+    $container->set('database_connection', $pdo)
+              ->set('repository_manager', $repository)
+              ->set('request', $request)
+              ->set('config', $config)
+              ->set('router', $router)
+              ->set('logger', $logger)
+              ->set('cart', $cart);
+
+    //Define Controller and Action
     $route = $router->match($request)->getCurrentRoute();
     $controller = 'Controller\\' . $route->controller;
     $action = $route->action;
 
-	$controller = new $controller;
-	$controller->setContainer($container);
-	$content = $controller->$action($request);
+    $controller = new $controller;
+    $controller->setContainer($container);
+    $content = $controller->$action($request);
 
 }catch(ApiException $e){
     $content = $e->getResponse();
