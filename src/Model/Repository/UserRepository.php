@@ -16,11 +16,12 @@ class UserRepository extends EntityRepository{
 		if(!$user){
             return false;
         }
+
         $user = (new User())
             ->setId($user['id'])
             ->setEmail($user['email'])
-            ->setPassword($user['password']);
-
+            ->setPassword($user['password'])
+            ->setAdmin( (int) $user['admin']);
 		return $user;
 	}
 

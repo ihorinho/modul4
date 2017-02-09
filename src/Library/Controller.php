@@ -42,9 +42,9 @@ class Controller{
 
     protected function isAdmin(){
         $session = $this->getSession();
-        if(!$session->has('user')){
+        if($session->get('admin') !== 1){
             $router = $this->container->get('router');
-            $session->setFlash('Restricted Area!!! Must login')->set('uri', $_SERVER['REQUEST_URI']);
+            $session->setFlash('Restricted Area!!! Must login or to be Administrator')->set('uri', $_SERVER['REQUEST_URI']);
             $this->saveLog('Unauthorized user try to enter admin panel');
             $router->redirect('/login');
         }

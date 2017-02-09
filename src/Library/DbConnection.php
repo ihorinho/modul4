@@ -15,6 +15,7 @@ class DbConnection{
         $dsn = 'mysql: host=' .$db_config['db_host']. '; dbname=' . $db_config['db_name'];
 		$this->pdo = new \PDO($dsn, $db_config['db_user'], $db_config['db_password']);
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo->exec('set names utf8');
 	}
 
 	public static function getInstance(){

@@ -10,6 +10,8 @@ class User{
 
 	private $password;
 
+	private $admin;
+
     /**
      * @param mixed $id
      */
@@ -46,4 +48,16 @@ class User{
 
 		return $this->password;
 	}
+
+	public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    public function isAdmin()
+    {
+        return $this->admin === 777 ? true : false;
+    }
 }

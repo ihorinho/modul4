@@ -1,3 +1,4 @@
 webroot/upload/*
 .idea/*
 log/*
+mymvc/*

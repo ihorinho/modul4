@@ -17,11 +17,18 @@ class SecurityController extends Controller{
 				$password = new Password($loginForm->getPassword());
 				$repo = $this->container->get('repository_manager')->getRepository('User');
 				if($user = $repo->find($loginForm->getEmail(), $password, $is_active = 1)){
+                    if($user->isAdmin()){
+                        $session->set('admin', 1)
+                                ->set('user', $user->getEmail())
+                                ->setFlash('Hello, admin. You logged in');
+                        $this->saveLog('Success logging' , [$user->getEmail()]);
+                        $redirect = $session->has('uri') ? $session->get('uri') : '/admin/index';
+                        $this->redirect($redirect);
+                    }
                     $session->set('user', $user->getEmail())
-                            ->setFlash('Success. You logged in');
+                          ->setFlash('Success. You logged in');
                     $this->saveLog('Success logging' , [$user->getEmail()]);
-                    $redirect = $session->has('uri') ? $session->get('uri') : '/admin/index';
-                    $this->redirect($redirect);
+                    $this->redirect('/');
 				}
                 $session->setFlash('User not found!');
                 $this->saveLog('User not found', [$loginForm->getEmail()]);

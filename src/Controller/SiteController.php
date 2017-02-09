@@ -10,6 +10,8 @@ use Gregwar\Captcha\CaptchaBuilder;
 class SiteController extends Controller{
 
     public function indexAction(Request $request){
+        $repo = $this->container->get('repository_manager')->getRepository('News');
+        dump($repo->getLastNewsList(5));
         return $this->render('index.phtml.twig');
     }
 	public function contactAction(Request $request){

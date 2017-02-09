@@ -67,7 +67,6 @@ try{
     $config = new Config();
     $request = new Request();
     $router = new Router($config);
-    $cart = new Cart($request);
     $pdo = (new DbConnection($config))->getPDO();
     $repository = (new RepositoryManager())->setPDO($pdo);
 
@@ -77,8 +76,7 @@ try{
               ->set('request', $request)
               ->set('config', $config)
               ->set('router', $router)
-              ->set('logger', $logger)
-              ->set('cart', $cart);
+              ->set('logger', $logger);
 
     //Define Controller and Action
     $route = $router->match($request)->getCurrentRoute();
