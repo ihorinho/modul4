@@ -17,17 +17,23 @@ class NewsController extends Controller{
 
         $category = $request->get('category');
         $newsRepo = $this->container->get('repository_manager')->getRepository('News');
-        $newsCount = $newsRepo->getCountCategory($category);
+        if(!$newsCount = $newsRepo->getCountCategory($category)){
+            $session = $this->getSession();
+            $session->setFlash('Немає новин в  цій категорії');
+            $this->redirect('/');
+        }
+
         $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
         $pagination = new Pagination($currentPage, $newsCount, self::PER_PAGE);
         $offset = ($currentPage - 1) * self::PER_PAGE;
-        $news = $newsRepo->getAllCategory($category, $offset, self::PER_PAGE);
 
+
+        $news = $newsRepo->getAllCategory($category, $offset, self::PER_PAGE);
         if(!$news && $newsCount){
             $url = "/news/category/{$category}/page/1";
             $this->redirect($url);
         }
-        $args = ['category_alias' => $category, 'categoryName' => $news[0]['category'],
+        $args = ['categoryName' => $news[0]['category'],
                 'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage];
         return $this->render('category.phtml.twig',$args);
     }
@@ -38,10 +44,48 @@ class NewsController extends Controller{
         }
 
         $newRepo = $this->container->get('repository_manager')->getRepository('News');
-        $new = $newRepo->getById($id);
+        if(!$new = $newRepo->getById($id)){
+            $session = $this->getSession();
+            $session->setFlash('Новина недоступна');
+            $this->redirect('/');
+        }
 
-        $args = ['new' => $new];
+        if($new['analitic'] == 1 && (!$this->isLogged($admin = false))){
+            $new['content'] = $newRepo->cutContent($new['content'], self::CUT_CONTENT);
+        }
+
+        $args = ['new' => $new, 'categoryName' => $new['category']];
         return $this->render('show.phtml.twig', $args);
+    }
+
+    public function analiticAction(Request $request){
+
+        $newsRepo = $this->container->get('repository_manager')->getRepository('News');
+        if(!$newsCount = $newsRepo->getCountCategory('analitic')){
+            $session = $this->getSession();
+            $session->setFlash('Немає новин в категорії аналітика');
+            $this->redirect('/');
+        }
+
+        $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        $pagination = new Pagination($currentPage, $newsCount, self::PER_PAGE);
+        $offset = ($currentPage - 1) * self::PER_PAGE;
+        $news = $newsRepo->getAllCategory('analitic', $offset, self::PER_PAGE);
+
+        if(!$news && $newsCount){
+            $url = "/news/category/{$category}/page/1";
+            $this->redirect($url);
+        }
+
+        if(!$this->isLogged($admin = false)){
+            foreach($news as $new){
+                $new['content'] = $newsRepo->cutContent($new['content'], self::CUT_CONTENT);
+            }
+        }
+        $args = ['categoryName' => 'Аналітика',
+            'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage];
+
+        return $this->render('analitic.phtml.twig', $args);
     }
 
     public function showTagAction(Request $request){

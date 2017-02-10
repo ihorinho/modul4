@@ -1,7 +1,8 @@
 /**
  * Created by Igor on 24.12.2016.
  */
-$('document').ready(function(){
+$(document).ready(function(){
+
     $('li.button.faded').hide();
 
     var location = window.location.href;
@@ -39,8 +40,17 @@ $('document').ready(function(){
         $('li.button.faded').fadeIn(1000);
     });
 
-    $(window).unload(function(){
-        alert("Пока, пользователь!");
+    $(window).on("unload", function(){
+       alert('srgsg');
+    });
+
+   setTimeout(function(){
+        $('#describe').fadeIn(1000);
+    }, 15000);
+
+    $('#describe input[type="button"]').click(function(){
+        $('#describe').fadeOut();
     });
 
 });
+

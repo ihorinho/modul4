@@ -5,6 +5,7 @@ use Library\API\FormatterFactory;
 
 class Controller{
     const PER_PAGE = 5;
+    const CUT_CONTENT = 3;
 	protected $container;
     protected static $layout = 'default_layout.phtml';
 
@@ -40,16 +41,25 @@ class Controller{
         self::$layout = $layout;
     }
 
-    protected function isAdmin(){
+    protected function isAdmin($authorization = true){
         $session = $this->getSession();
-        if($session->get('admin') !== 1){
+        if(($session->get('admin') !== 1) && $authorization){
             $router = $this->container->get('router');
             $session->setFlash('Restricted Area!!! Must login or to be Administrator')->set('uri', $_SERVER['REQUEST_URI']);
             $this->saveLog('Unauthorized user try to enter admin panel');
             $router->redirect('/login');
         }
 
+        if($session->get('admin') !== 1){
+            return false;
+        }
+
         return true;
+    }
+
+    public function isLogged($admin = true){
+        $session = $this->getSession();
+        return $this->isAdmin($admin) or $session->get('user', 0);
     }
 
     public function getSession(){

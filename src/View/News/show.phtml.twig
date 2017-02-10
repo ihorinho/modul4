@@ -1,5 +1,6 @@
 {% extends 'default_layout.phtml.twig' %}
 
+{% block title %}Новини |  {{ categoryName }} {% endblock title %}
 {% block script %}<script src="/webroot/js/readers-script.js"></script>{% endblock script %}
 
 {% block body %}
@@ -24,7 +25,11 @@
                             <p>Всього прочитано: <span id="total-read">0</span> разів</p>
                         </div>
                         <br/><br/>
-                        <p>Теги: <a href="/news/filter-tag/page?tag={{ new['tag'] }}">{{ new['tag'] }}</a></p>
+                        <p>Теги: <a href="/news/filter-tag/page?tag={{ new['tag'] }}">{{ new['tag'] }}</a>
+                            {% if new['analitic'] == 1 %}
+                                <a href="/news/analitic/page/">аналітика</a>
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
             </div>

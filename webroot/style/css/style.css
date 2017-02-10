@@ -87,3 +87,75 @@ div.read-statistic{
     float: right;
     margin-right: 10px;
 }
+
+/*MAIN MENU*/
+.main-menu {
+    width: 180px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-menu a {
+    display: block;
+    margin-bottom: -1px;
+    padding: 8px 14px;
+    text-decoration: none;
+    color: #000;
+}
+
+.main-menu a:hover {
+    background: #f5f5f5;
+}
+
+.main-menu > li {
+    position: relative;
+}
+
+.main-menu .sub-menu {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 170px;
+    z-index: 10;
+    width: 150px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #ffffff;
+}
+
+.dropdown-menu.main-menu a,
+.sub-menu a{
+    border: 1px solid #d5d5d5;
+}
+
+.main-menu > li:hover .sub-menu {
+    display: block;
+}
+
+/*Describe for news*/
+#describe{
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    background-color: orange;
+    font-size: 18px;
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    z-index: 100;
+    display: none;
+}
+
+#describe input{
+    margin-bottom: 5px;
+    width: 100%;
+    padding-left: 10px;
+}
+
+#describe input[type="button"]{
+    width: 49%;
+    padding-left: 0px;
+}

@@ -27,8 +27,25 @@
                 <div>
                     <ul class="nav navbar-nav">
                         <li role="presentation"><a href="/home">Home</a></li>
-                        <li role="presentation"><a href="/books/list">Категорії</a></li>
-                        <li role="presentation"><a href="/contact-us">Аналітика</a></li>
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Категорії
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu main-menu">
+                                <li><a href="/news/category/politic/page/1">Політика</a></li>
+                                <li><a href="/news/category/economic/page/1">Економіка</a></li>
+                                <li><a href="/news/category/sport/page/1">Спорт</a>
+                                    <ul class="sub-menu">
+                                        <li role="presentation"><a href="/news/filter-tag/page/1/?tag=бокс">Бокс</a></li>
+                                        <li role="presentation"><a href="/news/filter-tag/page/1/?tag=футбол">Футбол</a></li>
+                                        <li role="presentation"><a href="/news/filter-tag/page/1/?tag=баскетбол">Баскетбол</a></li>
+                                        <li role="presentation"><a href="/news/filter-tag/page/1/?tag=теніс">Теніс</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/news/category/science/page/1">Наука</a></li>
+                                <li><a href="/news/category/culture/page/1">Культура</a></li>
+                            </ul>
+                        </li>
+                        <li role="presentation"><a href="/news/analitic/page/">Аналітика</a></li>
                         {% if session.get('admin') == 1 %}
                         <li role="presentation"><a href="/admin/index">Admin panel</a></li>
                         {% endif %}
@@ -60,5 +77,14 @@
         {% block body %}
             Default text
         {% endblock body %}
+        {% block describe %}
+            <div id="describe">
+                <p>Бажаєте підписатися на розсилку новин?</p>
+                <input type="email" placeholder="Введіть email"/><br/>
+                <input type="text" placeholder="Введіть своє ім'я"/><br/>
+                <input type="button" value="Так">
+                <input type="button" value="Ні">
+            </div>
+        {% endblock describe %}
     </body>
 </html>

@@ -8,9 +8,13 @@ use Library\EntityRepository;
 class NewsRepository extends EntityRepository{
 
     public function getCountCategory($category){
+        $sqlWHERE = "WHERE c.alias = '{$category}'";
+        if($category == 'analitic'){
+            $sqlWHERE = "WHERE analitic = 1";
+        }
         $sql = "SELECT COUNT(*) FROM news n
                 JOIN category c ON  n.category_id = c.id
-                WHERE c.alias = '{$category}'";
+                $sqlWHERE";
         $sth = $this->pdo->query($sql);
         return (int)$sth->fetchColumn();
     }
@@ -37,10 +41,14 @@ class NewsRepository extends EntityRepository{
     }
 
     public function getAllCategory($category, $offset, $count){
-        $sql = "SELECT n.id as id, title, content, c.name as category, tag, analitic, published
+        $sqlWHERE = "WHERE c.alias = '{$category}'";
+        if($category == 'analitic'){
+            $sqlWHERE = "WHERE analitic = 1";
+        }
+        $sql = "SELECT n.id as id, title, content, c.name as category, c.alias as alias, tag, analitic, published
                 FROM news n
                 JOIN category c ON  n.category_id = c.id
-                WHERE c.alias = '{$category}'
+                $sqlWHERE
                 ORDER BY n.published DESC
                 LIMIT $offset,$count";
 
@@ -71,6 +79,18 @@ class NewsRepository extends EntityRepository{
         $sth = $this->pdo->query($sql);
 
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getAnalitic(){
+        $sql = "SELECT * FROM news WHERE analitic = 1";
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function cutContent($text, $sentenceCount){
+        $sentenceArray = explode('.', $text);
+        $resultArray = array_slice($sentenceArray, 0, 3);
+        return implode('. ', $resultArray);
     }
 
 

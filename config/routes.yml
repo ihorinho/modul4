@@ -14,6 +14,12 @@ routes:
     params:
       category: ([a-z]*)
       page: ([0-9]*)
+  show_category_analitic:
+      pattern: /news/analitic/page/?{page}/?
+      controller: NewsController
+      action: analiticAction
+      params:
+        page: ([0-9]*)
   show_new_item:
     pattern: /news/[a-z]+/item/?{id}/?
     controller: NewsController
