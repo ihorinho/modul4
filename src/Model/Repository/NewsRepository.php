@@ -7,19 +7,25 @@ use Library\EntityRepository;
 
 class NewsRepository extends EntityRepository{
 
-    public function getCount($is_active = false){
-        $sql = "SELECT COUNT(*) FROM book";
-        if($is_active){
-            $sql .= " WHERE is_active = 1";
-        }
+    public function getCountCategory($category){
+        $sql = "SELECT COUNT(*) FROM news n
+                JOIN category c ON  n.category_id = c.id
+                WHERE c.alias = '{$category}'";
+        $sth = $this->pdo->query($sql);
+        return (int)$sth->fetchColumn();
+    }
 
+    public function getCountTag($tag){
+        $sql = "SELECT COUNT(*) FROM news n
+                JOIN category c ON  n.category_id = c.id
+                WHERE tag LIKE '%$tag%'";
         $sth = $this->pdo->query($sql);
         return (int)$sth->fetchColumn();
     }
 
 
     public function getLastNewsList($category_id, $limit = 5){
-        $sql = "SELECT n.id as id, title, content, c.name as category, tag, analitic, published
+        $sql = "SELECT n.id as id, title, content, c.name as category, tag, analitic, published, c.alias as category
                 FROM news n
                 JOIN category c ON n.category_id = c.id
                 WHERE n.category_id = $category_id
@@ -28,8 +34,51 @@ class NewsRepository extends EntityRepository{
         $sth = $this->pdo->query($sql);
 
         return $this->getNewsArray($sth);
-
     }
+
+    public function getAllCategory($category, $offset, $count){
+        $sql = "SELECT n.id as id, title, content, c.name as category, tag, analitic, published
+                FROM news n
+                JOIN category c ON  n.category_id = c.id
+                WHERE c.alias = '{$category}'
+                ORDER BY n.published DESC
+                LIMIT $offset,$count";
+
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getById($id){
+
+        $sql = "SELECT n.id as id, title, content, c.name as category, c.alias as alias, tag, analitic, published
+                FROM news n
+                JOIN category c ON  n.category_id = c.id
+                WHERE n.id = :id";
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute(array('id' => $id));
+
+        return $sth->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function getByTag($tag, $offset, $count){
+
+        $sql = "SELECT n.id as id, title, tag, published, c.alias as category_alias
+                FROM news n
+                JOIN category c ON  n.category_id = c.id
+                WHERE tag LIKE '%$tag%'
+                ORDER BY n.published DESC
+                LIMIT $offset,$count";
+        $sth = $this->pdo->query($sql);
+
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
+
+
+
+
+
 
 
     public function getAll($hydrateArray = false){
@@ -66,19 +115,6 @@ class NewsRepository extends EntityRepository{
         $sth = $this->pdo->query($sql);
 
         return $this->getBooksArray($sth);
-    }
-
-    public function getById($id, $hydrateArray = false){
-
-        $sql = "SELECT * FROM book WHERE id = :id";
-        $sth = $this->pdo->prepare($sql);
-        $sth->execute(array('id' => $id));
-
-        if($hydrateArray){
-            return $sth->fetch(\PDO::FETCH_ASSOC);
-        }
-
-        return $this->getBooksArray($sth, $single = true);
     }
 
     public function getByIdArray(Array $ids){

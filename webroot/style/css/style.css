@@ -65,3 +65,25 @@ form > div{
 div.caption h3{
     margin-top: 10px !important;
 }
+
+/*Index page*/
+h4.new-title{
+    margin-bottom: 3px;
+}
+
+h3 a.category-title{
+    color: #000;
+}
+
+/*Show new page*/
+p.new-content{
+    font-size: 18px;
+}
+
+div.read-statistic{
+    display: inline-block;
+    border: 1px solid #5e5e5e;
+    padding: 10px;
+    float: right;
+    margin-right: 10px;
+}

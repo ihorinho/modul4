@@ -2,6 +2,8 @@
  * Created by Igor on 24.12.2016.
  */
 $('document').ready(function(){
+    $('li.button.faded').hide();
+
     var location = window.location.href;
     $('li a').each(function (key, value) {
         if(value == location){
@@ -30,4 +32,15 @@ $('document').ready(function(){
     	}
 		
     });
+
+    $('#pagination-button').click(function(e){
+        e.preventDefault();
+        $(this).hide();
+        $('li.button.faded').fadeIn(1000);
+    });
+
+    $(window).unload(function(){
+        alert("Пока, пользователь!");
+    });
+
 });

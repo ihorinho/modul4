@@ -1,22 +1,35 @@
 {% extends 'default_layout.phtml.twig' %}
 
-{% block title %}Cart | {{ book.getTitle() }}{% endblock title %}
+{% block script %}<script src="/webroot/js/readers-script.js"></script>{% endblock script %}
 
 {% block body %}
-    <h1>{{ book.getTitle() }}</h1>
-    <hr>
-    <div class="row">
-        <div class="col-md-3 col-sm-12 col-xs-12">
-            <img class="img-responsive" src="/webroot/upload/avatars/{{ book.getId() }}.jpg"></img>
-        </div>
-        <div class="col-md-9 col-sm-12 col-sm-12">
-            <i>Id:{{ book.getId() }}</i>
-            <h3>{{ book.getTitle() }}</h3>
-            <p>Author: {{ book.getAuthor() }}</p>
-            <p>Style: {{ book.getStyle() }}</p>
-            <p>{{ book.getDescription() }}</p>
-            <p>Price: {{ book.getPrice() }} UAH</p>
-            <a href="/cart/add-{{ book.getId() }}" class="btn btn-primary" role="button">To cart</a>
+    <div class="container">
+        <h1>{{ new['title'] }}</h1>
+        <hr>
+        <div class="row justify-content-md-center">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <img class="img-responsive" src="/webroot/upload/avatars/{{ new['id'] }}.jpg"></img>
+                    </div>
+                    <div class="col-md-9 col-sm-12 col-sm-12">
+                        <p class="new-content">{{ new['content'] }}</p>
+                        <em>published: {{ new['published'] }} /
+                            розділ: <a href="/news/category/{{ new['alias'] }}/page">{{ new['category'] }}</a>
+                        </em>
+                        <div class="read-statistic">
+                            <p>Зараз читають <span id="reading-now">0</span> чол.</p>
+                            <p>Всього прочитано: <span id="total-read">0</span> разів</p>
+                        </div>
+                        <br/><br/>
+                        <p>Теги: <a href="/news/filter-tag/page?tag={{ new['tag'] }}">{{ new['tag'] }}</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
         </div>
     </div>
 {% endblock body %}

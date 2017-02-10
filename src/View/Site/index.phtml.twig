@@ -1,9 +1,24 @@
 {% extends 'default_layout.phtml.twig' %}
 
-{% block title %}MVC | Home {% endblock title %}
+{% block title %}UA-NEWS | HOME {% endblock title %}
 
 {% block body %}
-    <h3>Hello, it's Site's index page</h3>
-    <p>paragraph</p>
-    <em>Italic</em>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+                {% for category in categories %}
+                    <h3><a class="category-title" href="/news/category/{{ category['alias'] }}/page">{{ category['name'] }}</a></h3>
+                    {% for new in news[category['alias']] %}
+                        <h4 class="new-title"><a href="/news/{{ category['alias'] }}/item/{{ new.id }}">{{ new.title }}</a></h4>
+                        <em>published: {{ new.published }}</em>
+                    {% endfor %}
+                    <hr/>
+                {% endfor %}
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+    </div>
 {% endblock body %}

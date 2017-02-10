@@ -2,12 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}MVC{% endblock title %}</title>
+        <title>{% block title %}UA-NEWS{% endblock title %}</title>
         <link rel="stylesheet" href="/webroot/style/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/webroot/style/css/style.css">
         <script src="/webroot/js/jquery-3.1.1.min.js"></script>
         <script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
         <script src="/webroot/js/scripts.js"></script>
+        {% block script %}{% endblock script %}
     </head>
     <header>
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -26,17 +27,16 @@
                 <div>
                     <ul class="nav navbar-nav">
                         <li role="presentation"><a href="/home">Home</a></li>
-                        <li role="presentation"><a href="/books/list">Books</a></li>
-                        <li role="presentation"><a href="/contact-us">Contacts</a></li>
-                        <li role="presentation"><a href="/cart/list">Cart({{  session.get('cart_size') }})</a></li>
+                        <li role="presentation"><a href="/books/list">Категорії</a></li>
+                        <li role="presentation"><a href="/contact-us">Аналітика</a></li>
                         {% if session.get('admin') == 1 %}
                         <li role="presentation"><a href="/admin/index">Admin panel</a></li>
                         {% endif %}
                         {% if session.get('user') %}
                         <li role="presentation"><a href="/logout">Logout</a></li>
                         {% else %}
-                        <li role="presentation"><a href="/register">Register</a></li>
-                        <li role="presentation"><a href="/login">Sign in</a></li>
+                            <li role="presentation"><a href="/login">Sign in</a></li>
+                            <li role="presentation"><a href="/register">Register</a></li>
                         {% endif %}
                     </ul>
                 </div>

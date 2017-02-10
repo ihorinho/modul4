@@ -4,7 +4,7 @@ namespace Library;
 use Library\API\FormatterFactory;
 
 class Controller{
-    const PER_PAGE = 12;
+    const PER_PAGE = 5;
 	protected $container;
     protected static $layout = 'default_layout.phtml';
 

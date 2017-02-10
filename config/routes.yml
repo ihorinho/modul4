@@ -7,6 +7,27 @@ routes:
     pattern: '/?'
     controller: 'SiteController'
     action: 'indexAction'
+  show_category:
+    pattern: /news/category/{category}/page/?{page}/?
+    controller: NewsController
+    action: categoryAction
+    params:
+      category: ([a-z]*)
+      page: ([0-9]*)
+  show_new_item:
+    pattern: /news/[a-z]+/item/?{id}/?
+    controller: NewsController
+    action: showAction
+    params:
+      id: ([0-9]*)
+  show_by_tag:
+    pattern: /news/filter-tag/page/?{page}/?
+    controller: NewsController
+    action: showTagAction
+    params:
+      page: ([0-9]*)
+
+
   books-list:
     pattern: /books/list/?{page}/?
     controller: BookController

@@ -10,9 +10,16 @@ use Gregwar\Captcha\CaptchaBuilder;
 class SiteController extends Controller{
 
     public function indexAction(Request $request){
-        $repo = $this->container->get('repository_manager')->getRepository('News');
-        dump($repo->getLastNewsList(5));
-        return $this->render('index.phtml.twig');
+        $newsRepo = $this->container->get('repository_manager')->getRepository('News');
+        $news = array();
+        $categoryRepo = $this->container->get('repository_manager')->getRepository('Category');
+        $categories = $categoryRepo->getAll();
+
+        foreach($categories as $category){
+            $news[$category['alias']] = $newsRepo->getLastNewsList($category['id']);
+        }
+
+        return $this->render('index.phtml.twig', array('categories' => $categories, 'news' => $news));
     }
 	public function contactAction(Request $request){
         $builder = new CaptchaBuilder;

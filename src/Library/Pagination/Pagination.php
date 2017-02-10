@@ -24,7 +24,13 @@ class Pagination{
 
     public function getButtons()
     {
-        return $this->buttons;
+        if(count($this->buttons) <= 3){
+            return $this->buttons;
+        }
+        $buttonsCopy = $this->buttons;
+        array_shift($buttonsCopy);
+        array_pop($buttonsCopy );
+        return $buttonsCopy;
     }
 
     public function getPrev(){
@@ -33,5 +39,13 @@ class Pagination{
 
     public function getNext(){
         return $this->next;
+    }
+
+    public function getButtonsCount(){
+        return  count($this->buttons);
+    }
+
+    public function getLastButton(){
+        return count($this->buttons);
     }
 }
