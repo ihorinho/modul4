@@ -1,0 +1,33 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Сумарна таблиця{% endblock title %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-hover" border="1px">
+            <tr>
+                <th>ID</th>
+                <th class="title">Заголовок</th>
+                <th>Категорія</th>
+                <th>Аналітика</th>
+                <th class="published">Дата публікації</th>
+                <th class="tag">Теги</th>
+                <th class="action">Дії</th>
+            </tr>
+            {% for new in news %}
+                <tr>
+                    <td>{{ new['id'] }}</td>
+                    <td>{{ new['title'] }}</td>
+                    <td>{{ new['category'] }}</td>
+                    <td>{{ new['analitic'] }}</td>
+                    <td>{{ new['published'] }}</td>
+                    <td>{{ new['tag'] }}</td>
+                    <td><a href="/admin/news/edit-{{ new['id'] }}">Редагув.</a>
+                        <a class="delete-book" href="/admin/news/delete-{{ new['id'] }}">Видал.</a>
+                        <a href="/news/view/item/{{ new['id'] }}">Перегляд</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

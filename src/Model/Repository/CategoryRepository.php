@@ -18,4 +18,12 @@ class CategoryRepository extends EntityRepository{
 
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function add($name, $alias){
+        $sql = "INSERT INTO category (name, alias) VALUES('$name', '$alias')";
+        if(false == $this->pdo->query($sql)){
+            throw new \Exception('Error while adding new category');
+        }
+        return true;
+    }
 }

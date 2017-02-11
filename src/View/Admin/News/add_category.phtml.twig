@@ -1,0 +1,20 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Нова категорія{% endblock title %}
+
+{% block body %}
+    <h3>Введіть дані для нової категорії</h3>
+    <form class="row" action="" enctype="multipart/form-data" method="post">
+        <div class="col-md-6 edit-form">
+            <div class="form-group">
+                <label for="name">Назва категорії:</label>
+                <input type="text" required class="form-control" name="name" id="name" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="alias">Title:</label>
+                <input type="text" required class="form-control" name="alias" id="alias" value=""/>
+            </div>
+            <button style="float:right;" type="submit" class="btn btn-info">Save</button>
+        </div>
+    </form>
+{% endblock body %}

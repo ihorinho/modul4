@@ -83,7 +83,6 @@ class BookController extends Controller{
         $redirect = $session->get('uri', '/admin/books/list');
 
         $this->redirect($redirect);
-
     }
 
     public function showAction(Request $request){

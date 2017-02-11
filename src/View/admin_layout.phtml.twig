@@ -27,9 +27,19 @@
 	                <div>
 	                    <ul class="nav navbar-nav">
 	                        <li role="presentation"><a href="/admin/index">Home</a></li>
-							<li role="presentation"><a href="/admin/books/list">Books</a></li>
-							<li role="presentation"><a href="/admin/books/table">Summary</a></li>
-							<li role="presentation"><a href="/admin/books/add">Add Book</a></li>
+							<li role="presentation"><a href="/admin/news/summary">Сумарна таблиця</a></li>
+                            <li role="presentation" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Адміністрування
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu main-menu">
+                                    <li><a href="/admin/news/add">Додати новину</a></li>
+                                    <li><a href="/admin/categories/view">Перегляд категорій</a></li>
+                                    <li><a href="/admin/categories/add">Додати категорію</a></li>
+							    </ul>
+                            </li>
+                            <li role="presentation"><a href="/admin/edit/comments">Коментарі</a></li>
+							<li role="presentation"><a href="/admin/edit/adver">Реклама</a></li>
+							<li role="presentation"><a href="/home">На сайт</a></li>
 							<li class="float-right" role="presentation"><a href="/logout">Logout</a></li>
 	                    </ul>
 	                </div>

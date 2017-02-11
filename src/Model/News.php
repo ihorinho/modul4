@@ -6,9 +6,10 @@ class News{
 	private $id;
     private $title;
     private $content;
-    private $category;
+    private $category_id;
     private $analitic;
     private $tag;
+    private $published;
 
     /**
      * @param mixed $id
@@ -19,7 +20,6 @@ class News{
 
         return $this;
     }
-    private $published;
 
     /**
      * @param mixed $analitic
@@ -42,7 +42,7 @@ class News{
     /**
      * @param mixed $category_id
      */
-    public function setCategory($category_id)
+    public function setCategoryId($category_id)
     {
         $this->category_id = $category_id;
 
@@ -52,7 +52,7 @@ class News{
     /**
      * @return mixed
      */
-    public function getCategory()
+    public function getCategoryId()
     {
         return $this->category_id;
     }

@@ -20,6 +20,7 @@ class Router{
             $this->routes[] = new Route($route['pattern'], $route['controller'], $route['action'],
                                             $route_params, $route_methods);
         }
+        $this->routes['not_found'] = new Route('/notFound/?', 'SiteController', 'notFoundAction');
     }
 
     public function getCurrentRoute()
@@ -65,7 +66,7 @@ class Router{
             if($this->apiRequest){
                 throw new ApiException('Bad request');
             }
-            throw new \Exception('404 Page Not Found');
+            $this->CurrentRoute = $this->routes['not_found'];
         }
         return $this;
     }

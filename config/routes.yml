@@ -7,6 +7,10 @@ routes:
     pattern: '/?'
     controller: 'SiteController'
     action: 'indexAction'
+  page_not_found:
+    pattern: /notFound/?
+    controller: SiteController
+    action: 'notFoundAction'
   show_category:
     pattern: /news/category/{category}/page/?{page}/?
     controller: NewsController
@@ -32,6 +36,30 @@ routes:
     action: showTagAction
     params:
       page: ([0-9]*)
+  summary_news_tabe:
+    pattern: /admin/news/summary/?
+    controller: Admin\NewsController
+    action: summaryAction
+  news_add:
+    pattern: /admin/news/add/?
+    controller: Admin\NewsController
+    action: addNewsAction
+  admin_delete_new:
+    pattern: /admin/news/delete-{id}/?
+    controller: Admin\NewsController
+    action: deleteAction
+    params:
+      id: ([1-9]{1}[0-9]*)
+  view_categories:
+    pattern: /admin/categories/view/?
+    controller: Admin\NewsController
+    action: viewCategoriesAction
+  add_category:
+    pattern: /admin/categories/add/?
+    controller: Admin\NewsController
+    action: addCategoryAction
+
+
 
 
   books-list:

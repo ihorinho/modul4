@@ -101,5 +101,7 @@ class NewsController extends Controller{
         $args = ['news' => $news, 'tag' => $tag, 'pagination' => $pagination, 'page' => $currentPage];
         return $this->render('show_by_tag.phtml.twig', $args);
     }
+
+
 }
 

@@ -93,25 +93,47 @@ class NewsRepository extends EntityRepository{
         return implode('. ', $resultArray);
     }
 
+    public function getAllNews(){
 
-
-
-
-
-
-
-
-    public function getAll($hydrateArray = false){
-
-        $sql = "SELECT * FROM book";
+        $sql = "SELECT n.id, n.title, c.name as category, n.analitic, n.published, n.tag
+                FROM news n
+                JOIN category c ON  n.category_id = c.id
+                ORDER BY n.published DESC";
         $sth = $this->pdo->query($sql);
 
-        if($hydrateArray){
-            return $sth->fetchAll(\PDO::FETCH_ASSOC);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function deleteById($id){
+
+        $sql = "DELETE FROM news WHERE id = :id";
+        $sth = $this->pdo->prepare($sql);
+
+        return $sth->execute(array('id' => $id));
+    }
+
+    public function add(News $new){
+        $sql = "INSERT INTO news
+                    SET title = :title, content = :content, category_id = :category_id, analitic = :analitic,
+                      tag = :tag, published = :published";
+        $sth = $this->pdo->prepare($sql);
+        $result = $sth->execute(array('title' => $new->getTitle(), 'content' => $new->getContent(),
+            'category_id' => $new->getCategoryId(), 'analitic' => $new->isAnalitic(), 'tag' => $new->getTag(),
+            'published' => $new->getPublished()));
+        if($result === false){
+            throw new \Exception('Errors during saving New to DB');
         }
 
-        return $this->getBooksArray($sth);
+        return $this;
     }
+
+
+
+
+
+
+
+
 
     public function getAllSorted($sortParam, $session){
         $allowedParams = array('id', 'title', 'price', 'is_active');
@@ -159,7 +181,7 @@ class NewsRepository extends EntityRepository{
 					->setId($row['id'])
 					->setTitle($row['title'])
 					->setContent($row['content'])
-					->setCategory((int)$row['category'])
+					->setCategoryId((int)$row['category'])
 					->setTag($row['tag'])
                     ->setAnalitic($row['analitic'], $this->pdo)
 					->setPublished($row['published'], $this->pdo);
@@ -178,28 +200,9 @@ class NewsRepository extends EntityRepository{
         return $this->pdo->lastInsertId();
     }
 
-    public function deleteById($id){
 
-        // $sql = "UPDATE book SET is_active = 0 WHERE id = :id";
-        $sql = "DELETE FROM book WHERE id = :id";
-        $sth = $this->pdo->prepare($sql);
 
-        return $sth->execute(array('id' => $id));
-    }
 
-    public function insertNew(Book $book){
-        $sql = "INSERT INTO book
-                    SET title = :title, description = :description, price = :price, is_active = :is_active,
-                      style_id = :style_id";
-        $sth = $this->pdo->prepare($sql);
-        $result = $sth->execute(array('title' => $book->getTitle(), 'description' => $book->getDescription(),
-            'price' => $book->getPrice(), 'is_active' => $book->IsActive(), 'style_id' => $book->getStyleId()));
-        if($result === false){
-            throw new \Exception('Errors during saving book to DB');
-        }
-
-        return $this;
-    }
 
     public function updateNew(Book $book){
         $sql = "UPDATE book

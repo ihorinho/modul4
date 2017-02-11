@@ -49,4 +49,8 @@ class SiteController extends Controller{
 		}
 		return $this->render('contacts.phtml.twig', ['form' => $form, 'builder' => $builder, 'phrase' => $phrase]);
 	}
+
+    public function notFoundAction(){
+        return $this->render('404.phtml.twig', array('upload_path' => UPLOAD_PATH));
+    }
 }

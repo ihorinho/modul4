@@ -35,14 +35,25 @@ form > div{
 /*---------------------------------*/
 /* Admin books table*/
 .table-responsive .table{
-    max-width: 750px !important;
+    max-width: 1200px !important;
     margin: auto;
 }
 
-.book-description{
-    display: none;
-    position: absolute;
-    width: 350px;
+.table th.published{
+    width: 180px;
+}
+
+.table th.action{
+    width: 200px;
+}
+
+.table th.title{
+    width: 450px;
+}
+
+.table th.tag{
+    width: 120px;
+}
 
 }
 /*---------------------------------*/
@@ -159,3 +170,12 @@ div.read-statistic{
     width: 49%;
     padding-left: 0px;
 }
+
+/*Category table*/
+table.table.table-categories{
+    width: 250px;
+}
+.table-categories th{
+    width: 70px;
+}
+/*_________________________________________*/

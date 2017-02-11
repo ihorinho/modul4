@@ -1,0 +1,45 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Додати Новину{% endblock title %}
+
+{% block body %}
+
+    <form class="row" action="" enctype="multipart/form-data" method="post">
+        <div class="col-md-6 edit-form">
+            <h3 class="book-title"></h3>
+
+            <div class="form-group">
+                <label for="title">Заголовок Новини</label>
+                <input type="text" class="form-control" name="title" id="title" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="content">Текст:</label>
+                <textarea class="form-control" name="content" id="content" rows="7" cols="50"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="book_cover">Завантажити фото (jpg only):</label>
+                <input type="file" class="form-control" name="book_cover" id="book_cover" value=""/>
+            </div>
+        </div>
+
+        <div class="col-md-6 edit-form">
+            <div class="form-group">
+                <label for="category">Категорія</label>
+                <select class="form-control" name="category" id="category">
+                    {% for category in categories %}
+                        <option  value="{{ category['id'] }}">{{ category['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tag">Теги(розділити комами)</label>
+                <input type="text" class="form-control" name="tag" id="tag" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="analitic">Додати до розділу аналітика?</label>
+                <input type="checkbox" class="form-control" name="analitic" id="analitic" value="1"/>
+            </div>
+            <button type="submit" class="btn btn-info" style="float:right">Зберегти</button>
+        </div>
+    </form>
+{% endblock body %}
