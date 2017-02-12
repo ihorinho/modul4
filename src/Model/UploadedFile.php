@@ -16,9 +16,11 @@ class UploadedFile{
     private $error;
     private $size;
 
-    public function __construct($filename){
+    public function __construct($filename, $important = true){
         if(!isset($_FILES[$filename])){
-            throw new \Exception($filename . ' is not sended by form');
+            if($important)
+                throw new \Exception($filename . ' is not sended by form');
+                return false;
         }
         $this->file = $_FILES[$filename];
         $this->name = $this->getFile('name');

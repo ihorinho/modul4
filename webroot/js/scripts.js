@@ -87,7 +87,5 @@ $(document).ready(function(){
     $('#describe input[type="button"]').click(function(){
         $('#describe').fadeOut();
     });
-
-
 });
 

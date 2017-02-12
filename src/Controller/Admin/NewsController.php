@@ -11,7 +11,7 @@ use Library\Controller;
 use Library\Request;
 use Model\Forms\NewsAddForm;
 use Model\News;
-use Model\Forms\BookEditForm;
+use Model\Forms\NewsEditForm;
 use Library\Pagination\Pagination;
 use Model\UploadedFile;
 
@@ -81,6 +81,44 @@ class NewsController extends Controller{
         $categoryRepo = $this->container->get('repository_manager')->getRepository('Category');
         $categories = $categoryRepo->getAll();
         return $this->render('add_new.phtml.twig', array('categories' => $categories));
+    }
+
+    public function editNewsAction(Request $request){
+        $this->isAdmin();
+        if(null === ($id = $request->get('id'))){
+            return 'Новина не знайдена!';
+        }
+        $session = $this->getSession();
+        $newsRepo = $this->container->get('repository_manager')->getRepository('News');
+        $new = $newsRepo->getById($id);
+
+        if($request->isPost()){
+            $form = new NewsEditForm($request);
+            if($form->isValid()){
+                $editedNews = (new News())->setId($id)
+                    ->setTitle($form->getTitle())
+                    ->setContent($form->getContent())
+                    ->setCategoryId($form->getCategory())
+                    ->setAnalitic($form->getAnalitic())
+                    ->setTag($form->getTag());
+                $newsRepo->updateNews($editedNews);
+                if($bookCover = new UploadedFile(self::BOOK_COVER_FILE, $important = false)){
+                    if($bookCover->isJPG()){
+                        $bookCover->moveToUploads($form->getId());
+                    }
+                }
+                $session->setFlash('Зміни успішно збережені');
+                $this->saveLog('News id: ' . $form->getId() .  ' changed', [$session->get('user')]);
+                $this->redirect('/admin/news/summary');
+            }
+            $session->setFlash('Заповніть всі необхідні поля');
+        }
+
+        $categoryRepo = $this->container->get('repository_manager')->getRepository('Category');
+        $categories = $categoryRepo->getAll();
+
+        $args = ['new' => $new, 'categories' => $categories];
+        return $this->render('edit_news.phtml.twig', $args);
     }
 
     public function deleteAction(Request $request){

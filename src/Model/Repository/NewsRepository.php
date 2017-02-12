@@ -58,7 +58,8 @@ class NewsRepository extends EntityRepository{
 
     public function getById($id){
 
-        $sql = "SELECT n.id as id, title, content, c.name as category, c.alias as alias, tag, analitic, published
+        $sql = "SELECT n.id as id, title, content, c.name as category, n.category_id as category_id,
+                      c.alias as alias, tag, analitic, published
                 FROM news n
                 JOIN category c ON  n.category_id = c.id
                 WHERE n.id = :id";
@@ -122,6 +123,21 @@ class NewsRepository extends EntityRepository{
             'published' => $new->getPublished()));
         if($result === false){
             throw new \Exception('Errors during saving New to DB');
+        }
+
+        return $this;
+    }
+
+    public function updateNews(News $new){
+        $sql = "UPDATE news
+                    SET title = :title, content = :content, category_id = :category_id, analitic = :analitic,
+                      tag = :tag
+                WHERE id = :id";
+        $sth = $this->pdo->prepare($sql);
+        $result = $sth->execute(array('id' => $new->getId(), 'title' => $new->getTitle(), 'content' => $new->getContent(),
+            'category_id' => $new->getCategoryId(), 'analitic' => $new->isAnalitic(), 'tag' => $new->getTag()));
+        if($result === false){
+            throw new \Exception('Errors during saving book to DB');
         }
 
         return $this;
@@ -204,20 +220,7 @@ class NewsRepository extends EntityRepository{
 
 
 
-    public function updateNew(Book $book){
-        $sql = "UPDATE book
-                SET title = :title, description = :description, price = :price, is_active = :is_active,
-                  style_id = :style_id
-                WHERE id = :id";
-        $sth = $this->pdo->prepare($sql);
-        $result = $sth->execute(array('id' =>$book->getId(), 'title' => $book->getTitle(), 'description' => $book->getDescription(),
-            'price' => $book->getPrice(), 'is_active' => $book->IsActive(), 'style_id' => $book->getStyleId()));
-        if($result === false){
-            throw new \Exception('Errors during saving book to DB');
-        }
 
-        return $this;
-    }
 
 
     public function getNewsIds(){

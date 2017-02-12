@@ -44,6 +44,12 @@ routes:
     pattern: /admin/news/add/?
     controller: Admin\NewsController
     action: addNewsAction
+  edit_news:
+    pattern: /admin/news/edit-{id}?
+    controller: Admin\NewsController
+    action: editNewsAction
+    params:
+      id: ([1-9]{1}[0-9]*)
   admin_delete_new:
     pattern: /admin/news/delete-{id}/?
     controller: Admin\NewsController
