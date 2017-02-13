@@ -51,10 +51,8 @@ form > div{
     width: 450px;
 }
 
-.table th.tag{
+.table th.tag {
     width: 120px;
-}
-
 }
 /*---------------------------------*/
 /* Captcha field styles*/
