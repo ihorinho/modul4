@@ -1,0 +1,7 @@
+<div class="active-commentators" >
+    <p>Найактивніші коментатори:</p>
+    <hr>
+{% for user in active_users %}
+    <p><a href="/comentators/active/1?email={{ user['email'] }}">{{ user['name'] }}</a> : {{ user['count'] }}</p>
+{% endfor %}
+</div>

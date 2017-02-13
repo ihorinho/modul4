@@ -1,0 +1,7 @@
+<h3 align="center">Топ 3 новини</h3>
+{% for new in topNews %}
+    <div class="new-container">
+        <h4 class="new-title"><a href="/news/{{ new['alias'] }}/item/{{ new.id }}">{{ new.title }}</a></h4>
+        <em>категорія: <a href="/news/category/{{ new['alias'] }}/page">{{ new['category'] }}</a> опубліковано: {{ new.published }}   коментарів: {{ new.count }}</em>
+    </div>
+{% endfor %}

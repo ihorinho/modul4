@@ -41,4 +41,54 @@ class CommentsRepository extends EntityRepository{
         $sth = $this->pdo->query($sql);
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function add(Request $request){
+        $sql = "INSERT INTO comments 
+                SET  new_id= :new_id, user= :user, date= :date,
+                    message = :message, rating = :rating, visible = :visible,
+                    parent_id = :parent_id";
+        $sth = $this->pdo->prepare($sql);
+        $date = date('Y-m-d H:i:s', time());
+        return $result = $sth->execute(array('new_id' => $request->post('new_id'),
+            'message' => $request->post('message'),
+            'user' => $request->post('user'),
+            'date' => $date,
+            'parent_id' => $request->post('parent_id', 0),
+            'visible' => $request->post('visible', 0),
+            'rating' => $request->post('rating',0)));
+    }
+
+    public function getAllByNewId($new_id){
+        $sql = "SELECT * FROM comments
+                WHERE new_id = $new_id
+                ORDER BY rating DESC";
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function updateRating($id, $rating){
+        $sql = "UPDATE comments 
+                SET rating = :rating
+                WHERE id = :id";
+        $sth = $this->pdo->prepare($sql);
+        return $sth->execute(array('id' => $id, 'rating' => $rating));
+    }
+
+    public function getByUser($email, $offset, $limit){
+        $sql = "SELECT * FROM comments
+                WHERE user = '$email'
+                ORDER BY rating DESC
+                LIMIT $offset,$limit";
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getCountByUser($email){
+        $sql = "SELECT COUNT(*) FROM comments
+                WHERE user = '$email'";
+        $sth = $this->pdo->query($sql);
+        return (int)$sth->fetchColumn();
+    }
+
+
 }

@@ -59,4 +59,22 @@ class UserRepository extends EntityRepository{
         $sth->execute(['user' => $user, 'code' => $code]);
         return $sth->rowCount();
     }
+
+    public function getActiveCommentators(){
+        $sql = "SELECT email, COUNT(*) as count FROM user u
+                JOIN comments cm ON cm.user = u.email
+                GROUP BY cm.user
+                ORDER BY count DESC
+                LIMIT 5";
+        $sth = $this->pdo->query($sql);
+        $usersArray = $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $resultArray = array();
+        foreach($usersArray as $key => $user){
+            $resultArray[$key]['email'] = $user['email'];
+            $nameParts = explode('@', $user['email']);
+            $resultArray[$key]['name'] = $nameParts[0];
+            $resultArray[$key]['count'] = $user['count'];
+        }
+        return $resultArray;
+    }
 }

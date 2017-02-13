@@ -69,9 +69,9 @@ routes:
     controller: Admin\SiteController
     action: advertAction
   manage_menu_site:
-      pattern: /admin/manage/menu/?
-      controller: Admin\SiteController
-      action: manageMenuAction
+    pattern: /admin/manage/menu/?
+    controller: Admin\SiteController
+    action: manageMenuAction
   add_advert_block:
     pattern: /admin/advert/add/?
     controller: Admin\SiteController
@@ -81,15 +81,30 @@ routes:
     controller: NewsController
     action: filtersAction
     params:
-          page: ([0-9]*)
+      page: ([0-9]*)
   comments_summary_view:
-      pattern: /admin/comments/view?
-      controller: Admin\SiteController
-      action: viewCommentsAction
+    pattern: /admin/comments/view?
+    controller: Admin\SiteController
+    action: viewCommentsAction
   comments_politcs_not_approved:
-        pattern: /admin/comments/moderate/?
-        controller: Admin\SiteController
-        action: watingCommentsAction
+    pattern: /admin/comments/moderate/?
+    controller: Admin\SiteController
+    action: watingCommentsAction
+  comments_add:
+    pattern: /comments/add?
+    controller: SiteController
+    action: addCommentsAction
+  comments_update_rating:
+    pattern: /comments/rating-update/?
+    controller: SiteController
+    action: updateRatingAction
+  active_comentators:
+    pattern: /comentators/active/?{page}/?
+    controller: NewsController
+    action: getActiveCom
+    params:
+          page: ([0-9]*)
+
 
 
   books-list:

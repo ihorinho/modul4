@@ -8,6 +8,7 @@ use Model\Feedback;
 use Gregwar\Captcha\CaptchaBuilder;
 
 class SiteController extends Controller{
+    const TOP_NEWS_COUNT = 3;
 
     public function indexAction(Request $request){
         $newsRepo = $this->container->get('repository_manager')->getRepository('News');
@@ -22,9 +23,12 @@ class SiteController extends Controller{
         $carouselNews = $newsRepo->getLastNewsList($category = false, $limit = 4);
         $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
         $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
-
+        $userRepo = $this->container->get('repository_manager')->getRepository('User');
+        $activeUsers = $userRepo->getActiveCommentators();
+        $topNews = $newsRepo->getTop(self::TOP_NEWS_COUNT);
         return $this->render('index.phtml.twig', array('categories' => $categories, 'news' => $news,
-                                    'carouselNews' => $carouselNews, 'advers' => $advers, 'tags' => $tags));
+                                    'carouselNews' => $carouselNews, 'advers' => $advers, 'tags' => $tags,
+                                    'active_users' => $activeUsers, 'topNews' => $topNews));
     }
 	public function contactAction(Request $request){
         $builder = new CaptchaBuilder;
@@ -54,6 +58,27 @@ class SiteController extends Controller{
 		}
 		return $this->render('contacts.phtml.twig', ['form' => $form, 'builder' => $builder, 'phrase' => $phrase]);
 	}
+
+	public function addCommentsAction(Request $request){
+	    if($request->isPost()){
+            $repo = $this->container->get('repository_manager')->getRepository('Comments');
+            if(!$result = $repo->add($request)){
+                return 'Fail';
+            }
+            return 'Дякуємо за коментар!';
+        }
+    }
+
+    public function updateRatingAction(Request $request){
+        if(!$id = $request->get('rating', 0)){
+            return 'FAIL';
+        }
+        return $request->getUri();
+        $rating = $request->get('rating',0);
+        $repo = $this->container->get('repository_manager')->getRepository('Comments');
+        return $repo->updateRating($id, $rating);
+//        return $repo->updateRating($id, $rating) ? 'Success' : 'Fail';
+    }
 
     public function notFoundAction(){
         return $this->render('404.phtml.twig', array('upload_path' => UPLOAD_PATH));

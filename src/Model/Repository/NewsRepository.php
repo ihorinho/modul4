@@ -27,9 +27,6 @@ class NewsRepository extends EntityRepository{
         return (int)$sth->fetchColumn();
     }
 
-
-
-
     public function getLastNewsList($category_id = null, $limit = 5){
         $sqlWhere = "";
         if($category_id){
@@ -63,7 +60,6 @@ class NewsRepository extends EntityRepository{
     }
 
     public function getById($id){
-
         $sql = "SELECT n.id as id, title, content, c.name as category, n.category_id as category_id,
                       c.alias as alias, tag, analitic, published
                 FROM news n
@@ -76,7 +72,6 @@ class NewsRepository extends EntityRepository{
     }
 
     public function getByTag($tag, $offset, $count){
-
         $sql = "SELECT n.id as id, title, tag, published, c.alias as category_alias
                 FROM news n
                 JOIN category c ON  n.category_id = c.id
@@ -101,7 +96,6 @@ class NewsRepository extends EntityRepository{
     }
 
     public function getAllNews(){
-
         $sql = "SELECT n.id, n.title, c.name as category, n.analitic, n.published, n.tag
                 FROM news n
                 JOIN category c ON  n.category_id = c.id
@@ -112,7 +106,6 @@ class NewsRepository extends EntityRepository{
     }
 
     public function deleteById($id){
-
         $sql = "DELETE FROM news WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
 
@@ -130,7 +123,6 @@ class NewsRepository extends EntityRepository{
         if($result === false){
             throw new \Exception('Errors during saving New to DB');
         }
-
         return $this;
     }
 
@@ -145,13 +137,11 @@ class NewsRepository extends EntityRepository{
         if($result === false){
             throw new \Exception('Errors during saving book to DB');
         }
-
         return $this;
     }
 
     private function getNewsArray($sth, $single = false){
         $news = array();
-
         while($row = $sth->fetch(\PDO::FETCH_ASSOC)){
             $new = (new News())
                 ->setId($row['id'])
@@ -169,7 +159,6 @@ class NewsRepository extends EntityRepository{
         if($single){
             return $news[0];
         }
-
         return $news;
     }
 
@@ -238,6 +227,18 @@ class NewsRepository extends EntityRepository{
         return (int)$sth->fetchColumn();
     }
 
+    public function getTop($limit){
+                $sql = "SELECT n.id, n.title,  n.published, COUNT(cm.id) as count, c.alias as alias, c.name as category
+                FROM news n
+                JOIN comments cm ON n.id = cm.new_id
+                JOIN category c ON n.category_id = c.id
+                GROUP BY cm.new_id
+                ORDER BY count DESC
+                LIMIT $limit";
+
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
 
 
 

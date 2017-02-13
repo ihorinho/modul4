@@ -57,8 +57,13 @@ class NewsController extends Controller{
         }
         $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
         $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
-
-        $args = ['new' => $new, 'categoryName' => $new['category'], 'advers' => $advers];
+        $commentRepo  = $this->container->get('repository_manager')->getRepository('Comments');
+        $comments = $commentRepo->getAllByNewId($id);
+        if(!$comments){
+            $comments = false;
+        }
+        $args = ['new' => $new, 'categoryName' => $new['category'], 'advers' => $advers,
+                'comments' => $comments];
         return $this->render('show.phtml.twig', $args);
     }
 
@@ -86,7 +91,6 @@ class NewsController extends Controller{
                 $new['content'] = $newsRepo->cutContent($new['content'], self::CUT_CONTENT);
             }
         }
-
         $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
         $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
         $args = ['categoryName' => 'Аналітика',
@@ -136,6 +140,23 @@ class NewsController extends Controller{
         $query = $request->getQueryString();
         $args = array('news' => $news, 'pagination' => $pagination, 'advers' => $advers, 'query' =>$query, 'page' => $currentPage);
         return $this->render('show_by_filters.phtml.twig', $args);
+    }
+    public function getActiveCom(Request $request){
+        if(!$email = $request->get('email')){
+            $this->redirect('/');
+        }
+        $commentRepo = $this->container->get('repository_manager')->getRepository('Comments');
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+        $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        $commentsCount = $commentRepo->getCountByUser($email);
+        $pagination = new Pagination($currentPage, $commentsCount, self::PER_PAGE);
+        $offset = ($currentPage - 1) * self::PER_PAGE;
+        $comments = $commentRepo->getByUser($email, $offset, self::PER_PAGE);
+        $query = $request->getQueryString();
+        return $this->render('commentator.phtml.twig', ['comments' => $comments, 'email' => $email, 'advers' => $advers,
+                'query' =>$query, 'page' => $currentPage, 'pagination' => $pagination]
+                );
     }
 }
 

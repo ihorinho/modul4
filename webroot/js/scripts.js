@@ -1,39 +1,32 @@
 /**
  * Created by Igor on 24.12.2016.
  */
-//window.onbeforeunload = function (e) {
-//
-////    var thisHostName = window.location.hostname;
-////    var targetURL = e.target.pathname;
-////    console.log(e);
-////    var targethostName;
-////    targetURL.replace(/http[s]?\:\/\/([\w-]+)\//,  function(match, host){
-////        targethostName = host;
-//
-//        var message = "Are you sure ?";
-//        var firefox = /Firefox[\/\s](\d+)/.test(navigator.userAgent);
-//        if (firefox) {
-//            //Add custom dialog
-//            //Firefox does not accept window.showModalDialog(), window.alert(), window.confirm(), and window.prompt() furthermore
-//            var dialog = document.createElement("div");
-//            document.body.appendChild(dialog);
-//            dialog.id = "dialog";
-//            dialog.style.visibility = "hidden";
-//            dialog.innerHTML = message;
-//            var left = document.body.clientWidth / 2 - dialog.clientWidth / 2;
-//            dialog.style.left = left + "px";
-//            dialog.style.visibility = "visible";
-//            var shadow = document.createElement("div");
-//            document.body.appendChild(shadow);
-//            shadow.id = "shadow";
-//            //tip with setTimeout
-//            setTimeout(function () {
-//                document.body.removeChild(document.getElementById("dialog"));
-//                document.body.removeChild(document.getElementById("shadow"));
-//            }, 0);
-//        }
-//    return message;
-//}
+window.onbeforeunload = function (e) {
+
+       var message = "Are you sure ?";
+       var firefox = /Firefox[\/\s](\d+)/.test(navigator.userAgent);
+       if (firefox) {
+           //Add custom dialog
+           //Firefox does not accept window.showModalDialog(), window.alert(), window.confirm(), and window.prompt() furthermore
+           var dialog = document.createElement("div");
+           document.body.appendChild(dialog);
+           dialog.id = "dialog";
+           dialog.style.visibility = "hidden";
+           dialog.innerHTML = message;
+           var left = document.body.clientWidth / 2 - dialog.clientWidth / 2;
+           dialog.style.left = left + "px";
+           dialog.style.visibility = "visible";
+           var shadow = document.createElement("div");
+           document.body.appendChild(shadow);
+           shadow.id = "shadow";
+           //tip with setTimeout
+           setTimeout(function () {
+               document.body.removeChild(document.getElementById("dialog"));
+               document.body.removeChild(document.getElementById("shadow"));
+           }, 0);
+       }
+   return message;
+}
 
 $(document).ready(function(){
 
@@ -136,6 +129,18 @@ $(document).ready(function(){
             });
     });
 
+    $('#comment-message').on('submit', function(e){
+        e.preventDefault();
+        $.post('/comments/add', $(this).serialize())
+            .done(function(data){
+                alert(data);
+                $('.comment-message-container').fadeOut(1000);
+            })
+            .fail(function(data){
+                alert(data);
+            });
+    });
+
 // Відправка даних форми для конфігурування фону, меню
     $('#manage-menu-form').on('submit', function(e){
         e.preventDefault();
@@ -181,6 +186,35 @@ $(document).ready(function(){
           var tag = $('.typeahead.tt-input').val();
             document.location.href = '/news/filter-tag/page/1?tag=' + tag
         }
+    });
+
+    //RATING UP - DOWN
+    $('.rating-down').click(function(){
+        var ratingField = $(this).siblings('.comment-rating');
+        var rating = ratingField.text();
+        ratingField.text(--rating);
+        var newRating = ratingField.text();
+        $(this).siblings('.rating-up').fadeOut(500);
+        $(this).fadeOut(500);
+        var comment_id = $(this).siblings('.comment-id').text();
+        $.get('/comments/rating-update?id=' + comment_id + '&rating=' + newRating)
+            .done(function(data){
+                console.log(data);
+            })
+    });
+
+    $('.rating-up').click(function(){
+        var ratingField = $(this).siblings('.comment-rating');
+        var rating = ratingField.text();
+        ratingField.text(++rating);
+        var newRating = ratingField.text();
+        $(this).siblings('.rating-down').fadeOut(500);
+        $(this).fadeOut(500);
+        var comment_id = $(this).siblings('.comment-id').text();
+        $.get('/comments/rating-update?id=' + comment_id + '&rating=' + newRating)
+            .done(function(data){
+                console.log(data);
+            });
     });
 //    $('.typeahead').on('typeahead:cursorchanged', function (e, datum) {
 //

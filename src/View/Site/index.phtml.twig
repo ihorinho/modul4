@@ -64,14 +64,19 @@
     <hr/>
 {% endblock extension %}
 
+{% block leftBlockExtension %}
+    {% include 'News/active_commentators.phtml.twig' %}
+{% endblock leftBlockExtension %}
+
 {% block center %}
+    {% include 'News/top_news.phtml.twig' %}
     {% for category in categories %}
         <h3 align="center"><a class="category-title" href="/news/category/{{ category['alias'] }}/page">{{ category['name'] }}</a></h3>
         <div class="category-container">
             {% for new in news[category['alias']] %}
                 <div class="new-container">
                     <h4 class="new-title"><a href="/news/{{ category['alias'] }}/item/{{ new.id }}">{{ new.title }}</a></h4>
-                    <em>published: {{ new.published }}</em>
+                    <em>опубліковано: {{ new.published }}</em>
                 </div>
             {% endfor %}
         </div>

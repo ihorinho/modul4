@@ -27,4 +27,10 @@
                         </p>
                     </div>
                 </div>
+            <hr>
+        {% if session.get('user') %}
+            {% include 'Site/comment-form.phtml.twig' %}
+        {% endif %}
+        <h4>Коментарі</h4>
+    {% include 'News/comments.phtml.twig' %}
 {% endblock center %}
