@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="/webroot/style/css/style.css">
         <script src="/webroot/js/jquery-3.1.1.min.js"></script>
         <script src="/webroot/style/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/webroot/js/typeahead.js"></script>
         <script src="/webroot/js/scripts.js"></script>
         {% block script %}{% endblock script %}
     </head>
@@ -20,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" rel="home" href="/" title="Aahan Krish's Blog - Homepage">UA-NEWS</a>
+                <a class="navbar-brand" rel="home" href="/" title="Igor's Pelekhatyy Modul-4">UA-NEWS</a>
             </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -61,22 +62,64 @@
                 <div class="col-sm-3 col-md-3 pull-right">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span id="search" class="glyphicon glyphicon-search"></span></button>
-                            </div>
+                            <input type="text" class="typeahead" placeholder="Шукати за тегом"  name="srch-term" id="srch-term">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <p style="float: right;"><i>{{  session.get('user') }}</i></p>
+
     </header>
     <body>
         <b>{{ session.getFlash() }}</b><hr/>
-        {% block body %}
-            Default text
-        {% endblock body %}
+        {% block extension %}{% endblock extension %}
+
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-2">
+                    {% block left %}
+                        <div class="adver-container">
+                            {% for adver in advers['0'] %}
+                                <div class="adver">
+                                    <h3>{{ adver['service'] }}</h3>
+                                    <p class="adver-price">{{ adver['price'] }}</p>
+                                    <p class="adver-company">{{ adver['company'] }}</p>
+                                    <div class="adver-sale {{ adver['side'] }}">
+                                        <p>Купон на скидку -10%</p>
+                                        <p>{{ adver['sale_product'] }}</p>
+                                        <p>Отримайте скидку</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endblock left %}
+                </div>
+                <div class="col-md-8">
+                    {% block center %}
+                        Default text
+                    {% endblock center %}
+                </div>
+                <div class="col-md-2">
+                    {% block right %}
+                        <div class="adver-container">
+                            {% for adver in advers['1'] %}
+                                <div class="adver">
+                                    <h3>{{ adver['service'] }}</h3>
+                                    <p class="adver-price">{{ adver['price'] }}</p>
+                                    <p class="adver-company">{{ adver['company'] }}</p>
+                                    <div class="adver-sale {{ adver['side'] }}">
+                                        <p>Купон на скидку -10%</p>
+                                        <p>{{ adver['sale_product'] }}</p>
+                                        <p>Отримайте скидку</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endblock right %}
+                </div>
+            </div>
+        </div>
         {% block describe %}
             <div id="describe">
                 <p>Бажаєте підписатися на розсилку новин?</p>
@@ -87,4 +130,8 @@
             </div>
         {% endblock describe %}
     </body>
+    <footer>
+        {% block footer %}{% endblock footer %}
+        {% block footer_scripts %}{% endblock footer_scripts %}
+    </footer>
 </html>

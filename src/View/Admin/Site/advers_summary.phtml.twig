@@ -1,0 +1,44 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Рекламні блоки{% endblock title %}
+
+{% block body %}
+    <div class="table-responsive">
+        <h4>На сайт новини виводяться відповідно приоритету</h4>
+        <button id="add-advert-row"><a href="/admin/advert/add"></a>Додати рекламний блок</button>
+        <br/><br/>
+        <table class="table table-hover adver-table" border="1px">
+            <tr class="table-header">
+                <th>ID</th>
+                <th class="title">Назва послуги</th>
+                <th >Ціна</th>
+                <th>Компанія</th>
+                <th>Скидка на</th>
+                <th>Активна</th>
+                <th>Приоритет</th>
+                <th>Сторона</th>
+                <th class="action">Дії</th>
+            </tr>
+            {% for adver in advers %}
+                <tr>
+                    <form action="" class="adver-form" method="post">
+                        <td>{{ adver['id'] }}<input type="hidden" value="{{ adver['id'] }}" name="id"/></td>
+                        <td><input type="text" value="{{ adver['service'] }}" name="service"/></td>
+                        <td><input class="price" type='number' value="{{ adver['price'] }}" name="price"/></td>
+                        <td><input type="text" value="{{ adver['company'] }}" name="company"/></td>
+                        <td><input type="text" value="{{ adver['sale_product'] }}" name="sale_product"/></td>
+                        <td>{% set checked = adver['active'] == 1 ? 'checked' %}
+                            <input type="checkbox" {{ checked }} name="active" value="1"/>
+                        </td>
+                        <td><input type="number" value="{{ adver['priority'] }}" name="priority"/></td>
+                        <td><select name="side">
+                                <option value="left" {% if adver['side'] == 'left' %}{{ 'selected' }}{% endif %}>Зліва</option>
+                                <option value="right" {% if adver['side'] == 'right' %}{{ 'selected' }}{% endif %}>Справа</option>
+                        </select></td>
+                        <td><button class='send-form-btn'>Зберегти</button></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

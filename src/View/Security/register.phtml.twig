@@ -2,32 +2,34 @@
 
 {% block title %}Login{% endblock title %}
 
-{% block body %}
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="email">E-mail: </label>
-            <input type="email" id="email" class="form-control" name="email" placeholder="email@mail.com" value="{{ registerForm.getEmail() }}">
-        </div>
-        <div class="form-group">
-            <label for="password">Password: </label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="password" value="{{ registerForm.getpassword() }}">
-        </div>
-        <div class="form-group">
-            <label for="repeatedPassword">Repeat password: </label>
-            <input type="password" class="form-control" name="repeatedPassword" id="repeatedPassword" placeholder="repeat password" value="{{ registerForm.getRepeatedPassword() }}">
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="remember" name="remember">Remember Me
-            </label>
-        </div>
-        <div class="form-group captcha-group">
-            <div class="captcha-input" >
-                <label for="phrase">Enter phrase from picture: </label>
-                <input type="text" class="form-control" name="phrase" id="phrase"">
+{% block center %}
+    <div class="registry-form-container">
+        <form id="registry-form" action="" method="post" align="left">
+            <div class="form-group">
+                <label for="email">E-mail: </label>
+                <input type="email" id="email" class="form-control" name="email" placeholder="email@mail.com" value="{{ registerForm.getEmail() }}">
             </div>
-            <img class="captcha-img" src="{{ builder.inline() }}" alt="Captcha"/>
-        </div>
-        <button type="submit" class="btn btn-default">Register</button>
-    </form>
-{% endblock body %}
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="password" value="{{ registerForm.getpassword() }}">
+            </div>
+            <div class="form-group">
+                <label for="repeatedPassword">Repeat password: </label>
+                <input type="password" class="form-control" name="repeatedPassword" id="repeatedPassword" placeholder="repeat password" value="{{ registerForm.getRepeatedPassword() }}">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="remember" name="remember">Remember Me
+                </label>
+            </div>
+            <div class="form-group captcha-group">
+                <div class="captcha-input" >
+                    <label for="phrase">Enter phrase from picture: </label>
+                    <input type="text" class="form-control" name="phrase" id="phrase"">
+                </div>
+                <img class="captcha-img" src="{{ builder.inline() }}" alt="Captcha"/>
+            </div>
+            <button type="submit" class="btn btn-default">Register</button>
+        </form>
+    </div>
+{% endblock center %}

@@ -7,9 +7,29 @@ class News{
     private $title;
     private $content;
     private $category_id;
+    private $category_name;
     private $analitic;
     private $tag;
     private $published;
+
+    /**
+     * @param mixed $category_name
+     */
+    public function setCategoryName($category_name)
+    {
+        $this->category_name = $category_name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryName()
+    {
+        return $this->category_name;
+    }
+
+
 
     /**
      * @param mixed $id

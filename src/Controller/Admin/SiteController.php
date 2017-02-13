@@ -34,4 +34,25 @@ class SiteController extends Controller{
         }
         return $this->render('contacts.phtml.twig', ['form' => $form]);
     }
+
+    public function advertAction(Request $request){
+        $adversRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        if($request->isPost()){
+            $result = $adversRepo->save($request);
+            return $result ? 'Success' : 'Fail';
+        }
+        $advers = $adversRepo->getAll();
+        return $this->render('advers_summary.phtml.twig', ['advers' => $advers]);
+    }
+
+    public function addAdvertAction(Request $request){
+        $adversRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        if($request->isPost()){
+            $message = $adversRepo->save($request) ? 'Success' : 'Fail';
+            $session = $request->getSession();
+            $session->setFlash($message);
+            $this->redirect('/admin/index');
+        }
+        return $this->render('add_advert.phtml.twig', ['advers' => $advers]);
+    }
 }

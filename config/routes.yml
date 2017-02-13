@@ -64,6 +64,20 @@ routes:
     pattern: /admin/categories/add/?
     controller: Admin\NewsController
     action: addCategoryAction
+  manage_adver_block:
+    pattern: /admin/edit/advert/?
+    controller: Admin\SiteController
+    action: advertAction
+  add_advert_block:
+    pattern: /admin/advert/add/?
+    controller: Admin\SiteController
+    action: addAdvertAction
+  search_by_filters:
+    pattern: /news/filters/page/?{page}/?
+    controller: NewsController
+    action: filtersAction
+    params:
+          page: ([0-9]*)
 
 
 

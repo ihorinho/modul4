@@ -37,8 +37,6 @@
 
 $(document).ready(function(){
 
-//    alert(window.location.hostname);
-
     $('li.button.faded').hide();
 
     var location = window.location.href;
@@ -49,7 +47,7 @@ $(document).ready(function(){
     });
 
     $('.delete-book').click(function(e){
-    	if(!confirm('Delete book?')){
+    	if(!confirm('Дійсно видалити новину?')){
     		e.preventDefault();
     		return false;
     	}
@@ -80,6 +78,7 @@ $(document).ready(function(){
        alert('srgsg');
     });
 
+   //Повідомлення про підписку
    setTimeout(function(){
         $('#describe').fadeIn(1000);
     }, 15000);
@@ -87,5 +86,71 @@ $(document).ready(function(){
     $('#describe input[type="button"]').click(function(){
         $('#describe').fadeOut();
     });
+
+    //Блок реклами + скидки
+    var  price = 0;
+    $(".adver").hover(function(){
+        $(this).children('.adver-sale').fadeIn(2000);
+        price =  parseInt($(this).children('.adver-price').html());
+        $(this).children('.adver-price').html(parseInt(price - price * 0.1));
+        $(this).children('.adver-price').css({'font-size': '70px', 'color': 'red'});
+    }, function(){
+        $(this).children('.adver-sale').hide();
+        $(this).children('.adver-price').html(price);
+        $(this).children('.adver-price').css({'font-size': '30px', 'color': '#000'});
+        price = 0;
+    });
+
+    $('.adver-form').on('submit', function(e){
+        e.preventDefault();
+        $.post('/admin/edit/advert', $(this).serialize()).done(function(data){
+            console.log(data);
+        });
+        console.log($(this).serialize());
+    });
+
+    $('#add-advert-row').click(function(){
+        console.log('gsg');
+        document.location.href= '/admin/advert/add';
+    });
+
+//TYPEAHEAD SCRIPT SECTION
+    // Defining the local dataset
+    var tagString = 'фінанси, фінанси і політика, політика, релігія, культура, мистецтво, економіка, наука, ' +
+        'живопис,  екологія, психологія, історія, бізнес, гроші, суспільство, війна, кримінал, бандитизм, спорт, ' +
+        'футбол, бокс, баскетбол, теніс';
+    var tags = tagString.split(', ');
+
+    // Constructing the suggestion engine
+    var tags = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: tags
+    });
+
+    // Initializing the typeahead
+    $('.typeahead').typeahead({
+            hint: true,
+            highlight: true, /* Enable substring highlighting */
+            minLength: 1 /* Specify minimum characters required for showing result */
+        },
+        {
+            name: 'tags',
+            source: tags
+        });
+
+    $('.typeahead').on('typeahead:selected', function (e, tag) {
+        document.location.href = '/news/filter-tag/page/1?tag=' + tag;
+    });
+    $('.typeahead').keyup(function(event, data){
+        if(event.keyCode == 13){
+          var tag = $('.typeahead.tt-input').val();
+            document.location.href = '/news/filter-tag/page/1?tag=' + tag
+        }
+    });
+//    $('.typeahead').on('typeahead:cursorchanged', function (e, datum) {
+//
+//    });
+// ______________________________________________________________
 });
 

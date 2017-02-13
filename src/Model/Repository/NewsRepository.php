@@ -28,11 +28,17 @@ class NewsRepository extends EntityRepository{
     }
 
 
-    public function getLastNewsList($category_id, $limit = 5){
-        $sql = "SELECT n.id as id, title, content, c.name as category, tag, analitic, published, c.alias as category
+
+
+    public function getLastNewsList($category_id = null, $limit = 5){
+        $sqlWhere = "";
+        if($category_id){
+            $sqlWhere = "WHERE n.category_id = $category_id";
+        }
+        $sql = "SELECT n.id as id, title, content, c.name as category_name, tag, analitic, published, c.alias as category
                 FROM news n
                 JOIN category c ON n.category_id = c.id
-                WHERE n.category_id = $category_id
+                $sqlWhere
                 ORDER BY published DESC
                 LIMIT $limit";
         $sth = $this->pdo->query($sql);
@@ -143,8 +149,94 @@ class NewsRepository extends EntityRepository{
         return $this;
     }
 
+    private function getNewsArray($sth, $single = false){
+        $news = array();
 
+        while($row = $sth->fetch(\PDO::FETCH_ASSOC)){
+            $new = (new News())
+                ->setId($row['id'])
+                ->setTitle($row['title'])
+                ->setContent($row['content'])
+                ->setCategoryId($row['category'])
+                ->setCategoryName($row['category_name'])
+                ->setTag($row['tag'])
+                ->setAnalitic($row['analitic'], $this->pdo)
+                ->setPublished($row['published'], $this->pdo);
 
+            $news[] = $new;
+        }
+
+        if($single){
+            return $news[0];
+        }
+
+        return $news;
+    }
+
+    public function getFilterQueryString($fromDate, $toDate, $category, $tag){
+        $filtersString = 'WHERE ';
+        $filterBefore = false;
+
+        if($fromDate){
+            $filtersString .= "published > '" . $fromDate ."'";
+            $filterBefore = true;
+        }
+
+        if($toDate){
+            if($filterBefore){
+                $filtersString .= " AND ";
+            }
+            $filtersString .= "published < '" . $toDate . "'";
+            $filterBefore = true;
+        }
+
+        if($category){
+            if($filterBefore){
+                $filtersString .= " AND ";
+            }
+            if(count($category) > 1){
+                $categories = implode("', '", $category);
+                $filtersString .= " c.alias IN ('" . $categories . "')";
+            }else{
+                $filtersString .= "c.alias = '" . $category[0] . "'";
+                $filterBefore = true;
+            }
+        }
+
+        if($tag){
+            if($filterBefore){
+                $filtersString .= " AND ";
+            }
+            if(count($tag) > 1){
+                sort($tag);
+                $tags = implode("%", $tag);
+                $filtersString .= " tag LIKE '%" . $tags . "%'";
+            }else{
+                $filtersString .= " tag LIKE '%" . $tag[0] . "%'";
+            }
+        }
+        return $filtersString;
+    }
+
+    public function getByFilters($filtersString, $offset, $count){
+        $sql = "SELECT n.id, title, content, published, tag, c.alias as alias, c.name as category_name
+                FROM news n
+                JOIN category c ON c.id = n.category_id
+                $filtersString
+                ORDER BY published DESC
+                LIMIT $offset,$count";
+
+        $sth = $this->pdo->query($sql);
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getCountByFilters($filtersString){
+        $sql = "SELECT COUNT(*) FROM news n
+                JOIN category c ON  n.category_id = c.id
+                $filtersString";
+        $sth = $this->pdo->query($sql);
+        return (int)$sth->fetchColumn();
+    }
 
 
 
@@ -189,28 +281,7 @@ class NewsRepository extends EntityRepository{
         return $this->getBooksArray($sth);
     }
 
-    private function getNewsArray($sth, $single = false){
-		$news = array();
 
-		while($row = $sth->fetch(\PDO::FETCH_ASSOC)){
-			$new = (new News())
-					->setId($row['id'])
-					->setTitle($row['title'])
-					->setContent($row['content'])
-					->setCategoryId((int)$row['category'])
-					->setTag($row['tag'])
-                    ->setAnalitic($row['analitic'], $this->pdo)
-					->setPublished($row['published'], $this->pdo);
-
-			$news[] = $new;
-		}
-
-		if($single){
-			return $news[0];
-		}
-
-		return $news;
-	}
 
     public function getLastInsertId(){
         return $this->pdo->lastInsertId();

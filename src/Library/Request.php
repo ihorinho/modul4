@@ -59,4 +59,9 @@ class Request{
     public function setCookie($name, $value, $expire = 3600){
         setcookie($name, $value, time() + $expire, '/');
     }
+
+    public function getQueryString(){
+        $uriArray = explode('?', $this->getUri());
+        return $uriArray[1];
+    }
 }

@@ -6,7 +6,9 @@ use Library\API\FormatterFactory;
 class Controller{
     const PER_PAGE = 5;
     const CUT_CONTENT = 3;
-	protected $container;
+    const ADVERS_COUNT = 4;
+
+    protected $container;
     protected static $layout = 'default_layout.phtml';
 
 	protected function render($view, $args = array()){

@@ -179,3 +179,128 @@ table.table.table-categories{
     width: 70px;
 }
 /*_________________________________________*/
+/*TYPEAHEAD*/
+.bs-example {
+    font-family: sans-serif;
+    position: relative;
+    margin: 100px;
+    right: 50px;
+}
+.typeahead, .tt-query, .tt-hint {
+    border: 2px solid #CCCCCC;
+    border-radius: 8px;
+    font-size: 22px; /* Set input font size */
+    height: 30px;
+    line-height: 30px;
+    outline: medium none;
+    padding: 8px 12px;
+    width: 260px;
+}
+.typeahead {
+    background-color: #FFFFFF;
+}
+.typeahead:focus {
+    border: 2px solid #0097CF;
+}
+.tt-query {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+    color: #999999;
+}
+.tt-menu {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 12px;
+    padding: 8px 0;
+    width: 260px;
+}
+.tt-suggestion {
+    font-size: 22px;  /* Set suggestion dropdown font size */
+    padding: 3px 20px;
+}
+.tt-suggestion:hover {
+    cursor: pointer;
+    background-color: #0097CF;
+    color: #FFFFFF;
+}
+.tt-suggestion p {
+    margin: 0;
+}
+.typeahead{
+    margin-right: 50px !important;
+}
+/*_________________________________________*/
+.category-container,
+.new-container,
+.adver-container,
+.adver{
+    border: 1px solid #d5d5d5;
+    margin: 5px 0;
+    padding: 5px;
+}
+.adver-container{
+    margin-top: 58px;
+}
+.adver{
+    text-align: center;
+}
+.adver:not(:last-child){
+    margin-bottom: 10px;
+}
+.adver-price{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.adver-sale{
+    display: none;
+    border: 1px solid #d5d5d5;
+    background-color:  orange;
+    position: relative;
+    bottom: 100px;
+    z-index: 100;
+    font-size: 20px;
+    transition: all 2s;
+}
+
+.adver-sale.left{
+    left: 150px;
+    /*transform: translate(150px, 0);*/
+    /*-webkit-transition:  -webkit-transform 2s; *//* Safari */
+    /*transition: transform 5s;*/
+}
+.adver-sale.right{
+    right: 150px;
+    /*transform: translate(-150px, 0);*/
+    /*-webkit-transition:  -webkit-transform 2s; *//* Safari */
+    /*transition: transform 5s;*/
+}
+
+
+form#login-form,
+form#registry-form{
+    width: 400px !important;
+}
+.login-form-container,
+.registry-form-container{
+    align: center;
+    padding-top: 80px;
+}
+
+.adver-form>td>input{
+    width: 30px !important;
+}
+
+.filter-form input,
+.filter-form select{
+    margin-right: 50px;
+}
+
+.form-control.typeahead.tt-hint{
+    position: relative;
+    width: 260px;
+    right: 50px;
+}

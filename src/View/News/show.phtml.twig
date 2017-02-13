@@ -3,14 +3,9 @@
 {% block title %}Новини |  {{ categoryName }} {% endblock title %}
 {% block script %}<script src="/webroot/js/readers-script.js"></script>{% endblock script %}
 
-{% block body %}
-    <div class="container">
+{% block center %}
         <h1>{{ new['title'] }}</h1>
         <hr>
-        <div class="row justify-content-md-center">
-            <div class="col-2">
-            </div>
-            <div class="col-8">
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <img class="img-responsive" src="/webroot/upload/avatars/{{ new['id'] }}.jpg"></img>
@@ -32,9 +27,4 @@
                         </p>
                     </div>
                 </div>
-            </div>
-            <div class="col-2">
-            </div>
-        </div>
-    </div>
-{% endblock body %}
+{% endblock center %}

@@ -36,7 +36,9 @@ class SecurityController extends Controller{
 			}
             $session->setFlash('Fill the fileds!');
 		}
-	    return $this->render('login.phtml.twig', $args=['loginForm' => $loginForm]);
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+	    return $this->render('login.phtml.twig', $args=['loginForm' => $loginForm, 'advers' => $advers]);
 	}
 
 	public function logoutAction(Request $request){
@@ -53,7 +55,9 @@ class SecurityController extends Controller{
         $phrase = $session->get('captcha');
         $session->set('captcha', $builder->getPhrase());
         $registerForm = new RegisterForm($request);
-        $args = array('registerForm' => $registerForm, 'builder' => $builder);
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+        $args = array('registerForm' => $registerForm, 'builder' => $builder, 'advers' => $advers);
         if($request->isPost()){
             if($registerForm->isValid()){
                if($registerForm->passwordsMatch()){

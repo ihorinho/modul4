@@ -33,8 +33,11 @@ class NewsController extends Controller{
             $url = "/news/category/{$category}/page/1";
             $this->redirect($url);
         }
-        $args = ['categoryName' => $news[0]['category'],
-                'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage];
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+
+        $args = ['categoryName' => $news[0]['category'], 'category' => $category,
+                'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage, 'advers' => $advers];
         return $this->render('category.phtml.twig',$args);
     }
 
@@ -53,8 +56,10 @@ class NewsController extends Controller{
         if($new['analitic'] == 1 && (!$this->isLogged($admin = false))){
             $new['content'] = $newRepo->cutContent($new['content'], self::CUT_CONTENT);
         }
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
 
-        $args = ['new' => $new, 'categoryName' => $new['category']];
+        $args = ['new' => $new, 'categoryName' => $new['category'], 'advers' => $advers];
         return $this->render('show.phtml.twig', $args);
     }
 
@@ -82,9 +87,11 @@ class NewsController extends Controller{
                 $new['content'] = $newsRepo->cutContent($new['content'], self::CUT_CONTENT);
             }
         }
-        $args = ['categoryName' => 'Аналітика',
-            'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage];
 
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+        $args = ['categoryName' => 'Аналітика',
+            'news'=>$news, 'pagination' => $pagination, 'page' => $currentPage, 'advers' => $advers];
         return $this->render('analitic.phtml.twig', $args);
     }
 
@@ -98,8 +105,38 @@ class NewsController extends Controller{
         $offset = ($currentPage - 1) * self::PER_PAGE;
         $news = $newsRepo->getByTag($tag, $offset, self::PER_PAGE);
 
-        $args = ['news' => $news, 'tag' => $tag, 'pagination' => $pagination, 'page' => $currentPage];
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+        $args = ['news' => $news, 'tag' => $tag, 'pagination' => $pagination, 'page' => $currentPage, 'advers' => $advers];
         return $this->render('show_by_tag.phtml.twig', $args);
+    }
+
+    public function filtersAction(Request $request){
+        $session = $this->getSession();
+        $fromDate = $request->get('from_date', 0);
+        $toDate = $request->get('to_date', 0);
+        $category = $request->get('category', 0);
+        $tag = $request->get('tag', 0);
+
+        if(($fromDate && $toDate) && (strtotime($toDate) - strtotime($fromDate)) < 0){
+            $session->setFlash('Вибрано неправильний часовий інтервал!');
+            $this->redirect('/');
+        }
+        if(!($fromDate or $toDate or $category or $tag)){
+            $this->redirect('/');
+        }
+        $newsRepo = $this->container->get('repository_manager')->getRepository('News');
+        $filtersString = $newsRepo->getFilterQueryString($fromDate, $toDate, $category, $tag);
+        $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        $newsCount = $newsRepo->getCountByFilters($filtersString);
+        $pagination = new Pagination($currentPage, $newsCount, self::PER_PAGE);
+        $offset = ($currentPage - 1) * self::PER_PAGE;
+        $news = $newsRepo->getByFilters($filtersString, $offset, self::PER_PAGE);
+        $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
+        $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
+        $query = $request->getQueryString();
+        $args = array('news' => $news, 'pagination' => $pagination, 'advers' => $advers, 'query' =>$query, 'page' => $currentPage);
+        return $this->render('show_by_filters.phtml.twig', $args);
     }
 
 
