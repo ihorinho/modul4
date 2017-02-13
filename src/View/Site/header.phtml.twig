@@ -1,0 +1,44 @@
+<header>
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation" style="background-color: {{ config['header_background'] }}">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" rel="home" href="/" title="Igor's Pelekhatyy Modul-4">UA-NEWS</a>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/news/category/politic/page/1">Політика</a></li>
+                    <li><a href="/news/category/economic/page/1">Економіка</a></li>
+                    <li><a href="/news/category/sport/page/1">Спорт</a>
+                    <li><a href="/news/category/science/page/1">Наука</a></li>
+                    <li><a href="/news/category/culture/page/1">Культура</a></li>
+                    <li role="presentation"><a href="/news/analitic/page/">Аналітика</a></li>
+                    {% if session.get('admin') == 1 %}
+                        <li role="presentation"><a href="/admin/index">Адміністрування</a></li>
+                    {% endif %}
+                    {% if session.get('user') %}
+                        <li role="presentation"><a href="/logout">Вийти</a></li>
+                    {% else %}
+                        <li role="presentation"><a href="/login">Вхід</a></li>
+                        <li role="presentation"><a href="/register">Реєстрація</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="col-sm-3 col-md-3 pull-right">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="typeahead" placeholder="Шукати за тегом"  name="srch-term" id="srch-term">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p style="float: right;"><i>{{  session.get('user') }}</i></p>
+</header>

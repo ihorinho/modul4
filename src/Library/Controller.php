@@ -17,6 +17,7 @@ class Controller{
         $args['session'] = $this->getSession();
         $config = $this->container->get('config');
         $args['config'] = $config->get('site_config');
+        $args['view_path'] = VIEW;
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
 		$tpl_name = $classname . DS . $view;
 		if(!file_exists(VIEW . $tpl_name)){
@@ -31,8 +32,7 @@ class Controller{
 	public function renderError($message, $file, $line, $session){
         $twig = Registry::get('twig');
 
-        return $twig->render('error.phtml.twig', array('message' => $message, 'file' => $file,
-                                                        'line' => $line, 'session' => $session));
+        return $twig->render('error.phtml.twig', array('message' => $message, 'file' => $file,                                                        'line' => $line, 'session' => $session));
 	}
 
 
