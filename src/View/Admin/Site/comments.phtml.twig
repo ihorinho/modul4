@@ -1,0 +1,48 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Коментарі{% endblock title %}
+
+{% block body %}
+    <div class="table-responsive">
+        <h4>Коментарі по даті додавання</h4>
+        <table class="table table-hover comments-table" border="1px">
+            <tr class="table-header">
+                <th>ID</th>
+                <th class="title">ID Новини</th>
+                <th >Повідомлення</th>
+                <th>Показувати</th>
+                <th>Користувач</th>
+                <th>Дата</th>
+                <th>Рейтинг</th>
+                <th>ID бать. ком.</th>
+                <th class="action">Дії</th>
+            </tr>
+            {% for comment in comments %}
+                <tr>
+                    <form action="" class="comments-form" method="post">
+                        <input type="hidden" value="{{ comment['id'] }}" name="id"/>
+                        <input type="hidden"  value="{{ comment['new_id'] }}" name="new_id"/>
+                        <input type='hidden' value="{{ comment['user'] }}" name="user"/>
+                        <input type="hidden" value="{{ comment['date'] }}" name="date"/>
+                        <input type="hidden" value="{{ comment['parent_id'] }}" name="parent_id"/>
+                        <td>{{ comment['id'] }}</td>
+                        <td>{{ comment['new_id'] }}</td>
+                        <td><textarea name="message" id="message" cols="30" rows="5">{{ comment['message'] }}</textarea>
+                        </td>
+                        <td>{% set checked = comment['visible'] == 1 ? 'checked' %}
+                            <input type="checkbox" {{ checked }} name="visible" value="1"/>
+                        </td>
+                        <td>{{ comment['user'] }}</td>
+                        <td>{{ comment['date'] }}</td>
+                        <td><input type="number" value="{{ comment['rating'] }}" name="rating"/></td>
+                        <td>{{ comment['parent_id'] }}</td>
+                        <td>
+                            <button type="submit" class='send-form-btn btn-info'>Зберегти</button><br><br><br>
+                            <button type='button' class='btn-warning'>Видалити</button>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

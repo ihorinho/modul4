@@ -27,7 +27,6 @@ class NewsController extends Controller{
         $pagination = new Pagination($currentPage, $newsCount, self::PER_PAGE);
         $offset = ($currentPage - 1) * self::PER_PAGE;
 
-
         $news = $newsRepo->getAllCategory($category, $offset, self::PER_PAGE);
         if(!$news && $newsCount){
             $url = "/news/category/{$category}/page/1";
@@ -138,7 +137,5 @@ class NewsController extends Controller{
         $args = array('news' => $news, 'pagination' => $pagination, 'advers' => $advers, 'query' =>$query, 'page' => $currentPage);
         return $this->render('show_by_filters.phtml.twig', $args);
     }
-
-
 }
 

@@ -1,0 +1,28 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Summary table{% endblock title %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-hover" border="1px">
+            <tr>
+                <th><a href="/admin/books/table?sort=id">Id</a></th>
+                <th><a href="/admin/books/table?sort=title">Title</a></th>
+                <th><a href="/admin/books/table?sort=price">Price</a></th>
+                <th><a href="/admin/books/table?sort=is_active">Is active</a></th>
+                <th>Actions</th>
+            </tr>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.getId() }}</td>
+                    <td><span class="book-title">{{ book.getTitle() }}</span>
+                    <div class="book-description alert alert-info">{{ book.getDescription() }}></td>
+                    <td>{{ book.getPrice() }}</td>
+                    <td>{{ book.isActive() }}</td>
+                    <td><a href="/admin/books/edit-{{ book.getId() }}">Edit</a>
+                        <a class="delete-book" href="/admin/books/delete-{{ book.getId() }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

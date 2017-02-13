@@ -75,4 +75,30 @@ class SiteController extends Controller{
         }
         return $this->render('manage_menu.phtml.twig', ['config' => $config]);
     }
+
+    public function viewCommentsAction(Request $request){
+        $repo = $this->container->get('repository_manager')->getRepository('Comments');
+        if($request->isPost()){
+            if(!$result = $repo->save($request)){
+                return 'Fail';
+            }
+            return 'Зміни успішно збережені';
+        }
+        $comments = $repo->getAll();
+        $args = array('comments' => $comments);
+        return $this->render('comments.phtml.twig', $args);
+    }
+
+    public function watingCommentsAction(Request $request){
+        $repo = $this->container->get('repository_manager')->getRepository('Comments');
+        if($request->isPost()){
+            if(!$result = $repo->save($request)){
+                return 'Fail';
+            }
+            return 'Зміни успішно збережені';
+        }
+        $comments = $repo->getWaitingPolitic();
+        $args = array('comments' => $comments);
+        return $this->render('waitng_comments.phtml.twig', $args);
+    }
 }

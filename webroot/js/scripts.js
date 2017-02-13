@@ -113,16 +113,37 @@ $(document).ready(function(){
         document.location.href= '/admin/advert/add';
     });
 
+// Відправка даних форми для редагування коментарів
+    $('.comments-form').on('submit', function(e){
+        e.preventDefault();
+        $.post('/admin/comments/view', $(this).serialize())
+            .done(function(data){
+                alert(data);
+            })
+            .fail(function(data){
+                alert(data);
+            });
+    });
+
+    $('.waiting-comments-form').on('submit', function(e){
+        e.preventDefault();
+        $.post('/admin/comments/view', $(this).serialize())
+            .done(function(data){
+                alert(data);
+            })
+            .fail(function(data){
+                alert(data);
+            });
+    });
+
 // Відправка даних форми для конфігурування фону, меню
     $('#manage-menu-form').on('submit', function(e){
         e.preventDefault();
         $.post('/admin/manage/menu', $(this).serialize())
             .done(function(message){
-                console.log(message);
                 alert('Зміни успішно збережені');
             })
             .fail(function(message){
-                console.log(message);
                 alert(message);
             });
     });

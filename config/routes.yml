@@ -82,8 +82,14 @@ routes:
     action: filtersAction
     params:
           page: ([0-9]*)
-
-
+  comments_summary_view:
+      pattern: /admin/comments/view?
+      controller: Admin\SiteController
+      action: viewCommentsAction
+  comments_politcs_not_approved:
+        pattern: /admin/comments/moderate/?
+        controller: Admin\SiteController
+        action: watingCommentsAction
 
 
   books-list:
