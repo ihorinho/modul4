@@ -12,7 +12,7 @@
         {% block script %}{% endblock script %}
     </head>
     <header>
-        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation" style="background-color: {{ config['header_background'] }}">
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <div>
                     <ul class="nav navbar-nav">
-                        <li role="presentation"><a href="/home">Home</a></li>
+                        <li role="presentation"><a href="/home">Головна</a></li>
                         <li role="presentation" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Категорії
                                 <span class="caret"></span></a>
@@ -48,13 +48,13 @@
                         </li>
                         <li role="presentation"><a href="/news/analitic/page/">Аналітика</a></li>
                         {% if session.get('admin') == 1 %}
-                        <li role="presentation"><a href="/admin/index">Admin panel</a></li>
+                        <li role="presentation"><a href="/admin/index">Адміністрування</a></li>
                         {% endif %}
                         {% if session.get('user') %}
-                        <li role="presentation"><a href="/logout">Logout</a></li>
+                        <li role="presentation"><a href="/logout">Вийти</a></li>
                         {% else %}
-                            <li role="presentation"><a href="/login">Sign in</a></li>
-                            <li role="presentation"><a href="/register">Register</a></li>
+                            <li role="presentation"><a href="/login">Вхід</a></li>
+                            <li role="presentation"><a href="/register">Реєстрація</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -71,7 +71,7 @@
         <p style="float: right;"><i>{{  session.get('user') }}</i></p>
 
     </header>
-    <body>
+    <body style="background-color:{{ config['content_background'] }} ">
         <b>{{ session.getFlash() }}</b><hr/>
         {% block extension %}{% endblock extension %}
 
@@ -95,7 +95,7 @@
                         </div>
                     {% endblock left %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8" id="content_center">
                     {% block center %}
                         Default text
                     {% endblock center %}

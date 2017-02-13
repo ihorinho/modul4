@@ -1,0 +1,28 @@
+{% extends 'admin_layout.phtml.twig' %}
+
+{% block title %}Налаштування{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <form id="manage-menu-form" action="/admin/manage/menu" method="post">
+            <h3 style="margin-left:90px;">Налаштування меню</h3><br/>
+            <div class="checkbox">
+                <label>
+                    {% set checked = config['allow_dropdown'] == 1 ? 'checked' %}
+                    <input type="checkbox" {{ checked }} id="allow_dropdown" name="allow_dropdown" value="1">Доволити випадаюче меню(тільки для сайту)
+                </label>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="company">Виберіть фон для шапки сайту</label>
+                <input type="color" id="content_background" class="form-control" name="header_background"  value="{{ config['header_background'] }}">
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="company">Виберіть фон для контенту сайту</label>
+                <input type="color" id="content_background" class="form-control" name="content_background"  value="{{ config['content_background'] }}">
+            </div>
+            <button type="submit" class="btn btn-default">Зберегти</button>
+        </form>
+    </div>
+{% endblock body %}

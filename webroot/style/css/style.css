@@ -279,7 +279,6 @@ table.table.table-categories{
     /*transition: transform 5s;*/
 }
 
-
 form#login-form,
 form#registry-form{
     width: 400px !important;
@@ -303,4 +302,14 @@ form#registry-form{
     position: relative;
     width: 260px;
     right: 50px;
+}
+/*_______________________________*/
+#manage-menu-form div input[type="color"],
+{
+    font-size: 20px;
+    height: 50px;
+}
+
+#content_center{
+    padding-top: 50px;
 }

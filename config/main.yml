@@ -1,0 +1,4 @@
+site_config:
+    content_background: '#ffffff'
+    header_background: '#000000'
+    allow_dropdown: '1'

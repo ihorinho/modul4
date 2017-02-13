@@ -7,6 +7,7 @@ class Controller{
     const PER_PAGE = 5;
     const CUT_CONTENT = 3;
     const ADVERS_COUNT = 4;
+    const SITE_CONFIG = 'main.yml';
 
     protected $container;
     protected static $layout = 'default_layout.phtml';
@@ -14,6 +15,8 @@ class Controller{
 	protected function render($view, $args = array()){
         extract($args);
         $args['session'] = $this->getSession();
+        $config = $this->container->get('config');
+        $args['config'] = $config->get('site_config');
         $classname = trim(str_replace(['Controller', '\\'], ['', DS], get_class($this)), DS);
 		$tpl_name = $classname . DS . $view;
 		if(!file_exists(VIEW . $tpl_name)){

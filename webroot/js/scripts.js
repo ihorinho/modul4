@@ -65,7 +65,6 @@ $(document).ready(function(){
 	    		e.preventDefault();
 				alert('Fill all fields');
     	}
-		
     });
 
     $('#pagination-button').click(function(e){
@@ -101,17 +100,31 @@ $(document).ready(function(){
         price = 0;
     });
 
+//    Робота з рекламними блоками
     $('.adver-form').on('submit', function(e){
         e.preventDefault();
         $.post('/admin/edit/advert', $(this).serialize()).done(function(data){
             console.log(data);
         });
-        console.log($(this).serialize());
     });
 
     $('#add-advert-row').click(function(){
         console.log('gsg');
         document.location.href= '/admin/advert/add';
+    });
+
+// Відправка даних форми для конфігурування фону, меню
+    $('#manage-menu-form').on('submit', function(e){
+        e.preventDefault();
+        $.post('/admin/manage/menu', $(this).serialize())
+            .done(function(message){
+                console.log(message);
+                alert('Зміни успішно збережені');
+            })
+            .fail(function(message){
+                console.log(message);
+                alert(message);
+            });
     });
 
 //TYPEAHEAD SCRIPT SECTION

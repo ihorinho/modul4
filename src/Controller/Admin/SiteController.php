@@ -5,6 +5,7 @@ use Library\Controller;
 use Library\Request;
 use Model\ContactForm;
 use Model\Feedback;
+use \Symfony\Component\Yaml\Yaml;
 
 class SiteController extends Controller{
 
@@ -54,5 +55,24 @@ class SiteController extends Controller{
             $this->redirect('/admin/index');
         }
         return $this->render('add_advert.phtml.twig', ['advers' => $advers]);
+    }
+
+    public function manageMenuAction(Request $request){
+        $configData = $this->container->get('config');
+        $config = $configData->get('site_config');
+        if($request->isPost()){
+            $configArray = array('site_config' => array(
+               'content_background' => $request->post('content_background', '#fff'),
+               'header_background' => $request->post('header_background', '#000'),
+               'allow_dropdown' => $request->post('allow_dropdown', 0),
+            ));
+            $yaml = Yaml::dump($configArray);
+            if(!$result = file_put_contents(CONFIG_PATH . self::SITE_CONFIG, $yaml)){
+                return 'Fail';
+            }
+            return 'Success';
+
+        }
+        return $this->render('manage_menu.phtml.twig', ['config' => $config]);
     }
 }

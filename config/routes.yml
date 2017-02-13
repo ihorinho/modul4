@@ -68,6 +68,10 @@ routes:
     pattern: /admin/edit/advert/?
     controller: Admin\SiteController
     action: advertAction
+  manage_menu_site:
+      pattern: /admin/manage/menu/?
+      controller: Admin\SiteController
+      action: manageMenuAction
   add_advert_block:
     pattern: /admin/advert/add/?
     controller: Admin\SiteController
