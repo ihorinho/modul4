@@ -1,11 +1,11 @@
-<div>
+<div id="comments-block">
     {% for comment in comments %}
         <div class="comment-container">
             <div class="comment">{{ comment['message'] }}</div>
             <p>
                 дата: <em class="comment-date">{{ comment['date'] }}</em> від: <em class="comment-user">{{ comment['user'] }} </em>
-                сподобалось: <button class="btn-danger rating-down">-</button> <span class="comment-rating">{{ comment['rating'] }}</span>
-                <button class="btn-info rating-up">+</button><span class="comment-id">{{ comment['id'] }}</span>
+                сподобалось: <button class="btn-danger change-rating" onclick="SiteProcessor.changeRating(this, '-')">-</button> <span class="comment-rating">{{ comment['rating'] }}</span>
+                <button class="btn-info change-rating" onclick="SiteProcessor.changeRating(this, '+')">+</button><span class="comment-id">{{ comment['id'] }}</span>
             </p>
         </div>
     {% endfor %}

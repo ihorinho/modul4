@@ -240,10 +240,6 @@ class NewsRepository extends EntityRepository{
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-
-
-
-
     public function getAllSorted($sortParam, $session){
         $allowedParams = array('id', 'title', 'price', 'is_active');
         $sortOrder = 'ASC';
@@ -282,18 +278,9 @@ class NewsRepository extends EntityRepository{
         return $this->getBooksArray($sth);
     }
 
-
-
     public function getLastInsertId(){
         return $this->pdo->lastInsertId();
     }
-
-
-
-
-
-
-
 
     public function getNewsIds(){
         $query = "SELECT id FROM book ORDER BY id";

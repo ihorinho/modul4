@@ -26,11 +26,19 @@
                             {% endif %}
                         </p>
                     </div>
+                    <span id="new-id" style="display:none;">{{ new['id'] }}<span>
                 </div>
             <hr>
         {% if session.get('user') %}
             {% include 'Site/comment-form.phtml.twig' %}
+        {% else %}
+            <div class="alert alert-info">
+                <p><i>Зареєструйтесь, щоб залишити коментар</i></p>
+            </div>
         {% endif %}
         <h4>Коментарі</h4>
+        <div id="comments-loader" style="display:none;">
+            <div class="loader"></div>
+        </div>
     {% include 'News/comments.phtml.twig' %}
 {% endblock center %}

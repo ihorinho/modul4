@@ -58,8 +58,7 @@ class NewsController extends Controller{
         $adverRepo = $this->container->get('repository_manager')->getRepository('Adver');
         $advers = $adverRepo->getAdversBoth(self::ADVERS_COUNT);
         $commentRepo  = $this->container->get('repository_manager')->getRepository('Comments');
-        $comments = $commentRepo->getAllByNewId($id);
-        if(!$comments){
+        if(!$comments = $commentRepo->getAllByNewId($id)){
             $comments = false;
         }
         $args = ['new' => $new, 'categoryName' => $new['category'], 'advers' => $advers,
@@ -159,4 +158,3 @@ class NewsController extends Controller{
                 );
     }
 }
-

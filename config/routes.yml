@@ -94,6 +94,10 @@ routes:
     pattern: /comments/add?
     controller: SiteController
     action: addCommentsAction
+  comments_delete:
+    pattern: /comments/delete/?
+    controller: SiteController
+    action: deleteCommentsAction
   comments_update_rating:
     pattern: /comments/rating-update/?
     controller: SiteController

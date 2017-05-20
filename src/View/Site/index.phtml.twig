@@ -42,25 +42,29 @@
     </div>
     <hr/>
     {#_________________________ПОШУК ЗА ФІЛЬТРОМ__________________#}
-            <form class="filter-form" action="/news/filters/page/1" method="get">
-                Період з:
-                <input type="date" name="from_date"/>
-                Період по:
-                <input type="date" name="to_date"/>
-                Категорія:
-                <select name="category[]" multiple size="4">
-                    {% for category in categories %}
-                        <option value="{{ category['alias'] }}">{{ category['name'] }}</option>
-                    {% endfor %}
-                </select>
-                Теги:
-                <select name="tag[]" multiple size="4">
-                    {% for tag in tags %}
-                        <option value="{{ tag }}">{{ tag }}</option>
-                    {% endfor %}
-                </select>
-                <button>Шукати</button>
-            </form>
+        <form class="filter-form form-inline" action="/news/filters/page/1" method="get">
+            <div class="form-group">
+                <label for="from_date"> Період з:</label>
+                <input type="date" class="form-control" id="from_date" name="from_date">
+            </div>
+            <div class="form-group">
+                <label for="to_date">Період по:</label>
+                <input type="date" class="form-control" id="to_date" name="to_date">
+            </div>
+            <label for="category_filter">Категорія:</label>
+            <select id="category_filter" title="Виберіть категорію" name="category[]" class="selectpicker" multiple data-width="fit">
+                {% for category in categories %}
+                    <option value="{{ category['alias'] }}">{{ category['name'] }}</option>
+                {% endfor %}
+            </select>
+            <label for="tag_filter">Теги:</label>
+            <select id="tag_filter" title="Пошук за тегами" name="tag[]" class="selectpicker" multiple data-width="fit">
+                {% for tag in tags %}
+                    <option value="{{ tag }}">{{ tag }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-default">Шукати</button>
+        </form>
     <hr/>
 {% endblock extension %}
 
@@ -85,8 +89,7 @@
 
 {% block footer_scripts %}
     <script>
-        $(document).ready(function(){
-            // Activate Carousel
+        require(['/webroot/js/lib/jquery'], function($){
             $(".carousel-inner div:first-child").addClass('active');
 
             $("#myCarousel").carousel();
@@ -113,5 +116,6 @@
                 $("#myCarousel").carousel("next");
             });
         });
+
     </script>
 {% endblock footer_scripts %}

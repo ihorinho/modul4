@@ -20,14 +20,21 @@ class CommentsRepository extends EntityRepository{
     }
 
     public function save(Request $request){
-        $sql = "UPDATE comments 
+        $sql = "UPDATE comments
                 SET message = :message, rating = :rating, visible = :visible
                 WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
-        return $result = $sth->execute(array('id' => $request->post('id'),
-                                            'message' => $request->post('message'),
-                                            'visible' => $request->post('visible', 0),
-                                            'rating' => $request->post('rating',0)));
+        return $sth->execute(array('id' => $request->post('id'),
+                                'message' => $request->post('message'),
+                                'visible' => $request->post('visible', 0),
+                                'rating' => $request->post('rating',0)));
+    }
+
+    public function delete($commentId = null){
+        $sql = "DELETE FROM comments
+                WHERE id =:id";
+        $sth = $this->pdo->prepare($sql);
+        return $sth->execute(array('id' => $commentId));
     }
 
     public function getWaitingPolitic(){
@@ -43,7 +50,7 @@ class CommentsRepository extends EntityRepository{
     }
 
     public function add(Request $request){
-        $sql = "INSERT INTO comments 
+        $sql = "INSERT INTO comments
                 SET  new_id= :new_id, user= :user, date= :date,
                     message = :message, rating = :rating, visible = :visible,
                     parent_id = :parent_id";
@@ -60,14 +67,14 @@ class CommentsRepository extends EntityRepository{
 
     public function getAllByNewId($new_id){
         $sql = "SELECT * FROM comments
-                WHERE new_id = $new_id
+                WHERE new_id = $new_id AND visible = 1
                 ORDER BY rating DESC";
         $sth = $this->pdo->query($sql);
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function updateRating($id, $rating){
-        $sql = "UPDATE comments 
+        $sql = "UPDATE comments
                 SET rating = :rating
                 WHERE id = :id";
         $sth = $this->pdo->prepare($sql);
@@ -89,6 +96,4 @@ class CommentsRepository extends EntityRepository{
         $sth = $this->pdo->query($sql);
         return (int)$sth->fetchColumn();
     }
-
-
 }

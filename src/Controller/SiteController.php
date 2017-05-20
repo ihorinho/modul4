@@ -69,18 +69,71 @@ class SiteController extends Controller{
         }
     }
 
-    public function updateRatingAction(Request $request){
-        if(!$id = $request->get('rating', 0)){
-            return 'FAIL';
-        }
-        return $request->getUri();
-        $rating = $request->get('rating',0);
+    public function deleteCommentsAction(Request $request){
         $repo = $this->container->get('repository_manager')->getRepository('Comments');
-        return $repo->updateRating($id, $rating);
+        if($commentId = $request->get('id')){
+            $repo->delete($commentId);
+        }
+
+        echo "delete";
+    }
+
+    public function updateRatingAction(Request $request){
+        if( (!$id = $request->get('id', 0))
+            || (!$newId = $request->get('new_id', 0))){
+            return ['status' => 'fail', 'message' => "commentId={$id} newId={$newId}"];
+        }
+
+        $rating = (int)$request->get('rating',0);
+        $repo = $this->container->get('repository_manager')->getRepository('Comments');
+        $repo->updateRating($id, $rating);
+        return $this->getCommentsByNewId($newId);
+
 //        return $repo->updateRating($id, $rating) ? 'Success' : 'Fail';
     }
 
     public function notFoundAction(){
         return $this->render('404.phtml.twig', array('upload_path' => UPLOAD_PATH));
+    }
+
+    public function getCommentsByNewId($id) {
+        try {
+            if (!$id) {
+                return json_encode(
+                    [
+                        'status' => 'fail',
+                        'message' => "No id received - {$id}"
+                    ]
+                );
+            }
+            header('Content-Type: application/json');
+            $response = [];
+            $response['status'] = 'success';
+            $commentRepo  = $this->container->get('repository_manager')->getRepository('Comments');
+            if (!$comments = $commentRepo->getAllByNewId($id)) {
+                $response['message'] = 'There are no comments yet';
+            } else {
+                $commentsHtml = '<div id="comments-block" style="display:none;">';
+                foreach ($comments as $comment) {
+                    $commentsHtml .= '<div class="comment-container">
+                        <div class="comment">' . $comment["message"] . '</div>
+                        <p>
+                            дата: <em class="comment-date">' . $comment["date"] . '</em> від: <em class="comment-user">' . $comment["user"] . '</em>
+                            сподобалось: <button class="btn-danger change-rating" onclick="' . "SiteProcessor.changeRating(this, '-')" . '">-</button> <span class="comment-rating">' . $comment["rating"] . '</span>
+                            <button class="btn-info change-rating" onclick="' . "SiteProcessor.changeRating(this, '+')" . '">+</button><span class="comment-id">' . $comment["id"] . '</span>
+                        </p>
+                    </div>';
+                }
+                $response['html'] = $commentsHtml;
+            }
+            return json_encode($response);
+        } catch(\Exception $e) {
+            return json_encode(
+                [
+                    'status' => 'fail',
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
     }
 }

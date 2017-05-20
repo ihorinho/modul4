@@ -40,6 +40,7 @@ function clearString($string){
 
 //Autoload 
 spl_autoload_register(function($classname){
+    $classname = ucfirst($classname);
     $path = SRC_PATH . str_replace('\\', DS, $classname). '.php';
     if(!file_exists(SRC_PATH . str_replace('\\', DS, $classname). '.php')){
         throw new \Exception("Class $classname doesn't exist- {$path}");

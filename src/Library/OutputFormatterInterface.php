@@ -4,5 +4,5 @@ namespace Library;
 
 interface OutputFormatterInterface
 {
-    public function output($status, $message);
+	public function output($status, $message);
 }
