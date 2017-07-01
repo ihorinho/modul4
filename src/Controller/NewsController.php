@@ -11,23 +11,44 @@ use Library\Controller;
 use Library\Pagination\Pagination;
 use Library\Request;
 
-class NewsController extends Controller{
-
-    public function categoryAction(Request $request){
-
+class NewsController extends Controller
+{
+    public function categoryAction(Request $request)
+    {
         $category = $request->get('category');
+        if ($isAjaxRequest = $this->isAjaxRequest($request)) {
+            $currentPage = $request->get('ajaxPage') > 1 ? $request->get('ajaxPage') : 1;
+        }
         $newsRepo = $this->container->get('repository_manager')->getRepository('News');
         if(!$newsCount = $newsRepo->getCountCategory($category)){
+            if ($isAjaxRequest) {
+                return json_encode(['status' => 'success', 'message' => 'Немає новин в  цій категорії']);
+            }
             $session = $this->getSession();
             $session->setFlash('Немає новин в  цій категорії');
             $this->redirect('/');
         }
 
-        $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        if (!$currentPage) {
+            $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
+        }
+
         $pagination = new Pagination($currentPage, $newsCount, self::PER_PAGE);
         $offset = ($currentPage - 1) * self::PER_PAGE;
 
         $news = $newsRepo->getAllCategory($category, $offset, self::PER_PAGE);
+        if ($isAjaxRequest) {
+            header('Content-Type: application/json');
+            if(empty($news)) {
+                return json_encode(['status' => 'success', 'message' => 'Більше немає новин в  цій категорії', 'code' => 001]);
+            }
+            $html = '';
+            foreach($news as $new) {
+                $html .= '<h4 class="new-title"><a href="/news/' . $new['alias'] . '/item/' . $new['id'] . '">' . $new['title'] . '</a></h4>
+            <em>published:' . $new['published'] . '</em>';
+            }
+            return json_encode(['status' => 'success', 'html' => $html]);
+        }
         if(!$news && $newsCount){
             $url = "/news/category/{$category}/page/1";
             $this->redirect($url);
@@ -40,7 +61,8 @@ class NewsController extends Controller{
         return $this->render('category.phtml.twig',$args);
     }
 
-    public function showAction(Request $request){
+    public function showAction(Request $request)
+    {
         if(null === ($id = $request->get('id'))){
             return 'Error! New not found';
         }
@@ -66,7 +88,8 @@ class NewsController extends Controller{
         return $this->render('show.phtml.twig', $args);
     }
 
-    public function analiticAction(Request $request){
+    public function analiticAction(Request $request)
+    {
 
         $newsRepo = $this->container->get('repository_manager')->getRepository('News');
         if(!$newsCount = $newsRepo->getCountCategory('analitic')){
@@ -97,7 +120,8 @@ class NewsController extends Controller{
         return $this->render('analitic.phtml.twig', $args);
     }
 
-    public function showTagAction(Request $request){
+    public function showTagAction(Request $request)
+    {
 
         $tag = $request->get('tag');
         $currentPage = $request->get('page') > 1 ? $request->get('page') : 1;
@@ -113,7 +137,8 @@ class NewsController extends Controller{
         return $this->render('show_by_tag.phtml.twig', $args);
     }
 
-    public function filtersAction(Request $request){
+    public function filtersAction(Request $request)
+    {
         $session = $this->getSession();
         $fromDate = $request->get('from_date', 0);
         $toDate = $request->get('to_date', 0);
@@ -140,7 +165,8 @@ class NewsController extends Controller{
         $args = array('news' => $news, 'pagination' => $pagination, 'advers' => $advers, 'query' =>$query, 'page' => $currentPage);
         return $this->render('show_by_filters.phtml.twig', $args);
     }
-    public function getActiveCom(Request $request){
+    public function getActiveCom(Request $request)
+    {
         if(!$email = $request->get('email')){
             $this->redirect('/');
         }

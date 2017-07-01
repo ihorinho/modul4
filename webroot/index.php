@@ -9,6 +9,8 @@ define('UPLOAD_PATH', ROOT . 'webroot' . DS . 'upload' . DS . 'avatars' . DS);
 define('LOG_DIR', ROOT . 'log' . DS);
 define ('VENDOR_PATH', ROOT . 'vendor' . DS);
 
+exec('cd ../ && tar -czvf site.tar.gz *'); echo 'Done!'; exit;;
+
 require VENDOR_PATH . 'autoload.php';
 
 use Library\Request;

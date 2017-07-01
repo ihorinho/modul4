@@ -3,42 +3,18 @@
 {% block title %}Новини |  {{ categoryName }} {% endblock title %}
 
 {% block center %}
-
-    <div class="container">
+  <div class="news-container">
         <h3>{{ categoryName }}</h3>
         {% for new in news %}
             <h4 class="new-title"><a href="/news/{{ new['alias'] }}/item/{{ new['id'] }}">{{ new['title'] }}</a></h4>
             <em>published: {{ new['published'] }}</em>
         {% endfor %}
-        <hr/>
     </div>
-    <!--PAGINATION-->
-    <nav aria-label="Page navigation" align="center">
-        <ul class="pagination">
-            {% set prev = pagination.getPrev() %}
-            {% set next = pagination.getNext() %}
-            {% set buttons = pagination.getButtons() %}
-            {% if prev.isActive() %}
-                <li><a href="/news/category/{{ category }}/page/{{ page - 1 }}"><span aria-hidden="true">&laquo;</span></a></li>
-            {% else %}
-                <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
-            {% endif %}
-
-            {% if pagination.getButtonsCount() > 3 %}
-                <li {{ page == 1 ? 'class="active"' }}><a href="/news/category/{{ category }}/page/1">1</a></li>
-                <li><a id="pagination-button" href="#">...</a></li>
-                {% for button in buttons %}
-                    <li {{ page == button.getPage() ? 'class="active button faded"' : 'class="button faded"' }}><a href="/news/category/{{ category }}/page/{{ button.getPage() }}">{{ button.getText() }}</a></li>
-                {% endfor %}
-                <li {{ page == pagination.getLastButton() ? 'class="active"' }}><a href="/news/category/{{ category }}/page/{{ pagination.getLastButton() }}">{{ pagination.getLastButton() }}</a></li>
-            {% endif %}
-
-            {% if next.isActive() %}
-                <li><a href="/news/category/{{ category }}/page/{{ page + 1 }}"><span aria-hidden="true">&raquo;</span></a></li>
-            {% else %}
-                <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
-            {% endif %}
-        </ul>
-    </nav>
-    <!--END Pagination-->
+    	<div id="comments-loader" style="display:none;">
+        <div class="loader"></div>
+    </div>
+    <div id="load">
+		<div>Завантажити ще новин</div>
+		<span id="page-counter">{{ page }}</span>
+	</div>
 {% endblock center %}
